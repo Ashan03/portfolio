@@ -1,0 +1,280 @@
+---
+import Layout from "./Layout.astro";
+import ThemeToggle from "../components/ThemeToggle.astro";
+import SidebarNavigation from "../components/SidebarNavigation.astro";
+
+interface Props {
+    title: string;
+    description?: string;
+    course?: string;
+    year?: string;
+    advisor?: string;
+    team?: string;
+    tags?: string[];
+}
+
+const {
+    title,
+    description,
+    course,
+    year,
+    advisor,
+    team,
+    tags = [],
+} = Astro.props;
+
+// Standard Sections for Navigation
+const sections = [
+    { id: "about", label: "About" },
+    { id: "strategy", label: "Strategy" },
+    { id: "components", label: "Components" },
+    { id: "outcome", label: "Outcome" },
+    { id: "insights", label: "Insights" },
+];
+---
+
+<Layout title={`${title} | Narayan Ashanahalli`}>
+    <!-- LEFT SIDEBAR SLOT -->
+    <div slot="sidebar" class="project-sidebar-content">
+        <div class="sidebar-scroll-container">
+            <div class="sidebar-top">
+                <SidebarNavigation title={title} />
+
+                <h1 class="sidebar-project-title">{title}</h1>
+
+                {
+                    tags.length > 0 && (
+                        <div class="sidebar-tags">
+                            {tags.map((tag) => (
+                                <span>{tag}</span>
+                            ))}
+                        </div>
+                    )
+                }
+
+                {
+                    description && (
+                        <p class="sidebar-project-desc">{description}</p>
+                    )
+                }
+
+                <div class="project-meta-table">
+                    {
+                        course && (
+                            <div class="meta-row">
+                                <span class="meta-label">Course</span>
+                                <span class="meta-value">{course}</span>
+                            </div>
+                        )
+                    }
+                    {
+                        year && (
+                            <div class="meta-row">
+                                <span class="meta-label">Year</span>
+                                <span class="meta-value">{year}</span>
+                            </div>
+                        )
+                    }
+                    {
+                        advisor && (
+                            <div class="meta-row">
+                                <span class="meta-label">Advisor</span>
+                                <span class="meta-value">{advisor}</span>
+                            </div>
+                        )
+                    }
+                    {
+                        team && (
+                            <div class="meta-row">
+                                <span class="meta-label">Team</span>
+                                <span class="meta-value">{team}</span>
+                            </div>
+                        )
+                    }
+                </div>
+            </div>
+
+            <nav class="toc-nav">
+                <ul>
+                    {
+                        sections.map((section) => (
+                            <li>
+                                <a href={`#${section.id}`}>{section.label}</a>
+                            </li>
+                        ))
+                    }
+                </ul>
+            </nav>
+        </div>
+
+        <div class="sidebar-bottom">
+            <div class="theme-toggle-wrapper">
+                <ThemeToggle />
+            </div>
+        </div>
+    </div>
+
+    <!-- RIGHT CONTENT SLOT -->
+    <article class="right-content">
+        <slot />
+    </article>
+</Layout>
+
+<style>
+    /* Sidebar Internal Styling */
+    .project-sidebar-content {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        height: 100%;
+        /* No padding needed here as Layout handles container padding */
+    }
+
+    /* Allow scrolling if content is too tall? Layout handles overflow usually, 
+       but let's ensure the top part takes available space */
+    .sidebar-scroll-container {
+        display: flex;
+        flex-direction: column;
+        gap: var(--space-xl);
+    }
+
+    .sidebar-top {
+        display: flex;
+        flex-direction: column;
+        gap: 0; /* Removing gap to control spacing via margins */
+    }
+
+    .sidebar-project-title {
+        font-size: 18px; /* User requested 18px */
+        line-height: 1.2;
+        font-weight: 700;
+        margin-top: var(--space-lg); /* Space from back button */
+        margin-bottom: 0.35rem; /* Tight space to tags */
+    }
+
+    .sidebar-tags {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.5rem;
+        margin-bottom: 1rem; /* Space to description */
+    }
+
+    .sidebar-tags span {
+        font-size: 12px; /* User requested 12px */
+        color: var(--text-muted);
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+        font-weight: 600;
+    }
+
+    /* Add bullets between tags like homepage card? */
+    .sidebar-tags span:not(:last-child)::after {
+        content: "•";
+        margin-left: 0.5rem;
+        opacity: 0.3;
+    }
+
+    .sidebar-project-desc {
+        color: var(--text-secondary);
+        line-height: 1.5;
+        font-size: 12px; /* User requested 16px */
+        margin-bottom: 1.5rem; /* Space to metadata table */
+    }
+
+    /* TOC STYLES */
+    .toc-nav {
+        margin: var(--space-2xl) 0;
+    }
+
+    .toc-nav ul {
+        list-style: none;
+        padding: 0;
+        display: flex;
+        flex-direction: column;
+        gap: 0.75rem;
+    }
+
+    .toc-nav a {
+        color: var(--text-muted);
+        text-decoration: none;
+        font-size: 1.1rem;
+        transition: color 0.2s;
+    }
+
+    .toc-nav a:hover {
+        color: var(--text-primary);
+        transform: translateX(4px);
+        display: inline-block;
+    }
+
+    /* META TABLE STYLES */
+    .sidebar-bottom {
+        display: flex;
+        flex-direction: column;
+        gap: var(--space-xl);
+    }
+
+    .project-meta-table {
+        display: flex;
+        flex-direction: column;
+        border-top: 1px solid var(--border-subtle);
+    }
+
+    .meta-row {
+        display: grid;
+        grid-template-columns: 80px 1fr; /* Fixed Label width */
+        gap: 1rem;
+        padding: 0.5rem 0;
+        border-bottom: 1px solid var(--border-subtle);
+        font-size: 12px; /* User requested 12px */
+    }
+
+    .meta-label {
+        font-weight: 600;
+        color: var(
+            --text-primary
+        ); /* Darker label per reference (e.g. Course) */
+    }
+
+    .meta-value {
+        color: var(--text-secondary); /* Lighter value per reference */
+        line-height: 1.4;
+    }
+
+    .theme-toggle-wrapper {
+        margin-top: auto;
+    }
+
+    /* RIGHT CONTENT STYLES */
+    .right-content {
+        padding: 4rem 4rem;
+        max-width: 900px;
+        margin: 0 auto;
+    }
+
+    @media (max-width: 1024px) {
+        .right-content {
+            padding: var(--space-md) var(--space-md);
+        }
+
+        /* Hide TOC on mobile */
+        .toc-nav {
+            display: none;
+        }
+
+        /* Fixed Theme Toggle on Mobile */
+        .theme-toggle-wrapper {
+            position: fixed;
+            bottom: var(--space-md);
+            right: var(--space-md);
+            z-index: 90;
+            margin-top: 0;
+        }
+
+        /* Allow sidebar to collapse vertically */
+        .project-sidebar-content {
+            height: auto;
+            display: block;
+        }
+    }
+</style>

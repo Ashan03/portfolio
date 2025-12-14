@@ -1,0 +1,533 @@
+---
+import Layout from "../layouts/Layout.astro";
+import CategorySection from "../components/CategorySection.astro";
+import ProjectCard from "../components/ProjectCard.astro";
+import CategoryFilter from "../components/CategoryFilter.astro";
+import SidebarNavigation from "../components/SidebarNavigation.astro";
+import ThemeToggle from "../components/ThemeToggle.astro";
+import ContactSection from "../components/ContactSection.astro";
+import { getCollection } from "astro:content";
+
+// Fetch all projects
+const allProjects = await getCollection("projects");
+
+// Filter projects by category
+const thinkingProjects = allProjects
+	.filter((p) => p.data.category === "thinking")
+	.sort((a, b) => (a.data.order || 0) - (b.data.order || 0));
+const embodiedProjects = allProjects
+	.filter((p) => p.data.category === "embodied")
+	.sort((a, b) => (a.data.order || 0) - (b.data.order || 0));
+const spatialProjects = allProjects
+	.filter((p) => p.data.category === "spatial")
+	.sort((a, b) => (a.data.order || 0) - (b.data.order || 0));
+const strategyProjects = allProjects
+	.filter((p) => p.data.category === "strategy")
+	.sort((a, b) => (a.data.order || 0) - (b.data.order || 0));
+---
+
+<Layout title="Narayan Ashanahalli | Design Technologist">
+	<div slot="sidebar" class="home-sidebar">
+		<SidebarNavigation isHome={true} />
+		<div class="theme-toggle-wrapper">
+			<ThemeToggle />
+		</div>
+	</div>
+
+	<div class="home-content">
+		<!-- LAYER 1: HERO / INTRO -->
+		<section class="hero" id="hero">
+			<div class="hero-container">
+				<div class="bio-content">
+					<div class="hero-headline bio-short">
+						I’m Narayan, a designer and graduate student at Carnegie
+						Mellon University, focused on building <span
+							class="highlight"
+							>playful human-human & human-machine interactions</span
+						> through AI augmented prototyping with <span
+							class="highlight"
+							>sensing, data, and tangible interfaces.</span
+						>
+					</div>
+					<div class="hero-headline bio-long">
+						<div class="bio-text">
+							Hi, I’m Narayan, a designer interested in building
+							playful interactions between people and between
+							people and machines. I’m a graduate student at the
+							School of Architecture at Carnegie Mellon University
+							and currently work as a design researcher with the
+							CMU Human-Computer Interaction Institute. Coming
+							from an architecture background, my way of working
+							is rooted in thinking through systems, scale, and
+							how parts connect. Across the different tools and
+							mediums I’ve explored, the core question stays the
+							same: how do people interact today, and how can we
+							design these interactions to be fun and useful. At
+							CMU, I’ve explored these questions using
+							computational tools, including machine learning,
+							physical computing, and AI prototyping. I primarily
+							work through prototyping, building early versions,
+							and iterating through testing, with the goal of
+							fitting these ideas into everyday human activity.
+						</div>
+					</div>
+				</div>
+				<div class="hero-actions">
+					<a href="/cv.pdf" class="action-link">CV</a>
+					<button id="read-more-btn" class="action-link read-more">
+						Read more
+						<svg
+							width="12"
+							height="12"
+							viewBox="0 0 12 12"
+							fill="none"
+							xmlns="http://www.w3.org/2000/svg"
+							class="chevron"
+						>
+							<path
+								d="M2.5 4.5L6 8L9.5 4.5"
+								stroke="currentColor"
+								stroke-width="1.5"
+								stroke-linecap="round"
+								stroke-linejoin="round"></path>
+						</svg>
+					</button>
+				</div>
+			</div>
+		</section>
+
+		<!-- LAYER 2: WORKS -->
+		<section id="works" class="layer-works">
+			<!-- Sticky Filter Header -->
+			<div class="works-header-sticky">
+				<CategoryFilter />
+			</div>
+
+			<!-- Projects Grid -->
+			<div class="categories-wrapper">
+				<!-- 1. Tools for Thinking -->
+				<CategorySection
+					title="Tools for Thinking"
+					description="I build software that helps people organize complex data and workflows."
+					id="thinking"
+					theme="logic"
+				>
+					{
+						thinkingProjects.map((project) => (
+							<ProjectCard
+								title={project.data.title}
+								description={project.data.description}
+								tags={project.data.tags}
+								href={`/works/${project.slug}`}
+								image={project.data.heroImage}
+							/>
+						))
+					}
+				</CategorySection>
+
+				<!-- 2. Embodied Interactions -->
+				<CategorySection
+					title="Embodied Interactions"
+					description="I give technology a physical, emotional presence."
+					id="embodied"
+					theme="embodied"
+				>
+					{
+						embodiedProjects.map((project) => (
+							<ProjectCard
+								title={project.data.title}
+								description={project.data.description}
+								tags={project.data.tags}
+								href={`/works/${project.slug}`}
+								image={project.data.heroImage}
+							/>
+						))
+					}
+				</CategorySection>
+
+				<!-- 3. Spatial Interactions -->
+				<CategorySection
+					title="Spatial Interactions"
+					description="I bridge the digital layer with the physical world."
+					id="spatial"
+					theme="spatial"
+				>
+					{
+						spatialProjects.map((project) => (
+							<ProjectCard
+								title={project.data.title}
+								description={project.data.description}
+								tags={project.data.tags}
+								href={`/works/${project.slug}`}
+								image={project.data.heroImage}
+							/>
+						))
+					}
+				</CategorySection>
+
+				<!-- 4. Strategy -->
+				<CategorySection
+					title="Product & Strategy"
+					description="I execute complex strategies at scale, from pixels to campuses."
+					id="strategy"
+					theme="strategy"
+				>
+					{
+						strategyProjects.map((project) => (
+							<ProjectCard
+								title={project.data.title}
+								description={project.data.description}
+								tags={project.data.tags}
+								href={`/works/${project.slug}`}
+								image={project.data.heroImage}
+							/>
+						))
+					}
+				</CategorySection>
+			</div>
+		</section>
+
+		<!-- LAYER 3: CONTACT -->
+		<ContactSection />
+	</div>
+</Layout>
+
+<style>
+	/* Sidebar Styles */
+	.home-sidebar {
+		height: 100%;
+		display: flex;
+		flex-direction: column;
+		justify-content: space-between;
+	}
+
+	/* Content Area Styles */
+	.home-content {
+		padding: var(--space-2xl) var(--space-xl);
+		max-width: 1200px;
+		margin: 0 auto;
+		width: 100%;
+	}
+
+	/* Hero Section */
+	.hero {
+		padding: 4rem 0 3rem; /* Adjusted padding for line placement */
+		font-weight: 400;
+		font-size: 32px;
+		border-bottom: 1px solid var(--border-subtle); /* Hero Separator */
+		margin-bottom: 36px; /* Gap below line */
+	}
+
+	.hero-intro {
+		font-size: 1.25rem;
+		color: var(--text-secondary);
+		max-width: 600px;
+		line-height: 1.1;
+	}
+
+	/* Works Layer */
+	.layer-works {
+		position: relative;
+		min-height: 100vh;
+		background: var(
+			--bg-primary
+		); /* Ensure opaque background for layering */
+		padding-bottom: var(--space-4xl);
+		scroll-margin-top: 0; /* Ensure flush alignment with viewport top */
+		border-bottom: 1px solid var(--border-subtle); /* Works Separator */
+	}
+
+	.works-header-sticky {
+		position: sticky;
+		top: 0;
+		z-index: 5;
+		padding: 0; /* Remove padding to be precise */
+		margin-bottom: 36px; /* 36px gap to content */
+		pointer-events: none; /* Let clicks pass through the empty areas */
+	}
+
+	/* Renable pointer events for the filter itself */
+	.works-header-sticky :global(*) {
+		pointer-events: auto;
+	}
+
+	.categories-wrapper {
+		display: flex;
+		flex-direction: column;
+		gap: var(--space-4xl);
+	}
+
+	@media (max-width: 768px) {
+		.hero-bio {
+			font-size: 32px;
+		}
+		.home-content {
+			padding: var(--space-xl) var(--space-md);
+		}
+	}
+
+	/* Hero Headline Styles */
+	.hero-headline {
+		text-align: left;
+		max-width: 100%;
+		font-weight: 500;
+		letter-spacing: 0em;
+		color: var(--text-secondary); /* Darker Grey base */
+	}
+
+	.bio-content {
+		position: relative;
+		transition: height 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+		overflow: hidden;
+	}
+
+	.bio-short {
+		width: 100%;
+		font-size: 32px;
+		line-height: 1.1;
+		display: block; /* Default visible */
+	}
+
+	.bio-short .highlight {
+		color: #e5e5e5;
+	}
+
+	.bio-long {
+		width: 100%;
+		display: none; /* Default hidden */
+		opacity: 0;
+		transition: opacity 0.4s ease;
+
+		/* Grid Alignment Layout */
+		grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+		gap: 1.25rem;
+	}
+
+	/* When active, we set display: grid in JS, not block */
+
+	.bio-text {
+		grid-column: 1 / 3; /* Spans first two columns */
+		font-size: 16px;
+		line-height: 1.4;
+		color: var(--text-secondary);
+	}
+
+	@media (max-width: 650px) {
+		/* Collapse to single column on mobile */
+		.bio-text {
+			grid-column: 1 / -1;
+		}
+	}
+
+	@media (max-width: 1024px) {
+		/* Mobile Sidebar Adjustments */
+		.home-sidebar {
+			height: auto;
+			display: block;
+		}
+
+		.theme-toggle-wrapper {
+			position: fixed;
+			bottom: var(--space-md);
+			right: var(--space-md);
+			z-index: 90;
+		}
+	}
+
+	/* Hero Actions (Links) */
+	.hero-actions {
+		display: flex;
+		justify-content: flex-start;
+		gap: 1.5rem; /* Increased gap for text links */
+		margin-top: 1rem;
+	}
+
+	.action-link {
+		color: var(--text-secondary);
+		font-size: 0.95rem; /* Slightly larger text */
+		text-decoration: none;
+		position: relative;
+		background: none;
+		border: none;
+		padding: 0;
+		cursor: pointer;
+		font-family: inherit;
+		display: inline-flex;
+		align-items: center;
+		gap: 0.5rem;
+		transition: color 0.2s ease;
+	}
+
+	.action-link:hover {
+		color: var(--text-primary);
+	}
+
+	/* Underline Animation */
+	.action-link::after {
+		content: "";
+		position: absolute;
+		bottom: -2px;
+		left: 0;
+		width: 100%;
+		height: 1px;
+		background-color: var(--text-primary);
+		transform: scaleX(0);
+		transform-origin: right;
+		transition: transform 0.3s ease;
+	}
+
+	.action-link:hover::after {
+		transform: scaleX(1);
+		transform-origin: left;
+	}
+
+	/* Chevron Animation */
+	.chevron {
+		transition: transform 0.3s ease;
+	}
+
+	.read-more.active .chevron {
+		transform: rotate(180deg);
+	}
+</style>
+
+<script>
+	document.addEventListener("DOMContentLoaded", () => {
+		const readMoreBtn = document.getElementById("read-more-btn");
+		const navAbout = document.getElementById("nav-about");
+		const bioContent = document.querySelector(
+			".bio-content",
+		) as HTMLElement;
+		const bioShort = document.querySelector(".bio-short") as HTMLElement;
+		const bioLong = document.querySelector(".bio-long") as HTMLElement;
+
+		if (readMoreBtn && bioContent && bioShort && bioLong) {
+			const toggleBio = () => {
+				readMoreBtn.classList.toggle("active");
+
+				const isShortVisible =
+					getComputedStyle(bioShort).display !== "none";
+
+				// 1. Lock Container Height (Current State)
+				const startHeight = bioContent.offsetHeight;
+				bioContent.style.height = `${startHeight}px`;
+
+				if (isShortVisible) {
+					// EXPANDING: Short -> Long
+
+					// Instant Disappear Short
+					bioShort.style.display = "none";
+
+					// Prepare Long (Grid)
+					bioLong.style.display = "grid";
+					bioLong.style.opacity = "0";
+
+					// Measure Target Height
+					// Unset container height temporarily to measure
+					bioContent.style.height = "auto";
+					const targetHeight = bioContent.scrollHeight;
+					// Reset to start
+					bioContent.style.height = `${startHeight}px`;
+
+					// Force Reflow
+					void bioContent.offsetWidth;
+
+					// Animate
+					bioContent.style.height = `${targetHeight}px`;
+					bioLong.style.opacity = "1";
+				} else {
+					// COLLAPSING: Long -> Short
+
+					// Instant Disappear Long
+					bioLong.style.display = "none";
+					bioLong.style.opacity = "0";
+
+					// Prepare Short
+					bioShort.style.display = "block";
+
+					// Measure Target Height
+					bioContent.style.height = "auto";
+					const targetHeight = bioContent.scrollHeight;
+					bioContent.style.height = `${startHeight}px`;
+
+					// Force Reflow
+					void bioContent.offsetWidth;
+
+					// Animate
+					bioContent.style.height = `${targetHeight}px`;
+				}
+
+				// Cleanup after transition
+				setTimeout(() => {
+					bioContent.style.height = "auto";
+				}, 400);
+			};
+
+			// Read More Button Click
+			readMoreBtn.addEventListener("click", toggleBio);
+
+			// About Link Click
+			if (navAbout) {
+				navAbout.addEventListener("click", (e) => {
+					e.preventDefault();
+
+					// 1. Scroll to Top
+					window.scrollTo({ top: 0, behavior: "smooth" });
+
+					// 2. Expand Bio if not already active
+					if (!readMoreBtn.classList.contains("active")) {
+						toggleBio();
+					}
+				});
+			}
+			// Auto-Collapse Logic
+			const heroSection = document.getElementById("hero");
+			if (heroSection) {
+				const observer = new IntersectionObserver(
+					(entries) => {
+						entries.forEach((entry) => {
+							// If we scrolled PAST the hero (top is negative)
+							if (
+								!entry.isIntersecting &&
+								entry.boundingClientRect.top < 0
+							) {
+								if (readMoreBtn.classList.contains("active")) {
+									// SILENT RESET
+
+									// 1. Disable Transition for instant snap
+									bioContent.style.transition = "none";
+
+									// 2. Toggle State logic (Manual Revert)
+									readMoreBtn.classList.remove("active");
+
+									// Collapse Long
+									bioLong.style.display = "none";
+									bioLong.style.opacity = "0";
+
+									// Show Short
+									bioShort.style.display = "block";
+
+									// Reset Container Height to Auto
+									bioContent.style.height = "auto";
+
+									// 3. Cleanup
+									// Force reflow
+									void bioContent.offsetWidth;
+									// Restore transition for next interaction
+									setTimeout(() => {
+										bioContent.style.removeProperty(
+											"transition",
+										);
+									}, 50);
+								}
+							}
+						});
+					},
+					{ threshold: 0 },
+				);
+				observer.observe(heroSection);
+			}
+		}
+	});
+</script>
+```

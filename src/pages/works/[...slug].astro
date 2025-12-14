@@ -1,0 +1,36 @@
+---
+import { getCollection } from "astro:content";
+import ProjectLayout from "../../layouts/ProjectLayout.astro";
+import Layout from "../../layouts/Layout.astro";
+
+export async function getStaticPaths() {
+  const projects = await getCollection("projects");
+  return projects.map((entry) => ({
+    params: { slug: entry.slug },
+    props: { entry },
+  }));
+}
+
+const { entry } = Astro.props;
+const { Content } = await entry.render();
+---
+
+<ProjectLayout
+  title={entry.data.title}
+  description={entry.data.description}
+  course={entry.data.course}
+  year={entry.data.year}
+  advisor={entry.data.advisor}
+  team={entry.data.team}
+  tags={entry.data.tags}
+>
+  <!-- We need a named slot 'intro' for the description if we want to pass rich content into it.
+         However, the MDX file structure we defined puts the intro IN the MDX body or maybe separate?
+         In our migration, we put <div slot="intro"> inside the MDX.
+         This means <Content /> will render that slot content.
+         
+         ProjectLayout expects slots.
+         If MDX exports content that slots into ProjectLayout, we just need to render <Content /> inside ProjectLayout.
+    -->
+  <Content />
+</ProjectLayout>

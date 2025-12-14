@@ -1,0 +1,81 @@
+---
+---
+<button id="theme-toggle" aria-label="Toggle Dark Mode">
+    <!-- Sun Icon (Light Mode) -->
+    <svg class="sun-icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"></circle><line x1="12" y1="1" x2="12" y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line><line x1="1" y1="12" x2="3" y2="12"></line><line x1="21" y1="12" x2="23" y2="12"></line><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line></svg>
+    
+    <!-- Moon Icon (Dark Mode) -->
+    <svg class="moon-icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>
+</button>
+
+<style>
+    #theme-toggle {
+        background: transparent;
+        border: 1px solid var(--border-subtle);
+        color: var(--text-secondary);
+        cursor: pointer;
+        padding: 0.5rem;
+        border-radius: var(--radius-md);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: all 0.2s ease;
+    }
+
+    #theme-toggle:hover {
+        background-color: var(--bg-surface-hover);
+        color: var(--text-primary);
+        border-color: var(--border-focus);
+    }
+
+    /* By default (dark mode), only show sun? No, let's swap logic based on theme */
+    /* If theme is light, show moon (to switch to dark). If dark, show sun (to switch to light) */
+    
+    :global([data-theme="light"]) .sun-icon {
+        display: none;
+    }
+    :global([data-theme="light"]) .moon-icon {
+        display: block;
+    }
+
+    /* Dark Mode (Default) */
+    :global(:not([data-theme="light"])) .moon-icon {
+        display: none;
+    }
+    :global(:not([data-theme="light"])) .sun-icon {
+        display: block;
+    }
+</style>
+
+<script is:inline>
+    const theme = (() => {
+        if (typeof localStorage !== 'undefined' && localStorage.getItem('theme')) {
+            return localStorage.getItem('theme');
+        }
+        if (window.matchMedia('(prefers-color-scheme: light)').matches) {
+            return 'light';
+        }
+        return 'dark';
+    })();
+
+    if (theme === 'light') {
+        document.documentElement.setAttribute('data-theme', 'light');
+    } else {
+        document.documentElement.removeAttribute('data-theme');
+    }
+
+    window.localStorage.setItem('theme', theme);
+
+    const handleToggleClick = () => {
+        const element = document.documentElement;
+        if (element.getAttribute('data-theme') === 'light') {
+            element.removeAttribute('data-theme');
+            localStorage.setItem('theme', 'dark');
+        } else {
+            element.setAttribute('data-theme', 'light');
+            localStorage.setItem('theme', 'light');
+        }
+    }
+
+    document.getElementById('theme-toggle').addEventListener('click', handleToggleClick);
+</script>

@@ -1,0 +1,392 @@
+---
+interface Props {
+    title?: string;
+    isHome?: boolean;
+}
+
+const { title, isHome = false } = Astro.props;
+---
+
+<div class="nav-spacer"></div>
+<div class="nav-bento-wrapper">
+    <div
+        id="nav-trigger"
+        class="nav-trigger"
+        aria-expanded="false"
+        aria-controls="nav-dropdown"
+        role="button"
+        tabindex="0"
+    >
+        <div class="nav-content">
+            <a href="/" class="logo link-item">na</a>
+
+            {
+                isHome ? (
+                    <>
+                        <a
+                            href="/"
+                            id="crumb-home"
+                            class="crumb-link link-item"
+                        >
+                            Home
+                        </a>
+                        <a
+                            href="/#works"
+                            id="crumb-works"
+                            class="crumb-link link-item"
+                            style="display: none;"
+                        >
+                            Works
+                        </a>
+                        <a
+                            href="/#contact"
+                            id="crumb-contact"
+                            class="crumb-link link-item"
+                            style="display: none;"
+                        >
+                            Contact
+                        </a>
+                    </>
+                ) : (
+                    <>
+                        <a href="/#works" class="crumb-link link-item">
+                            Works
+                        </a>
+                        <span class="crumb-current">{title}</span>
+                    </>
+                )
+            }
+        </div>
+        <div class="nav-icon">
+            <svg
+                width="12"
+                height="12"
+                viewBox="0 0 12 12"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+                class="arrow-icon"
+            >
+                <path
+                    d="M2.5 4.5L6 8L9.5 4.5"
+                    stroke="currentColor"
+                    stroke-width="1.5"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"></path>
+            </svg>
+        </div>
+    </div>
+
+    <div id="nav-dropdown" class="nav-dropdown hidden">
+        <nav class="dropdown-menu">
+            <a href="/" class="dropdown-item">
+                <span class="item-label">Home</span>
+            </a>
+            <a href="/#about" id="nav-about" class="dropdown-item">
+                <span class="item-label">About</span>
+            </a>
+            <a href="/#works" class="dropdown-item">
+                <span class="item-label">Works</span>
+            </a>
+            <a href="/#contact" class="dropdown-item">
+                <span class="item-label">Contact</span>
+            </a>
+        </nav>
+    </div>
+</div>
+
+<script>
+    const trigger = document.getElementById("nav-trigger");
+    const dropdown = document.getElementById("nav-dropdown");
+    const crumbHome = document.getElementById("crumb-home");
+    const crumbWorks = document.getElementById("crumb-works");
+    const crumbContact = document.getElementById("crumb-contact");
+    const hero = document.getElementById("hero");
+    const contact = document.getElementById("contact");
+
+    // Dynamic Breadcrumb Logic (Home Page Only)
+    if (crumbHome && crumbWorks && crumbContact && hero && contact) {
+        let isHeroVisible = true; // Default assumption at load
+        let isContactVisible = false;
+
+        const updateBreadcrumbs = () => {
+            // Priority: Contact > Home > Works
+            // Note: Home is top. Contact is bottom.
+            // If we are at the bottom, Contact is visible.
+            // If we are at the top, Hero is visible.
+            // Works is the "middle" state.
+
+            if (isContactVisible) {
+                crumbHome.style.display = "none";
+                crumbWorks.style.display = "none";
+                crumbContact.style.display = "inline";
+            } else if (isHeroVisible) {
+                crumbHome.style.display = "inline";
+                crumbWorks.style.display = "none";
+                crumbContact.style.display = "none";
+            } else {
+                // Middle state
+                crumbHome.style.display = "none";
+                crumbWorks.style.display = "inline";
+                crumbContact.style.display = "none";
+            }
+        };
+
+        const observer = new IntersectionObserver(
+            (entries) => {
+                entries.forEach((entry) => {
+                    const id = entry.target.id;
+                    if (id === "hero") {
+                        isHeroVisible = entry.isIntersecting;
+                    } else if (id === "contact") {
+                        isContactVisible = entry.isIntersecting;
+                    }
+                });
+                updateBreadcrumbs();
+            },
+            { threshold: 0.1 }, // Consistent threshold
+        );
+
+        observer.observe(hero);
+        if (contact) observer.observe(contact);
+    }
+
+    // Toggle menu
+    trigger?.addEventListener("click", (e) => {
+        // Disable dropdown on mobile (breadcrumbs only)
+        if (window.innerWidth <= 1024) {
+            return;
+        }
+
+        // If user clicked a link, let it navigate and don't toggle menu
+        if ((e.target as HTMLElement).closest("a")) {
+            return;
+        }
+
+        e.stopPropagation();
+        const isExpanded = trigger?.getAttribute("aria-expanded") === "true";
+
+        // Toggle State
+        trigger?.setAttribute("aria-expanded", (!isExpanded).toString());
+        dropdown?.classList.toggle("hidden");
+        trigger?.classList.toggle("active");
+    });
+
+    // ... (rest of script)
+</script>
+
+<style>
+    .nav-spacer {
+        display: none;
+    }
+
+    .nav-bento-wrapper {
+        position: relative;
+        margin-bottom: var(--space-md);
+    }
+
+    @media (max-width: 1024px) {
+        .nav-spacer {
+            display: block;
+            height: 50px; /* Adjust based on nav height + margin */
+        }
+    }
+
+    .nav-placeholder {
+        display: none; /* Hidden by default on desktop */
+    }
+
+    /* Mobile Sticky Behavior */
+    @media (max-width: 1024px) {
+        /* Placeholder to create space for the fixed nav */
+        .nav-placeholder {
+            display: block;
+            /* Height should be the height of the fixed nav + its margin-bottom */
+            /* Approx. nav height (padding + font-size + borders) + var(--space-md) */
+            height: 4rem; /* Roughly 64px, adjust as needed */
+        }
+
+        .nav-bento-wrapper {
+            position: fixed;
+            top: var(--space-md); /* Matches the page's top padding */
+            left: var(--space-md); /* Matches the page's left padding */
+            right: var(--space-md); /* Matches the page's right padding */
+            width: auto; /* Let left/right define width */
+            z-index: 100;
+            margin: 0; /* Override any default margins */
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); /* Add shadow for separation */
+        }
+
+        .nav-trigger {
+            /* Revert squared styling. Just keep default class styles. */
+            /* Ensure background is set for fixed element */
+            background: var(--bg-surface);
+            border-radius: var(
+                --radius-md
+            ); /* Ensure rounded corners are kept */
+            border: 1px solid var(--border-subtle); /* Ensure border is kept */
+            cursor: default; /* Keep disabled interactions */
+            padding-left: 8px; /* Revert mobile-specific padding */
+            padding-right: 8px; /* Revert mobile-specific padding */
+        }
+
+        .nav-trigger:hover {
+            background: var(--bg-surface); /* Keep background on hover */
+            border-color: var(--border-subtle); /* Keep border color on hover */
+            cursor: default; /* Keep disabled interactions */
+        }
+
+        .nav-trigger.active {
+            border-bottom-left-radius: var(--radius-md); /* Revert to rounded */
+            border-bottom-right-radius: var(
+                --radius-md
+            ); /* Revert to rounded */
+        }
+
+        .nav-icon {
+            display: none; /* Keep hidden chevron on mobile */
+        }
+    }
+
+    .nav-trigger {
+        /* ... existing styles ... */
+
+        width: 100%;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        background: var(--bg-surface);
+        border: 1px solid var(--border-subtle);
+        padding: 6px 8px;
+        cursor: pointer;
+        transition: all 0.2s ease;
+        text-align: left;
+        color: inherit;
+        font-family: inherit;
+        border-radius: var(--radius-md);
+    }
+
+    .nav-trigger:hover,
+    .nav-trigger.active {
+        border-color: var(--border-focus);
+        background: var(--bg-surface-hover);
+    }
+
+    /* When active, flatten bottom corners so it connects to dropdown? 
+       Or keep it detached? Standard bento usually keeps them separate or connects them.
+       Let's assume detached visually or simple rounded for now.
+       If connected:
+    */
+    .nav-trigger.active {
+        border-bottom-left-radius: 0;
+        border-bottom-right-radius: 0;
+    }
+
+    .nav-content {
+        display: flex;
+        align-items: center;
+        gap: 0.75rem; /* Space between breadcrumbs */
+        font-size: 12px; /* Standardizing to 12px per user preference */
+        overflow: hidden;
+        white-space: nowrap;
+        /* text-transform: uppercase; Match reference vibe? Optional, lets stick to normal for now or verify */
+    }
+
+    /* Links */
+    .link-item {
+        color: var(--text-secondary); /* Lighter/Muted */
+        text-decoration: none;
+        transition: color 0.2s ease;
+        position: relative;
+        z-index: 2; /* Ensure clickable above container */
+    }
+
+    .link-item:hover {
+        color: var(--text-primary);
+    }
+
+    .logo {
+        font-family: var(--font-mono);
+        font-weight: 800;
+        /* color: var(--accent-strategy); 'na' usually highlighted or just primary? */
+        /* Reverting to user pref or standard */
+        color: var(--text-primary); /* Default logo color */
+    }
+
+    /* Make logo distinct per request? "if i click on logo it goes to home" */
+    .logo:hover {
+        text-decoration: underline;
+        text-underline-offset: 4px;
+    }
+
+    .crumb-link {
+        color: var(--text-muted); /* Even lighter for 'Works' */
+        text-transform: uppercase;
+        font-size: 12px;
+        font-weight: 600;
+        letter-spacing: 0.05em;
+    }
+
+    .crumb-current {
+        color: var(
+            --text-secondary
+        ); /* "Just have lighter color" - maybe user meant muted? */
+        /* Reference image: Work (Muted), Amazon (Muted). Layout: Logo (Yellow/Primary) Work (Grey) Amazon (Grey) */
+        /* Let's make Title slightly more visible than Works but still contained */
+        font-weight: 400;
+        text-overflow: ellipsis;
+        overflow: hidden;
+        text-transform: uppercase;
+        font-size: 12px;
+        letter-spacing: 0.05em;
+    }
+
+    /* Dropdown */
+    .nav-dropdown {
+        position: absolute;
+        top: 100%;
+        left: 0;
+        right: 0;
+        background: var(--bg-surface);
+        border: 1px solid var(--border-subtle);
+        border-top: none; /* If connecting */
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        z-index: 50;
+        margin-top: 0;
+        border-bottom-left-radius: var(--radius-md);
+        border-bottom-right-radius: var(--radius-md);
+        overflow: hidden;
+    }
+
+    .nav-dropdown.hidden {
+        display: none;
+    }
+
+    .dropdown-menu {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .dropdown-item {
+        padding: 10px 8px 10px 36px; /* Align text with breadcrumb (8px pad + ~16px logo + 12px gap) */
+        text-decoration: none;
+        color: var(--text-secondary);
+        font-size: 12px;
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+        font-weight: 500;
+        display: flex;
+        align-items: center;
+        transition: all 0.2s ease;
+        border-bottom: 1px solid var(--border-subtle);
+    }
+
+    .dropdown-item:last-child {
+        border-bottom: none;
+    }
+
+    .dropdown-item:hover {
+        background: var(--bg-surface-hover);
+        color: var(--text-primary);
+        padding-left: 1.25rem; /* Subtle indent effect */
+    }
+</style>
