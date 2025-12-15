@@ -29,6 +29,9 @@
   --border-subtle: rgba(255, 255, 255, 0.08);
   --border-focus: rgba(255, 255, 255, 0.2);
 
+  --bg-glass: rgba(10, 10, 10, 0.7);
+  --text-highlight: #e5e5e5;
+
   /* Identity Colors */
   --accent-logic: #0ea5e9;
   /* Stronger Blue */
@@ -52,6 +55,9 @@
 
   --border-subtle: rgba(0, 0, 0, 0.08);
   --border-focus: rgba(0, 0, 0, 0.2);
+
+  --bg-glass: rgba(255, 255, 255, 0.85);
+  --text-highlight: #404040;
 
   /* Identity Colors (Adjusted for Light) */
   --accent-logic: #0284c7;

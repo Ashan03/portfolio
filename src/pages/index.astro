@@ -43,10 +43,16 @@ const strategyProjects = allProjects
 						I’m Narayan, a designer and graduate student at Carnegie
 						Mellon University, focused on building <span
 							class="highlight"
-							>playful human-human & human-machine interactions</span
+							><span class="u-item">playful human-human</span> & <span
+								class="u-item">human-machine interactions</span
+							></span
 						> through AI augmented prototyping with <span
 							class="highlight"
-							>sensing, data, and tangible interfaces.</span
+							><span class="u-item">sensing</span>, <span
+								class="u-item">data</span
+							>, and <span class="u-item"
+								>tangible interfaces</span
+							>.</span
 						>
 					</div>
 					<div class="hero-headline bio-long">
@@ -292,6 +298,18 @@ const strategyProjects = allProjects
 		color: #e5e5e5;
 	}
 
+	/* Light Mode Override (Granular Underline) */
+	:global([data-theme="light"]) .bio-short .highlight .u-item {
+		text-decoration: underline;
+		text-underline-offset: 4px;
+		text-decoration-color: rgba(0, 0, 0, 0.4);
+	}
+
+	/* The parent highlight still controls color */
+	:global([data-theme="light"]) .bio-short .highlight {
+		color: var(--text-highlight);
+	}
+
 	.bio-long {
 		width: 100%;
 		display: none; /* Default hidden */
@@ -329,7 +347,7 @@ const strategyProjects = allProjects
 		.theme-toggle-wrapper {
 			position: fixed;
 			bottom: var(--space-md);
-			right: var(--space-md);
+			left: var(--space-md); /* Moved to Bottom Left */
 			z-index: 90;
 		}
 	}
@@ -530,4 +548,3 @@ const strategyProjects = allProjects
 		}
 	});
 </script>
-```
