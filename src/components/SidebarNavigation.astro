@@ -18,7 +18,9 @@ const { title, isHome = false } = Astro.props;
         tabindex="0"
     >
         <div class="nav-content">
-            <a href="/" class="logo link-item">na</a>
+            <a href="/" class="logo link-item">
+                <img src="/happy.png" alt="na" class="logo-img" />
+            </a>
 
             {
                 isHome ? (
@@ -307,9 +309,16 @@ const { title, isHome = false } = Astro.props;
     .logo {
         font-family: var(--font-mono);
         font-weight: 800;
-        /* color: var(--accent-strategy); 'na' usually highlighted or just primary? */
-        /* Reverting to user pref or standard */
-        color: var(--text-primary); /* Default logo color */
+        color: var(--text-primary);
+        display: flex;
+        align-items: center;
+    }
+
+    .logo-img {
+        width: 24px;
+        height: 24px;
+        object-fit: contain;
+        border-radius: 50%; /* Optional, usually looks good for avatars/icons */
     }
 
     /* Make logo distinct per request? "if i click on logo it goes to home" */
