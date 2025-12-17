@@ -186,72 +186,12 @@ const { title, isHome = false } = Astro.props;
         margin-bottom: var(--space-md);
     }
 
-    @media (max-width: 1024px) {
-        .nav-spacer {
-            display: block;
-            height: 50px; /* Adjust based on nav height + margin */
-        }
-    }
-
     .nav-placeholder {
         display: none; /* Hidden by default on desktop */
     }
 
-    /* Mobile Sticky Behavior */
-    @media (max-width: 1024px) {
-        /* Placeholder to create space for the fixed nav */
-        .nav-placeholder {
-            display: block;
-            /* Height should be the height of the fixed nav + its margin-bottom */
-            /* Approx. nav height (padding + font-size + borders) + var(--space-md) */
-            height: 4rem; /* Roughly 64px, adjust as needed */
-        }
-
-        .nav-bento-wrapper {
-            position: fixed;
-            top: var(--space-md); /* Matches the page's top padding */
-            left: var(--space-md); /* Matches the page's left padding */
-            right: var(--space-md); /* Matches the page's right padding */
-            width: auto; /* Let left/right define width */
-            z-index: 100;
-            margin: 0; /* Override any default margins */
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); /* Add shadow for separation */
-        }
-
-        .nav-trigger {
-            /* Revert squared styling. Just keep default class styles. */
-            /* Ensure background is set for fixed element */
-            background: var(--bg-surface);
-            border-radius: var(
-                --radius-md
-            ); /* Ensure rounded corners are kept */
-            border: 1px solid var(--border-subtle); /* Ensure border is kept */
-            cursor: default; /* Keep disabled interactions */
-            padding-left: 8px; /* Revert mobile-specific padding */
-            padding-right: 8px; /* Revert mobile-specific padding */
-        }
-
-        .nav-trigger:hover {
-            background: var(--bg-surface); /* Keep background on hover */
-            border-color: var(--border-subtle); /* Keep border color on hover */
-            cursor: default; /* Keep disabled interactions */
-        }
-
-        .nav-trigger.active {
-            border-bottom-left-radius: var(--radius-md); /* Revert to rounded */
-            border-bottom-right-radius: var(
-                --radius-md
-            ); /* Revert to rounded */
-        }
-
-        .nav-icon {
-            display: none; /* Keep hidden chevron on mobile */
-        }
-    }
-
+    /* Base Styles */
     .nav-trigger {
-        /* ... existing styles ... */
-
         width: 100%;
         display: flex;
         justify-content: space-between;
@@ -273,11 +213,6 @@ const { title, isHome = false } = Astro.props;
         background: var(--bg-surface-hover);
     }
 
-    /* When active, flatten bottom corners so it connects to dropdown? 
-       Or keep it detached? Standard bento usually keeps them separate or connects them.
-       Let's assume detached visually or simple rounded for now.
-       If connected:
-    */
     .nav-trigger.active {
         border-bottom-left-radius: 0;
         border-bottom-right-radius: 0;
@@ -290,7 +225,6 @@ const { title, isHome = false } = Astro.props;
         font-size: 12px; /* Standardizing to 12px per user preference */
         overflow: hidden;
         white-space: nowrap;
-        /* text-transform: uppercase; Match reference vibe? Optional, lets stick to normal for now or verify */
     }
 
     /* Links */
@@ -318,10 +252,9 @@ const { title, isHome = false } = Astro.props;
         width: 24px;
         height: 24px;
         object-fit: contain;
-        border-radius: 50%; /* Optional, usually looks good for avatars/icons */
+        border-radius: 50%;
     }
 
-    /* Make logo distinct per request? "if i click on logo it goes to home" */
     .logo:hover {
         text-decoration: underline;
         text-underline-offset: 4px;
@@ -336,11 +269,7 @@ const { title, isHome = false } = Astro.props;
     }
 
     .crumb-current {
-        color: var(
-            --text-secondary
-        ); /* "Just have lighter color" - maybe user meant muted? */
-        /* Reference image: Work (Muted), Amazon (Muted). Layout: Logo (Yellow/Primary) Work (Grey) Amazon (Grey) */
-        /* Let's make Title slightly more visible than Works but still contained */
+        color: var(--text-secondary);
         font-weight: 400;
         text-overflow: ellipsis;
         overflow: hidden;
@@ -357,7 +286,7 @@ const { title, isHome = false } = Astro.props;
         right: 0;
         background: var(--bg-surface);
         border: 1px solid var(--border-subtle);
-        border-top: none; /* If connecting */
+        border-top: none;
         box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
         z-index: 50;
         margin-top: 0;
@@ -397,5 +326,62 @@ const { title, isHome = false } = Astro.props;
         background: var(--bg-surface-hover);
         color: var(--text-primary);
         padding-left: 1.25rem; /* Subtle indent effect */
+    }
+
+    /* Media Queries */
+    @media (max-width: 1024px) {
+        .nav-spacer {
+            display: block;
+            height: 50px; /* Adjust based on nav height + margin */
+        }
+
+        /* Placeholder to create space for the fixed nav */
+        .nav-placeholder {
+            display: block;
+            height: 4rem; /* Roughly 64px, adjust as needed */
+        }
+
+        .nav-bento-wrapper {
+            position: fixed;
+            top: 56px; /* Tablet: 56px */
+            left: 56px;
+            right: 56px;
+            width: auto;
+            z-index: 100;
+            margin: 0;
+            box-shadow: 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .nav-trigger {
+            background: var(--bg-surface);
+            border-radius: var(--radius-md);
+            border: 1px solid var(--border-subtle);
+            cursor: default;
+            /* Using base padding (12px 10px) - removing specific override to fix 0px issue */
+        }
+
+        .nav-trigger:hover {
+            background: var(--bg-surface);
+            border-color: var(--border-subtle);
+            cursor: default;
+        }
+
+        .nav-trigger.active {
+            border-bottom-left-radius: var(--radius-md);
+            border-bottom-right-radius: var(--radius-md);
+        }
+
+        .nav-icon {
+            display: none;
+        }
+    }
+
+    /* Mobile: Revert to 20px (standard space-md) */
+    @media (max-width: 768px) {
+        .nav-bento-wrapper {
+            top: var(--space-md);
+            left: var(--space-md);
+            right: var(--space-md);
+        }
     }
 </style>

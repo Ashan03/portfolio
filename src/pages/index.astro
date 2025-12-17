@@ -252,6 +252,18 @@ const strategyProjects = allProjects
 		pointer-events: none; /* Let clicks pass through the empty areas */
 	}
 
+	@media (max-width: 1024px) {
+		.works-header-sticky {
+			top: 7.5rem !important; /* 120px: Clear new 56px nav position */
+		}
+	}
+
+	@media (max-width: 768px) {
+		.works-header-sticky {
+			top: 5rem !important; /* 80px: Force clear fixed nav (Mobile) */
+		}
+	}
+
 	/* Renable pointer events for the filter itself */
 	.works-header-sticky :global(*) {
 		pointer-events: auto;
