@@ -14,6 +14,9 @@ const { title, description = "Design Technologist Portfolio" } = Astro.props;
 	<head>
 		<meta charset="UTF-8" />
 		<meta name="description" content={description} />
+		<meta property="og:description" content={description} />
+		<meta name="twitter:card" content="summary_large_image" />
+		<meta name="twitter:description" content={description} />
 		<meta name="viewport" content="width=device-width" />
 		<link rel="icon" type="image/png" href="/happy.png" />
 		<meta name="generator" content={Astro.generator} />

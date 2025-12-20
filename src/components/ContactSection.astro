@@ -17,9 +17,9 @@
             <!-- Email Copy Button -->
             <button
                 class="copy-btn"
-                data-clipboard-text="narayan.ashanahalli@gmail.com"
+                data-clipboard-text="nashanah@andrew.cmu.edu"
             >
-                <span class="text">narayan.ashanahalli@gmail.com</span>
+                <span class="text">nashanah@andrew.cmu.edu</span>
                 <span class="icon">
                     <svg
                         width="20"
@@ -62,10 +62,7 @@
             </button>
 
             <!-- Mailto Action -->
-            <a
-                href="mailto:narayan.ashanahalli@gmail.com"
-                class="action-btn primary"
-            >
+            <a href="mailto:nashanah@andrew.cmu.edu" class="action-btn primary">
                 hit me up!
             </a>
         </div>
@@ -199,7 +196,7 @@
         right: -4rem;
         top: 1.4rem;
 
-        color: #00d34e; /* Green */
+        color: #00d34e; /* Green (Dark Mode) */
         font-weight: 700;
         font-size: 0.85rem;
         pointer-events: none;
@@ -207,6 +204,10 @@
         z-index: 10;
 
         display: block;
+    }
+
+    :global([data-theme="light"]) .copied-msg {
+        color: #00bc2f;
     }
 
     .copied-msg.hidden {
