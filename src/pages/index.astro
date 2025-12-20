@@ -32,8 +32,59 @@ const strategyProjects = allProjects
 >
 	<div slot="sidebar" class="home-sidebar">
 		<SidebarNavigation isHome={true} />
-		<div class="theme-toggle-wrapper">
+		<div class="sidebar-controls">
 			<ThemeToggle />
+			<!-- Socials -->
+			<div class="social-group">
+				<a
+					href="https://linkedin.com/in/narayan-ashanahalli/"
+					target="_blank"
+					class="social-link"
+				>
+					<img
+						src="/logos/linkedIn-light.png"
+						class="s-icon icon-light"
+						alt="LinkedIn"
+					/>
+					<img
+						src="/logos/linkedIn-dark.png"
+						class="s-icon icon-dark"
+						alt="LinkedIn"
+					/>
+				</a>
+				<a
+					href="https://www.instagram.com/narayan.3dm/"
+					target="_blank"
+					class="social-link"
+				>
+					<img
+						src="/logos/instagram-light.png"
+						class="s-icon icon-light"
+						alt="Instagram"
+					/>
+					<img
+						src="/logos/instagram-dark.png"
+						class="s-icon icon-dark"
+						alt="Instagram"
+					/>
+				</a>
+				<a
+					href="https://github.com/narayan-works"
+					target="_blank"
+					class="social-link"
+				>
+					<img
+						src="/logos/github-light.png"
+						class="s-icon icon-light"
+						alt="GitHub"
+					/>
+					<img
+						src="/logos/github-dark.png"
+						class="s-icon icon-dark"
+						alt="GitHub"
+					/>
+				</a>
+			</div>
 		</div>
 	</div>
 
@@ -359,11 +410,85 @@ const strategyProjects = allProjects
 			display: block;
 		}
 
-		.theme-toggle-wrapper {
+		.sidebar-controls {
 			position: fixed;
 			bottom: var(--space-md);
-			left: var(--space-md); /* Moved to Bottom Left */
+			left: var(--space-md);
 			z-index: 90;
+			display: flex;
+			align-items: center;
+			gap: 0.5rem;
+			background: var(--bg-surface);
+			padding: 0.5rem;
+			border-radius: 1rem;
+			border: 1px solid var(--border-subtle);
+			box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+			width: fit-content;
+		}
+	}
+
+	/* Sidebar Controls (Socials + Toggle) */
+	.sidebar-controls {
+		display: flex;
+		align-items: center;
+		gap: 0.5rem;
+	}
+
+	@media (min-width: 1025px) {
+		.sidebar-controls {
+			margin-top: auto;
+			padding-top: var(--space-lg);
+		}
+	}
+
+	.social-group {
+		display: flex;
+		gap: 0.8rem;
+		align-items: center;
+		padding: 0.5rem 0.75rem;
+		border: 1px solid var(--border-subtle);
+		border-radius: var(--radius-md);
+		background: transparent;
+	}
+
+	.social-link {
+		display: flex;
+		align-items: center;
+		opacity: 0.5;
+		transition: all 0.2s ease;
+	}
+	.social-link:hover {
+		opacity: 1;
+		transform: translateY(-2px);
+	}
+
+	.s-icon {
+		width: 18px;
+		height: 18px;
+		object-fit: contain;
+	}
+
+	/* Icon Theme Logic */
+	/* Dark Mode (Default) -> Show Dark Icon (Light Colored) */
+	.icon-light {
+		display: none;
+	}
+	.icon-dark {
+		display: block;
+	}
+
+	/* Light Mode -> Show Light Icon (Dark Colored) */
+	:global([data-theme="light"]) .icon-light {
+		display: block;
+	}
+	:global([data-theme="light"]) .icon-dark {
+		display: none;
+	}
+
+	@media (min-width: 1025px) {
+		.sidebar-controls {
+			width: 100%;
+			justify-content: space-between;
 		}
 	}
 

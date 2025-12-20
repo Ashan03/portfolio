@@ -19,10 +19,11 @@
                 class="copy-btn"
                 data-clipboard-text="narayan.ashanahalli@gmail.com"
             >
+                <span class="text">narayan.ashanahalli@gmail.com</span>
                 <span class="icon">
                     <svg
-                        width="16"
-                        height="16"
+                        width="20"
+                        height="20"
                         viewBox="0 0 24 24"
                         fill="none"
                         stroke="currentColor"
@@ -35,16 +36,16 @@
                         ></path></svg
                     >
                 </span>
-                <span class="text">narayan.ashanahalli@gmail.com</span>
                 <span class="copied-msg hidden">Copied!</span>
             </button>
 
             <!-- Phone Copy Button -->
             <button class="copy-btn" data-clipboard-text="412-626-2332">
+                <span class="text">412-626-2332</span>
                 <span class="icon">
                     <svg
-                        width="16"
-                        height="16"
+                        width="20"
+                        height="20"
                         viewBox="0 0 24 24"
                         fill="none"
                         stroke="currentColor"
@@ -57,7 +58,6 @@
                         ></path></svg
                     >
                 </span>
-                <span class="text">412-626-2332</span>
                 <span class="copied-msg hidden">Copied!</span>
             </button>
 
@@ -68,33 +68,6 @@
             >
                 hit me up!
             </a>
-        </div>
-
-        <div class="social-links">
-            <h3>Follow Me</h3>
-            <div class="social-grid">
-                <a
-                    href="https://linkedin.com/in/narayan-ashanahalli"
-                    target="_blank"
-                    class="social-btn"
-                >
-                    <span class="icon">in</span> LinkedIn
-                </a>
-                <a
-                    href="https://instagram.com"
-                    target="_blank"
-                    class="social-btn"
-                >
-                    <span class="icon">ig</span> Instagram
-                </a>
-                <a
-                    href="https://behance.net"
-                    target="_blank"
-                    class="social-btn"
-                >
-                    Behance
-                </a>
-            </div>
         </div>
     </div>
 </section>
@@ -111,9 +84,10 @@
                     // Show Feedback
                     const msg = btn.querySelector(".copied-msg");
                     msg?.classList.remove("hidden");
+                    msg?.classList.remove("hidden");
                     setTimeout(() => {
                         msg?.classList.add("hidden");
-                    }, 2000);
+                    }, 800);
                 });
             }
         });
@@ -150,6 +124,9 @@
     .contact-content {
         padding-top: var(--space-xl);
         max-width: 600px;
+        display: flex;
+        flex-direction: column;
+        width: fit-content;
     }
 
     .contact-intro {
@@ -157,13 +134,16 @@
         font-size: 1.1rem;
         margin-bottom: var(--space-lg);
         line-height: 1.6;
+        width: 0;
+        min-width: 100%;
     }
 
     .contact-actions {
         display: flex;
         flex-direction: column;
-        gap: 1rem;
-        margin-bottom: var(--space-2xl);
+        gap: 0.9rem;
+        margin-bottom: var(--space-xl);
+        width: fit-content; /* Hug the content */
     }
 
     /* Buttons */
@@ -171,12 +151,11 @@
     .action-btn {
         display: flex;
         align-items: center;
-        justify-content: center; /* Center text */
+        width: 100%; /* Fill the container */
         gap: 0.75rem;
-        width: 100%;
-        padding: 1rem;
+        padding: 1rem 1rem;
         border-radius: var(--radius-md);
-        font-size: 1rem;
+        font-size: 1.1rem;
         font-weight: 600;
         cursor: pointer;
         transition: all 0.2s ease;
@@ -184,36 +163,79 @@
         position: relative;
     }
 
-    /* Copy Buttons (Light/White style per reference) */
+    /* Copy Buttons */
     .copy-btn {
-        background: var(
-            --bg-surface
-        ); /* Dark grey or White depending on theme */
+        background: var(--bg-surface);
         border: 1px solid var(--border-subtle);
         color: var(--text-primary);
+        justify-content: center;
+        position: relative;
+        padding: 1.25rem 4rem; /* Large padding to prevent overlap with icon */
     }
 
-    /* Use white bg for contrast if mostly dark theme? Reference showed white buttons on dark bg */
-    :global([data-theme="dark"]) .copy-btn {
-        background: #ffffff;
-        color: #000000;
-        border: none;
+    .copy-btn .icon {
+        color: var(--text-muted);
+        transition: color 0.2s ease;
+        display: flex;
+        position: absolute;
+        right: 1.5rem;
+        top: 50%;
+        transform: translateY(-50%);
     }
 
     .copy-btn:hover {
         transform: translateY(-2px);
-        /* Simple hover effect */
+        border-color: var(--text-muted);
+        background: var(--bg-surface-hover);
     }
 
-    :global([data-theme="dark"]) .copy-btn:hover {
-        background: #f0f0f0;
+    .copy-btn:hover .icon {
+        color: var(--text-primary);
     }
 
-    /* Action Button (Hit me up) */
+    .copied-msg {
+        position: absolute;
+        /* Push outside to top right */
+        right: -4rem;
+        top: 1.4rem;
+
+        color: #00d34e; /* Green */
+        font-weight: 700;
+        font-size: 0.85rem;
+        pointer-events: none;
+        white-space: nowrap;
+        z-index: 10;
+
+        display: block;
+    }
+
+    .copied-msg.hidden {
+        display: none;
+    }
+
+    .copy-btn .copied-msg:not(.hidden) {
+        animation: blink-spark 0.4s cubic-bezier(0.25, 1, 0.5, 1) forwards;
+    }
+
+    @keyframes blink-spark {
+        0% {
+            opacity: 0;
+            transform: scale(0.5) translate(0, 10px);
+        }
+        50% {
+            opacity: 1;
+            transform: scale(1.1) translate(0, 0);
+        }
+        100% {
+            opacity: 1;
+            transform: scale(1);
+        }
+    }
     .action-btn.primary {
         background: transparent;
         border: 1px solid var(--border-subtle);
         color: var(--text-primary);
+        justify-content: center; /* Keep this centered */
     }
 
     .action-btn.primary:hover {
@@ -221,47 +243,7 @@
         border-color: var(--text-muted);
     }
 
-    /* Socials */
-    .social-links h3 {
-        font-size: 1.25rem;
-        margin-bottom: 1rem;
-    }
-
-    .social-grid {
-        display: flex;
-        flex-direction: column;
-        gap: 0.75rem;
-        max-width: 200px; /* Constrain width like reference */
-    }
-
-    .social-btn {
-        display: flex;
-        align-items: center;
-        gap: 0.75rem;
-        padding: 0.75rem 1rem;
-        border: 1px solid var(--border-subtle);
-        border-radius: var(--radius-md);
-        text-decoration: none;
-        color: var(--text-secondary);
-        transition: all 0.2s ease;
-        font-size: 0.95rem;
-    }
-
-    .social-btn:hover {
-        background: var(--bg-surface);
-        color: var(--text-primary);
-        border-color: var(--text-muted);
-    }
-
     .hidden {
         display: none;
-    }
-
-    .copied-msg {
-        position: absolute;
-        right: 1rem;
-        font-size: 0.8rem;
-        color: var(--accent-strategy);
-        font-weight: 700;
     }
 </style>
