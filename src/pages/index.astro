@@ -90,7 +90,7 @@ const strategyProjects = allProjects
 
 	<div class="home-content">
 		<!-- LAYER 1: HERO / INTRO -->
-		<section class="hero" id="hero">
+		<section class="hero" id="about">
 			<div class="hero-container">
 				<div class="bio-content">
 					<div class="hero-headline bio-short">
@@ -165,15 +165,15 @@ const strategyProjects = allProjects
 
 			<!-- Projects Grid -->
 			<div class="categories-wrapper">
-				<!-- 1. Tools for Thinking -->
+				<!-- 1. Product & Strategy -->
 				<CategorySection
-					title="Tools for Thinking"
-					description="I build software that helps people organize complex data and workflows."
-					id="thinking"
-					theme="logic"
+					title="Product & Strategy"
+					description="I execute complex strategies at scale, from pixels to campuses."
+					id="strategy"
+					theme="strategy"
 				>
 					{
-						thinkingProjects.map((project) => (
+						strategyProjects.map((project) => (
 							<ProjectCard
 								title={project.data.title}
 								description={project.data.description}
@@ -185,27 +185,7 @@ const strategyProjects = allProjects
 					}
 				</CategorySection>
 
-				<!-- 2. Embodied Interactions -->
-				<CategorySection
-					title="Embodied Interactions"
-					description="I give technology a physical, emotional presence."
-					id="embodied"
-					theme="embodied"
-				>
-					{
-						embodiedProjects.map((project) => (
-							<ProjectCard
-								title={project.data.title}
-								description={project.data.description}
-								tags={project.data.tags}
-								href={`/works/${project.slug}`}
-								image={project.data.heroImage}
-							/>
-						))
-					}
-				</CategorySection>
-
-				<!-- 3. Spatial Interactions -->
+				<!-- 2. Spatial Interactions -->
 				<CategorySection
 					title="Spatial Interactions"
 					description="I bridge the digital layer with the physical world."
@@ -225,15 +205,35 @@ const strategyProjects = allProjects
 					}
 				</CategorySection>
 
-				<!-- 4. Strategy -->
+				<!-- 3. Embodied Interactions -->
 				<CategorySection
-					title="Product & Strategy"
-					description="I execute complex strategies at scale, from pixels to campuses."
-					id="strategy"
-					theme="strategy"
+					title="Embodied Interactions"
+					description="I give technology a physical, emotional presence."
+					id="embodied"
+					theme="embodied"
 				>
 					{
-						strategyProjects.map((project) => (
+						embodiedProjects.map((project) => (
+							<ProjectCard
+								title={project.data.title}
+								description={project.data.description}
+								tags={project.data.tags}
+								href={`/works/${project.slug}`}
+								image={project.data.heroImage}
+							/>
+						))
+					}
+				</CategorySection>
+
+				<!-- 4. Tools for Thinking -->
+				<CategorySection
+					title="Tools for Thinking"
+					description="I build software that helps people organize complex data and workflows."
+					id="thinking"
+					theme="logic"
+				>
+					{
+						thinkingProjects.map((project) => (
 							<ProjectCard
 								title={project.data.title}
 								description={project.data.description}
@@ -271,7 +271,7 @@ const strategyProjects = allProjects
 
 	/* Hero Section */
 	.hero {
-		padding: 4rem 0 3rem; /* Adjusted padding for line placement */
+		padding: 5rem 0 3rem; /* Adjusted padding for line placement */
 		font-weight: 400;
 		font-size: 32px;
 		border-bottom: 1px solid var(--border-subtle); /* Hero Separator */
@@ -308,7 +308,7 @@ const strategyProjects = allProjects
 
 	@media (max-width: 1024px) {
 		.works-header-sticky {
-			top: 7.5rem !important; /* 120px: Clear new 56px nav position */
+			top: 5rem !important; /* 80px: Force clear fixed nav (Tablet) */
 		}
 	}
 
@@ -329,12 +329,19 @@ const strategyProjects = allProjects
 		gap: var(--space-4xl);
 	}
 
+	/* Tablet View */
+	@media (max-width: 1024px) {
+		.home-content {
+			padding: 20px;
+		}
+	}
+
 	@media (max-width: 768px) {
 		.hero-bio {
 			font-size: 32px;
 		}
 		.home-content {
-			padding: var(--space-xl) var(--space-md);
+			padding: 20px;
 		}
 	}
 
@@ -624,67 +631,101 @@ const strategyProjects = allProjects
 			// Read More Button Click
 			readMoreBtn.addEventListener("click", toggleBio);
 
-			// About Link Click
+			// Auto-Expand if URL has #about hash (on page load)
+			if (window.location.hash === "#about") {
+				if (!readMoreBtn.classList.contains("active")) {
+					// Delay slightly to ensure DOM is ready
+					setTimeout(() => {
+						toggleBio();
+					}, 100);
+				}
+			}
+
+			// About Link Click - Use Native Redirect
+			let isNavigatingToAbout = false; // Flag to prevent auto-collapse during navigation
+
 			if (navAbout) {
 				navAbout.addEventListener("click", (e) => {
 					e.preventDefault();
 
-					// 1. Scroll to Top
-					window.scrollTo({ top: 0, behavior: "smooth" });
+					// Set flag to prevent auto-collapse
+					isNavigatingToAbout = true;
 
-					// 2. Expand Bio if not already active
-					if (!readMoreBtn.classList.contains("active")) {
+					// 1. Expand Bio FIRST (before navigation)
+					if (
+						readMoreBtn &&
+						!readMoreBtn.classList.contains("active")
+					) {
 						toggleBio();
 					}
+
+					// 2. Force Native Navigation (Hard Redirect)
+					// This uses the browser's anchor behavior to jump to #about
+					window.location.href = "/#about";
 				});
 			}
-			// Auto-Collapse Logic
-			const heroSection = document.getElementById("hero");
-			if (heroSection) {
-				const observer = new IntersectionObserver(
-					(entries) => {
-						entries.forEach((entry) => {
-							// If we scrolled PAST the hero (top is negative)
-							if (
-								!entry.isIntersecting &&
-								entry.boundingClientRect.top < 0
-							) {
-								if (readMoreBtn.classList.contains("active")) {
-									// SILENT RESET
+			// Auto-Collapse Logic (Silent with Scroll Compensation)
+			window.addEventListener(
+				"scroll",
+				() => {
+					const worksSection = document.getElementById("works");
 
-									// 1. Disable Transition for instant snap
-									bioContent.style.transition = "none";
+					// Only run if Expanded AND Works section exists AND not navigating to About
+					if (
+						readMoreBtn.classList.contains("active") &&
+						worksSection &&
+						!isNavigatingToAbout
+					) {
+						const worksTop = worksSection.offsetTop;
+						const scrollY = window.scrollY;
 
-									// 2. Toggle State logic (Manual Revert)
-									readMoreBtn.classList.remove("active");
+						// Check if we have scrolled into Works (with a small buffer)
+						// If we are past the point where Works starts ...
+						if (scrollY > worksTop - 100) {
+							// 1. Measure Height Before
+							const heightBefore = bioContent.offsetHeight;
 
-									// Collapse Long
-									bioLong.style.display = "none";
-									bioLong.style.opacity = "0";
+							// 2. Collapse (Toggle State Logic - Manual Silent)
+							bioContent.style.transition = "none"; // Disable animation
 
-									// Show Short
-									bioShort.style.display = "block";
+							readMoreBtn.classList.remove("active");
+							readMoreBtn.innerText = "Read more"; // Reset text
 
-									// Reset Container Height to Auto
-									bioContent.style.height = "auto";
+							// Switch Content
+							bioLong.style.display = "none";
+							bioLong.style.opacity = "0";
+							bioShort.style.display = "block";
 
-									// 3. Cleanup
-									// Force reflow
-									void bioContent.offsetWidth;
-									// Restore transition for next interaction
-									setTimeout(() => {
-										bioContent.style.removeProperty(
-											"transition",
-										);
-									}, 50);
-								}
-							}
-						});
-					},
-					{ threshold: 0 },
-				);
-				observer.observe(heroSection);
-			}
+							// Reset Height
+							bioContent.style.height = "auto";
+
+							// 3. Measure Height After
+							// Force layout update to get new height
+							void bioContent.offsetHeight;
+							const heightAfter = bioContent.offsetHeight;
+							const diff = heightBefore - heightAfter;
+
+							// 4. Scroll Compensation (The "No Jump" Magic)
+							// We subtract the difference to keep the viewport relative to Works
+
+							// DISABLE SMOOTH SCROLLING globally to prevent glitch
+							document.documentElement.style.scrollBehavior =
+								"auto";
+
+							// Instant Jump
+							window.scrollTo(0, window.scrollY - diff);
+
+							// 5. Cleanup
+							requestAnimationFrame(() => {
+								document.documentElement.style.scrollBehavior =
+									"";
+								bioContent.style.transition = "";
+							});
+						}
+					}
+				},
+				{ passive: true },
+			);
 		}
 	});
 </script>

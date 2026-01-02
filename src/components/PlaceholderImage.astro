@@ -1,0 +1,33 @@
+---
+interface Props {
+    height?: string;
+    caption?: string;
+}
+
+const { height = "400px", caption } = Astro.props;
+---
+
+<div class="placeholder-container">
+    <div class="placeholder-box" style={`height: ${height};`}></div>
+    {caption && <p class="placeholder-caption">{caption}</p>}
+</div>
+
+<style>
+    .placeholder-container {
+        width: 100%;
+        margin-bottom: var(--space-md);
+    }
+
+    .placeholder-box {
+        width: 100%;
+        background-color: #f0f0f0; /* Light grey */
+        border-radius: var(--radius-sm);
+    }
+
+    .placeholder-caption {
+        margin-top: 0.5rem;
+        font-size: 0.875rem;
+        color: var(--text-muted);
+        font-style: italic;
+    }
+</style>

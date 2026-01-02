@@ -18,10 +18,7 @@ const { Content } = await entry.render();
 <ProjectLayout
   title={entry.data.title}
   description={entry.data.description}
-  course={entry.data.course}
-  year={entry.data.year}
-  advisor={entry.data.advisor}
-  team={entry.data.team}
+  meta={entry.data.meta}
   tags={entry.data.tags}
 >
   <!-- We need a named slot 'intro' for the description if we want to pass rich content into it.

@@ -6,30 +6,26 @@ import SidebarNavigation from "../components/SidebarNavigation.astro";
 interface Props {
     title: string;
     description?: string;
-    course?: string;
-    year?: string;
-    advisor?: string;
-    team?: string;
+    meta?: Record<string, string>; // Flexible key-value pairs
     tags?: string[];
 }
 
-const {
-    title,
-    description,
-    course,
-    year,
-    advisor,
-    team,
-    tags = [],
-} = Astro.props;
+const { title, description, meta = {}, tags = [] } = Astro.props;
+
+// Convert meta object to array for iteration
+const metaEntries = Object.entries(meta).filter(
+    ([_, value]) => value && value.trim() !== "",
+);
 
 // Standard Sections for Navigation
 const sections = [
-    { id: "about", label: "About" },
-    { id: "strategy", label: "Strategy" },
-    { id: "components", label: "Components" },
-    { id: "outcome", label: "Outcome" },
-    { id: "insights", label: "Insights" },
+    { id: "provocation", label: "why do it?" },
+    { id: "conceptualization", label: "how did i start thinking?" },
+    { id: "framing", label: "how is it structured?" },
+    { id: "composition", label: "how is it built?" },
+    { id: "mechanics", label: "how does it work?" },
+    { id: "synthesis", label: "the output" },
+    { id: "ai-augmentation", label: "AI in the workflow" },
 ];
 ---
 
@@ -58,40 +54,18 @@ const sections = [
                     )
                 }
 
-                <div class="project-meta-table">
-                    {
-                        course && (
-                            <div class="meta-row">
-                                <span class="meta-label">Course</span>
-                                <span class="meta-value">{course}</span>
-                            </div>
-                        )
-                    }
-                    {
-                        year && (
-                            <div class="meta-row">
-                                <span class="meta-label">Year</span>
-                                <span class="meta-value">{year}</span>
-                            </div>
-                        )
-                    }
-                    {
-                        advisor && (
-                            <div class="meta-row">
-                                <span class="meta-label">Advisor</span>
-                                <span class="meta-value">{advisor}</span>
-                            </div>
-                        )
-                    }
-                    {
-                        team && (
-                            <div class="meta-row">
-                                <span class="meta-label">Team</span>
-                                <span class="meta-value">{team}</span>
-                            </div>
-                        )
-                    }
-                </div>
+                {
+                    metaEntries.length > 0 && (
+                        <div class="project-meta-table">
+                            {metaEntries.map(([label, value]) => (
+                                <div class="meta-row">
+                                    <span class="meta-label">{label}</span>
+                                    <span class="meta-value">{value}</span>
+                                </div>
+                            ))}
+                        </div>
+                    )
+                }
             </div>
 
             <nav class="toc-nav">
@@ -99,7 +73,13 @@ const sections = [
                     {
                         sections.map((section) => (
                             <li>
-                                <a href={`#${section.id}`}>{section.label}</a>
+                                <a
+                                    href={`#${section.id}`}
+                                    class="toc-link"
+                                    data-target={section.id}
+                                >
+                                    {section.label}
+                                </a>
                             </li>
                         ))
                     }
@@ -120,6 +100,50 @@ const sections = [
     </article>
 </Layout>
 
+<script>
+    document.addEventListener("DOMContentLoaded", () => {
+        const tocLinks = document.querySelectorAll(".toc-link");
+        const sections = document.querySelectorAll("section.project-section");
+
+        const observerOptions = {
+            root: null,
+            rootMargin: "-20% 0px -60% 0px", // Trigger when section is near top/middle
+            threshold: 0,
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach((entry) => {
+                if (entry.isIntersecting) {
+                    const id = entry.target.getAttribute("id");
+
+                    // Remove active class from all links
+                    tocLinks.forEach((link) => {
+                        link.classList.remove("active");
+                        link.parentElement?.classList.remove("active-item");
+                    });
+
+                    // Add active class to current link
+                    if (id) {
+                        const activeLink = document.querySelector(
+                            `.toc-link[data-target="${id}"]`,
+                        );
+                        if (activeLink) {
+                            activeLink.classList.add("active");
+                            activeLink.parentElement?.classList.add(
+                                "active-item",
+                            );
+                        }
+                    }
+                }
+            });
+        }, observerOptions);
+
+        sections.forEach((section) => {
+            observer.observe(section);
+        });
+    });
+</script>
+
 <style>
     /* Sidebar Internal Styling */
     .project-sidebar-content {
@@ -127,11 +151,10 @@ const sections = [
         flex-direction: column;
         justify-content: space-between;
         height: 100%;
-        /* No padding needed here as Layout handles container padding */
+        font-family: "Inter", sans-serif;
     }
 
-    /* Allow scrolling if content is too tall? Layout handles overflow usually, 
-       but let's ensure the top part takes available space */
+    /* Allow scrolling if content is too tall */
     .sidebar-scroll-container {
         display: flex;
         flex-direction: column;
@@ -141,33 +164,33 @@ const sections = [
     .sidebar-top {
         display: flex;
         flex-direction: column;
-        gap: 0; /* Removing gap to control spacing via margins */
+        gap: 0;
     }
 
     .sidebar-project-title {
-        font-size: 18px; /* User requested 18px */
-        line-height: 1.2;
-        font-weight: 700;
-        margin-top: var(--space-lg); /* Space from back button */
-        margin-bottom: 0.35rem; /* Tight space to tags */
+        font-size: 1.125rem; /* ~18px */
+        line-height: 1.3;
+        font-weight: 600;
+        margin-top: var(--space-lg);
+        margin-bottom: 0.5rem;
+        letter-spacing: -0.01em;
     }
 
     .sidebar-tags {
         display: flex;
         flex-wrap: wrap;
         gap: 0.5rem;
-        margin-bottom: 1rem; /* Space to description */
+        margin-bottom: 1.5rem;
     }
 
     .sidebar-tags span {
-        font-size: 12px; /* User requested 12px */
+        font-size: 0.75rem; /* 12px */
         color: var(--text-muted);
         text-transform: uppercase;
         letter-spacing: 0.05em;
-        font-weight: 600;
+        font-weight: 500;
     }
 
-    /* Add bullets between tags like homepage card? */
     .sidebar-tags span:not(:last-child)::after {
         content: "•";
         margin-left: 0.5rem;
@@ -176,14 +199,14 @@ const sections = [
 
     .sidebar-project-desc {
         color: var(--text-secondary);
-        line-height: 1.5;
-        font-size: 12px; /* User requested 16px */
-        margin-bottom: 1.5rem; /* Space to metadata table */
+        line-height: 1.6;
+        font-size: 0.75rem; /* 14px */
+        margin-bottom: 2rem;
     }
 
     /* TOC STYLES */
     .toc-nav {
-        margin: var(--space-2xl) 0;
+        margin: 1rem 0;
     }
 
     .toc-nav ul {
@@ -191,20 +214,47 @@ const sections = [
         padding: 0;
         display: flex;
         flex-direction: column;
-        gap: 0.75rem;
+        gap: 6px; /* Reduced from 1rem to 6px */
+        /* Line moved to RIGHT */
+        border-right: 1px solid var(--border-subtle);
+        border-left: none;
+        margin-left: 0;
+        padding-left: 0;
+    }
+
+    .toc-nav li {
+        margin-left: 0;
+        margin-right: -1px; /* Overlap right border */
+        padding-left: 0;
+        padding-right: 1.5rem;
+        border-right: 2px solid transparent;
+        border-left: none;
+        transition: all 0.2s;
+        text-align: left;
+    }
+
+    .toc-nav li.active-item {
+        border-right-color: var(--text-primary);
     }
 
     .toc-nav a {
         color: var(--text-muted);
         text-decoration: none;
-        font-size: 1.1rem;
+        font-size: 0.75rem; /* 14px */
         transition: color 0.2s;
+        display: block;
+        font-weight: 500;
+        /* text-transform: lowercase; Removed to allow AI capitalization */
     }
 
     .toc-nav a:hover {
         color: var(--text-primary);
-        transform: translateX(4px);
-        display: inline-block;
+    }
+
+    /* Active State */
+    .toc-nav a.active {
+        color: var(--text-primary);
+        font-weight: 600;
     }
 
     /* META TABLE STYLES */
@@ -212,32 +262,34 @@ const sections = [
         display: flex;
         flex-direction: column;
         gap: var(--space-xl);
+        padding-top: 2rem;
     }
 
     .project-meta-table {
         display: flex;
         flex-direction: column;
         border-top: 1px solid var(--border-subtle);
+        padding-top: 0; /* Removed 16px padding */
     }
 
     .meta-row {
         display: grid;
-        grid-template-columns: 80px 1fr; /* Fixed Label width */
+        grid-template-columns: 100px 1fr; /* Fixed Label width, increased to prevent overlap */
         gap: 1rem;
-        padding: 0.5rem 0;
+        padding: 0.3rem 0;
         border-bottom: 1px solid var(--border-subtle);
-        font-size: 12px; /* User requested 12px */
+        font-size: 0.75rem; /* 12px */
     }
 
     .meta-label {
         font-weight: 600;
-        color: var(
-            --text-primary
-        ); /* Darker label per reference (e.g. Course) */
+        color: var(--text-primary);
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
     }
 
     .meta-value {
-        color: var(--text-secondary); /* Lighter value per reference */
+        color: var(--text-secondary);
         line-height: 1.4;
     }
 
@@ -247,14 +299,21 @@ const sections = [
 
     /* RIGHT CONTENT STYLES */
     .right-content {
-        padding: 4rem 4rem;
-        max-width: 900px;
+        padding: 6rem 6rem;
+        max-width: 1000px;
         margin: 0 auto;
+        font-family: "Inter", sans-serif;
+        scroll-behavior: smooth;
+    }
+
+    /* Ensure scroll margin for anchors so sticky headers don't cover them */
+    .right-content :global(section) {
+        scroll-margin-top: 2rem;
     }
 
     @media (max-width: 1024px) {
         .right-content {
-            padding: var(--space-md) var(--space-md);
+            padding: 20px;
         }
 
         /* Hide TOC on mobile */

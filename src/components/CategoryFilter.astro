@@ -5,16 +5,16 @@
 <div class="filter-container">
     <div class="segmented-control">
         <div class="glider"></div>
-        <a href="#thinking" class="filter-btn active" data-target="thinking">
-            Tools for Thinking
-        </a>
+        <a href="#strategy" class="filter-btn active" data-target="strategy"
+            >Strategy</a
+        >
+        <a href="#spatial" class="filter-btn" data-target="spatial">Spatial</a>
         <a href="#embodied" class="filter-btn" data-target="embodied"
             >Embodied</a
         >
-        <a href="#spatial" class="filter-btn" data-target="spatial">Spatial</a>
-        <a href="#strategy" class="filter-btn" data-target="strategy"
-            >Strategy</a
-        >
+        <a href="#thinking" class="filter-btn" data-target="thinking">
+            Tools for Thinking
+        </a>
     </div>
 </div>
 
@@ -158,8 +158,8 @@
 
             let currentId = "";
 
-            // Targets: #thinking, #embodied, #spatial, #strategy
-            const targets = ["thinking", "embodied", "spatial", "strategy"];
+            // Targets: "strategy", "spatial", "embodied", "thinking"
+            const targets = ["strategy", "spatial", "embodied", "thinking"];
 
             // Loop to find the active section
             // We want the LAST section that has its top ABOVE the cutoff line.
@@ -174,9 +174,9 @@
                         currentId = id;
                     }
 
-                    // Visibility Logic: Hide filter when halfway through "strategy"
-                    if (id === "strategy" && container) {
-                        // If strategy section is scrolled more than 50% past the top
+                    // Visibility Logic: Hide filter when halfway through "thinking" (last item)
+                    if (id === "thinking" && container) {
+                        // If thinking section is scrolled more than 50% past the top
                         if (rect.top < -(rect.height * 0.5)) {
                             container.classList.add("fade-out");
                         } else {
