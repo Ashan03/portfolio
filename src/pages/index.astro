@@ -94,20 +94,16 @@ const strategyProjects = allProjects
 			<div class="hero-container">
 				<div class="bio-content">
 					<div class="hero-headline bio-short">
-						I’m Narayan, a designer and graduate student at Carnegie
-						Mellon University, focused on building <span
+						I’m Narayan, a Product Designer and graduate student at
+						Carnegie Mellon University focused on building playful
+						human-human and human-machine interactions. With a
+						foundation in architecture, I use <span
 							class="highlight"
-							><span class="u-item">playful human-human</span> & <span
-								class="u-item">human-machine interactions</span
-							></span
-						> through AI augmented prototyping with <span
-							class="highlight"
-							><span class="u-item">sensing</span>, <span
-								class="u-item">data</span
-							>, and <span class="u-item"
-								>tangible interfaces</span
-							>.</span
-						>
+							><span class="u-item">systems thinking</span></span
+						> and <span class="highlight"
+							><span class="u-item">rapid prototyping</span></span
+						> to create digital products that feel responsive and grounded
+						in existing ecosystems.
 					</div>
 					<div class="hero-headline bio-long">
 						<div class="bio-text">
@@ -133,7 +129,11 @@ const strategyProjects = allProjects
 					</div>
 				</div>
 				<div class="hero-actions">
-					<a href="/cv.pdf" class="action-link">CV</a>
+					<a
+						href="https://drive.google.com/file/d/1z9FwSv_cy2_RxAijZzFVZaNBnRlbI5rQ/view?usp=sharing"
+						target="_blank"
+						class="action-link">CV</a
+					>
 					<button id="read-more-btn" class="action-link read-more">
 						Read more
 						<svg
@@ -164,87 +164,85 @@ const strategyProjects = allProjects
 			</div>
 
 			<!-- Projects Grid -->
-			<div class="categories-wrapper">
-				<!-- 1. Product & Strategy -->
-				<CategorySection
-					title="Product & Strategy"
-					description="I execute complex strategies at scale, from pixels to campuses."
-					id="strategy"
-					theme="strategy"
-				>
-					{
-						strategyProjects.map((project) => (
-							<ProjectCard
-								title={project.data.title}
-								description={project.data.description}
-								tags={project.data.tags}
-								href={`/works/${project.slug}`}
-								image={project.data.heroImage}
-							/>
-						))
-					}
-				</CategorySection>
+			<!-- 1. Tools for Thinking -->
+			<CategorySection
+				title="Tools for Thinking"
+				description="Software that helps people organize complex data and workflows."
+				id="thinking"
+				id="thinking"
+			>
+				{
+					thinkingProjects.map((project) => (
+						<ProjectCard
+							title={project.data.title}
+							description={project.data.description}
+							tags={project.data.tags}
+							href={`/works/${project.slug}`}
+							image={project.data.heroImage}
+						/>
+					))
+				}
+			</CategorySection>
 
-				<!-- 2. Spatial Interactions -->
-				<CategorySection
-					title="Spatial Interactions"
-					description="I bridge the digital layer with the physical world."
-					id="spatial"
-					theme="spatial"
-				>
-					{
-						spatialProjects.map((project) => (
-							<ProjectCard
-								title={project.data.title}
-								description={project.data.description}
-								tags={project.data.tags}
-								href={`/works/${project.slug}`}
-								image={project.data.heroImage}
-							/>
-						))
-					}
-				</CategorySection>
+			<!-- 2. Spatial Interactions -->
+			<CategorySection
+				title="Spatial Interactions"
+				description="Bridging the digital layer with the physical world."
+				id="spatial"
+				id="spatial"
+			>
+				{
+					spatialProjects.map((project) => (
+						<ProjectCard
+							title={project.data.title}
+							description={project.data.description}
+							tags={project.data.tags}
+							href={`/works/${project.slug}`}
+							image={project.data.heroImage}
+						/>
+					))
+				}
+			</CategorySection>
 
-				<!-- 3. Embodied Interactions -->
-				<CategorySection
-					title="Embodied Interactions"
-					description="I give technology a physical, emotional presence."
-					id="embodied"
-					theme="embodied"
-				>
-					{
-						embodiedProjects.map((project) => (
-							<ProjectCard
-								title={project.data.title}
-								description={project.data.description}
-								tags={project.data.tags}
-								href={`/works/${project.slug}`}
-								image={project.data.heroImage}
-							/>
-						))
-					}
-				</CategorySection>
+			<!-- 3. Tangible Interactions -->
+			<CategorySection
+				title="Tangible Interactions"
+				description="Giving technology a physical, emotional presence."
+				id="embodied"
+				id="embodied"
+			>
+				{
+					embodiedProjects.map((project) => (
+						<ProjectCard
+							title={project.data.title}
+							description={project.data.description}
+							tags={project.data.tags}
+							href={`/works/${project.slug}`}
+							image={project.data.heroImage}
+						/>
+					))
+				}
+			</CategorySection>
 
-				<!-- 4. Tools for Thinking -->
-				<CategorySection
-					title="Tools for Thinking"
-					description="I build software that helps people organize complex data and workflows."
-					id="thinking"
-					theme="logic"
-				>
-					{
-						thinkingProjects.map((project) => (
-							<ProjectCard
-								title={project.data.title}
-								description={project.data.description}
-								tags={project.data.tags}
-								href={`/works/${project.slug}`}
-								image={project.data.heroImage}
-							/>
-						))
-					}
-				</CategorySection>
-			</div>
+			<!-- 4. Design Strategy -->
+			<CategorySection
+				title="Design Strategy"
+				description="Strategic systems at scale, from pixels to campuses."
+				id="strategy"
+				id="strategy"
+			>
+				{
+					strategyProjects.map((project) => (
+						<ProjectCard
+							title={project.data.title}
+							description={project.data.description}
+							tags={project.data.tags}
+							href={`/works/${project.slug}`}
+							image={project.data.heroImage}
+						/>
+					))
+				}
+			</CategorySection>
 		</section>
 
 		<!-- LAYER 3: CONTACT -->
@@ -524,7 +522,7 @@ const strategyProjects = allProjects
 	}
 
 	.action-link:hover {
-		color: var(--text-primary);
+		color: var(--accent-secondary);
 	}
 
 	/* Underline Animation */
@@ -535,7 +533,7 @@ const strategyProjects = allProjects
 		left: 0;
 		width: 100%;
 		height: 1px;
-		background-color: var(--text-primary);
+		background-color: var(--accent-secondary);
 		transform: scaleX(0);
 		transform-origin: right;
 		transition: transform 0.3s ease;

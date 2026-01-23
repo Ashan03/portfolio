@@ -38,13 +38,21 @@ const { title, description, image, tags = [], href = "#" } = Astro.props;
         border-radius: var(--radius-md);
         padding: 1.25rem;
         transition:
-            border-color 0.2s ease,
-            background-color 0.2s ease;
+            border-color 0.3s ease,
+            background-color 0.3s ease,
+            box-shadow 0.3s ease,
+            transform 0.3s ease;
     }
 
     .project-card:hover {
-        border-color: var(--border-focus);
+        /* User Requirement: "Green Border (Interaction/Select)" -> "Green Outer Glow" */
+        border-color: var(--border-subtle); /* Keep border neutral */
         background: var(--bg-surface-hover);
+        /* Green Glow */
+        box-shadow:
+            0 0 20px rgba(66, 189, 73, 0.15),
+            0 0 4px rgba(66, 189, 73, 0.1);
+        transform: translateY(-1px); /* Subtle lift */
     }
 
     .card-image {

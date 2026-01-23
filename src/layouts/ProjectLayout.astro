@@ -19,13 +19,12 @@ const metaEntries = Object.entries(meta).filter(
 
 // Standard Sections for Navigation
 const sections = [
-    { id: "provocation", label: "why do it?" },
-    { id: "conceptualization", label: "how did i start thinking?" },
-    { id: "framing", label: "how is it structured?" },
-    { id: "composition", label: "how is it built?" },
-    { id: "mechanics", label: "how does it work?" },
-    { id: "synthesis", label: "the output" },
-    { id: "ai-augmentation", label: "AI in the workflow" },
+    { id: "problem-opportunity", label: "Why build it?" },
+    { id: "approach", label: "What's the approach?" },
+    { id: "interaction-model", label: "How does it work?" },
+    { id: "implementation", label: "How is it built?" },
+    { id: "outcome", label: "What's the outcome?" },
+    { id: "reflection", label: "What I have learned" },
 ];
 ---
 
@@ -234,7 +233,7 @@ const sections = [
     }
 
     .toc-nav li.active-item {
-        border-right-color: var(--text-primary);
+        border-right-color: var(--accent-secondary);
     }
 
     .toc-nav a {

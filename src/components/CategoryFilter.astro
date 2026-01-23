@@ -5,16 +5,16 @@
 <div class="filter-container">
     <div class="segmented-control">
         <div class="glider"></div>
-        <a href="#strategy" class="filter-btn active" data-target="strategy"
-            >Strategy</a
-        >
-        <a href="#spatial" class="filter-btn" data-target="spatial">Spatial</a>
-        <a href="#embodied" class="filter-btn" data-target="embodied"
-            >Embodied</a
-        >
-        <a href="#thinking" class="filter-btn" data-target="thinking">
+        <a href="#thinking" class="filter-btn active" data-target="thinking">
             Tools for Thinking
         </a>
+        <a href="#spatial" class="filter-btn" data-target="spatial">Spatial</a>
+        <a href="#embodied" class="filter-btn" data-target="embodied"
+            >Tangible</a
+        >
+        <a href="#strategy" class="filter-btn" data-target="strategy"
+            >Strategy</a
+        >
     </div>
 </div>
 
@@ -75,7 +75,7 @@
     }
 
     .filter-btn:hover {
-        color: var(--text-primary);
+        color: var(--accent-secondary);
     }
 
     /* When active, make text contrast with the glider (which is text-primary color) */
@@ -158,8 +158,8 @@
 
             let currentId = "";
 
-            // Targets: "strategy", "spatial", "embodied", "thinking"
-            const targets = ["strategy", "spatial", "embodied", "thinking"];
+            // Targets: "thinking", "spatial", "embodied", "strategy"
+            const targets = ["thinking", "spatial", "embodied", "strategy"];
 
             // Loop to find the active section
             // We want the LAST section that has its top ABOVE the cutoff line.
@@ -174,8 +174,8 @@
                         currentId = id;
                     }
 
-                    // Visibility Logic: Hide filter when halfway through "thinking" (last item)
-                    if (id === "thinking" && container) {
+                    // Visibility Logic: Hide filter when halfway through "strategy" (last item)
+                    if (id === "strategy" && container) {
                         // If thinking section is scrolled more than 50% past the top
                         if (rect.top < -(rect.height * 0.5)) {
                             container.classList.add("fade-out");

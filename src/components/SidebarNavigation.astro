@@ -12,10 +12,10 @@ const { title, isHome = false } = Astro.props;
 const allProjects = await getCollection("projects");
 
 const categories = [
-    { id: "strategy", label: "Product & Strategy" },
-    { id: "spatial", label: "Spatial Interactions" },
-    { id: "embodied", label: "Embodied Interactions" },
     { id: "thinking", label: "Tools for Thinking" },
+    { id: "spatial", label: "Spatial Interactions" },
+    { id: "embodied", label: "Tangible Interactions" },
+    { id: "strategy", label: "Design Strategy" },
 ];
 
 const projectsByCategory = categories.map((cat) => ({
@@ -495,7 +495,7 @@ const projectsByCategory = categories.map((cat) => ({
     }
 
     .link-item:hover {
-        color: var(--text-primary);
+        color: var(--accent-secondary);
     }
 
     .logo {
@@ -587,7 +587,7 @@ const projectsByCategory = categories.map((cat) => ({
     
     .single-action:hover {
         background: var(--bg-surface-hover);
-        color: var(--text-primary);
+        color: var(--accent-secondary);
     }
 
     .tree-icon {
@@ -633,7 +633,7 @@ const projectsByCategory = categories.map((cat) => ({
     
     .split-link:hover {
         background: var(--bg-surface-hover);
-        color: var(--text-primary);
+        color: var(--accent-secondary);
     }
     
     .toggle-container {

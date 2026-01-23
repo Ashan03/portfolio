@@ -3,25 +3,15 @@ interface Props {
     title: string;
     id: string;
     description?: string;
-    theme?: "logic" | "embodied" | "spatial" | "strategy";
 }
 
-const { title, id, description, theme = "logic" } = Astro.props;
-
-const themeColors = {
-    logic: "var(--accent-logic)",
-    embodied: "var(--accent-embodied)",
-    spatial: "var(--accent-spatial)",
-    strategy: "var(--accent-strategy)",
-};
-
-const accentColor = themeColors[theme];
+const { title, id, description } = Astro.props;
 ---
 
 <section id={id} class="category-section">
     <div class="container">
         <div class="category-header">
-            <h2 class="category-title" style={`--accent: ${accentColor}`}>
+            <h2 class="category-title">
                 {title}
             </h2>
             {description && <p class="category-description">{description}</p>}
@@ -61,7 +51,13 @@ const accentColor = themeColors[theme];
 
     .projects-grid {
         display: grid;
-        grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+        grid-template-columns: repeat(2, 1fr);
         gap: 1.25rem;
+    }
+
+    @media (max-width: 768px) {
+        .projects-grid {
+            grid-template-columns: 1fr;
+        }
     }
 </style>

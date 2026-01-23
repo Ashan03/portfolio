@@ -1,5 +1,6 @@
 ---
 import "../styles/global.css";
+import CustomCursor from "../components/CustomCursor.astro";
 
 interface Props {
 	title: string;
@@ -39,6 +40,7 @@ const { title, description = "Design Technologist Portfolio" } = Astro.props;
 		<title>{title}</title>
 	</head>
 	<body>
+		<CustomCursor />
 		<div class="universal-layout">
 			<!-- Sidebar Slot (Universal Left) -->
 			<aside class="layout-sidebar">
@@ -61,6 +63,14 @@ const { title, description = "Design Technologist Portfolio" } = Astro.props;
 		min-height: 100vh;
 		background: var(--bg-primary);
 		color: var(--text-primary);
+		cursor: none; /* Hide default cursor */
+	}
+
+	/* Ensure links also don't show cursor */
+	a,
+	button,
+	[role="button"] {
+		cursor: none !important;
 	}
 
 	.universal-layout {
@@ -100,5 +110,9 @@ const { title, description = "Design Technologist Portfolio" } = Astro.props;
 			display: block;
 			padding-bottom: 20px; /* Force 20px update */
 		}
+
+		/* Show default cursor on mobile/touch devices if needed, 
+           though 'cursor: none' is usually fine as they don't have a cursor. 
+           But if a mouse is connected to iPad: */
 	}
 </style>

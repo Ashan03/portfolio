@@ -18,53 +18,52 @@
   --radius-full: 9999px;
 
   /* Theme: Dark (Default) */
-  --bg-primary: #0a0a0a;
-  --bg-surface: #171717;
-  --bg-surface-hover: #262626;
+  --bg-primary: #282828;
+  --bg-surface: #333333;
+  --bg-surface-hover: #3d3d3d;
 
-  --text-primary: #f5f5f5;
-  --text-secondary: #919191;
-  --text-muted: #525252;
+  --text-primary: #DADDD0;
+  --text-secondary: #A0A0A0;
+  /* Soft grey for secondary text */
+  --text-muted: #6e6e6e;
 
-  --border-subtle: rgba(255, 255, 255, 0.08);
-  --border-focus: rgba(255, 255, 255, 0.2);
+  --border-subtle: rgba(218, 221, 208, 0.1);
+  --border-focus: rgba(218, 221, 208, 0.25);
 
-  --bg-glass: rgba(10, 10, 10, 0.7);
-  --text-highlight: #e5e5e5;
+  --bg-glass: rgba(40, 40, 40, 0.8);
+  --text-highlight: #ffffff;
 
-  /* Identity Colors */
-  --accent-logic: #0ea5e9;
-  /* Stronger Blue */
-  --accent-embodied: #ec4899;
-  /* Stronger Pink */
-  --accent-spatial: #14b8a6;
-  /* Stronger Teal */
-  --accent-strategy: #f59e0b;
-  /* Stronger Amber */
+  /* Accents */
+  --accent-primary: #364CE4;
+  /* Blue */
+  --accent-secondary: #42BD49;
+  /* Green */
+
+
+
+
 }
 
 /* Theme: Light */
 [data-theme="light"] {
-  --bg-primary: #ffffff;
-  --bg-surface: #f5f5f5;
-  --bg-surface-hover: #e5e5e5;
+  --bg-primary: #DADDD0;
+  --bg-surface: #E6E8E0;
+  /* Slightly lighter/cleaner surface */
+  --bg-surface-hover: #F0F2EA;
 
-  --text-primary: #171717;
+  --text-primary: #282828;
   --text-secondary: #525252;
-  --text-muted: #a3a3a3;
+  --text-muted: #737373;
 
-  --border-subtle: rgba(0, 0, 0, 0.08);
-  --border-focus: rgba(0, 0, 0, 0.2);
+  --border-subtle: rgba(40, 40, 40, 0.08);
+  --border-focus: rgba(40, 40, 40, 0.2);
 
-  --bg-glass: rgba(255, 255, 255, 0.85);
-  --text-highlight: #404040;
-
-  /* Identity Colors (Adjusted for Light) */
-  --accent-logic: #0284c7;
-  --accent-embodied: #db2777;
-  --accent-spatial: #0d9488;
-  --accent-strategy: #d97706;
+  --bg-glass: rgba(218, 221, 208, 0.85);
+  --text-highlight: #000000;
 }
+
+
+
 
 * {
   box-sizing: border-box;
@@ -134,17 +133,7 @@ h3 {
   font-size: 1.25rem;
 }
 
-.text-gradient-logic {
-  background: linear-gradient(135deg, var(--accent-logic), var(--accent-logic-dim, #60a5fa));
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-}
 
-.text-gradient-embodied {
-  background: linear-gradient(135deg, var(--accent-embodied), var(--accent-embodied-dim, #f472b6));
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-}
 
 @media (max-width: 768px) {
   h1 {

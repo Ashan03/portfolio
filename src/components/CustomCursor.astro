@@ -1,0 +1,180 @@
+---
+
+---
+
+<div id="custom-cursor" class="cursor-wrapper">
+    <!-- Figma Cursor SVG (Arrow) -->
+    <svg
+        width="24"
+        height="24"
+        viewBox="0 0 24 24"
+        fill="none"
+        xmlns="http://www.w3.org/2000/svg"
+        class="cursor-icon arrow-icon"
+    >
+        <path
+            d="M5.65376 12.3673H5.46026L5.31717 12.4976L0.500002 16.8829L0.500002 1.19841L11.7841 12.3673H5.65376Z"
+            fill="var(--accent-primary)"
+            stroke="white"
+            stroke-width="2"
+            stroke-linejoin="round"
+            stroke-linecap="round"></path>
+    </svg>
+
+    <!-- Hand SVG for Interactive State -->
+    <svg
+        width="24"
+        height="24"
+        viewBox="0 0 24 24"
+        fill="none"
+        xmlns="http://www.w3.org/2000/svg"
+        class="cursor-icon hand-icon"
+        style="display: none;"
+    >
+        <path
+            fill="var(--accent-primary)"
+            stroke="white"
+            stroke-width="2"
+            stroke-linejoin="round"
+            d="M10 24.5C10 24.5 14.053 25 15.5 22C16.947 19 22 13 22 12C22 11 21 10.5 20.5 10.5C20 10.5 16.5 12 16.5 12L17.5 7.5C17.5 7.5 17.5 6 16 6C14.5 6 13.5 8 13 9L12 6.5C12 6.5 11.5 4.5 10 4.5C8.5 4.5 8 6.5 8 7V5.5C8 5.5 7.5 3.5 6 3.5C4.5 3.5 4 5.5 4 6V11L1.5 13.5C1.5 13.5 0 15 1.5 17C3 19 6 20.5 6 20.5L6.5 24.5H10Z"
+            transform="scale(0.8) translate(3, 3)"></path>
+    </svg>
+
+    <!-- Label -->
+    <div class="cursor-label">You</div>
+</div>
+
+<style>
+    .cursor-wrapper {
+        position: fixed;
+        top: 0;
+        left: 0;
+        z-index: 9999;
+        pointer-events: none;
+        will-change: transform;
+        opacity: 0;
+        transition: opacity 0.2s ease;
+        margin-top: -3px;
+        margin-left: -3px;
+        filter: drop-shadow(0 4px 6px rgba(0, 0, 0, 0.25));
+    }
+
+    .cursor-icon {
+        position: relative;
+        z-index: 2;
+        transform-origin: 2px 2px;
+        transform: rotate(-15deg); /* Match arrow rotation */
+    }
+
+    .hand-icon {
+        transform: rotate(0deg) scale(1.1); /* Hand usually upright */
+        margin-top: -2px;
+    }
+
+    .cursor-label {
+        position: absolute;
+        /* Tighter spacing implementation */
+        top: 18px;
+        left: 14px;
+        background: var(--accent-primary);
+        color: white;
+        padding: 4px 8px;
+        border-radius: 6px;
+        border-top-left-radius: 0;
+        font-size: 13px;
+        font-weight: 500;
+        white-space: nowrap;
+        line-height: 1;
+        transition: transform 0.2s ease;
+    }
+
+    /* Interactive State */
+    .cursor-wrapper.interactive .arrow-icon {
+        display: none;
+    }
+    .cursor-wrapper.interactive .hand-icon {
+        display: block;
+    }
+
+    /* Green Hand Icon */
+    .cursor-wrapper.interactive .hand-icon path {
+        fill: var(--accent-secondary); /* Green Fill */
+        /* Stick with white stroke for consistency or switch? 
+           User asked to "use green", implying the main color. 
+           Keeping white stroke ensures it stands out on dark backgrounds too. */
+    }
+
+    .cursor-wrapper.interactive .cursor-label {
+        /* Adjust label for hand position */
+        top: 22px;
+        left: 10px;
+        background: var(--accent-secondary); /* Green Background */
+    }
+
+    /* Click Animation (Scale Children) */
+    .cursor-wrapper.clicking .cursor-icon,
+    .cursor-wrapper.clicking .cursor-label {
+        transform: scale(0.9);
+    }
+    /* We need to preserve the rotation on the arrow when scaling */
+    .cursor-wrapper.clicking .arrow-icon {
+        transform: rotate(-15deg) scale(0.9);
+    }
+    .cursor-wrapper.clicking .hand-icon {
+        transform: rotate(0deg) scale(0.9);
+    }
+</style>
+
+<script>
+    const cursor = document.getElementById("custom-cursor");
+    const cursorWrapper = document.querySelector(".cursor-wrapper");
+
+    if (cursor && cursorWrapper) {
+        let isVisible = false;
+
+        document.addEventListener("mousemove", (e) => {
+            if (!isVisible) {
+                cursor.style.opacity = "1";
+                isVisible = true;
+            }
+            cursor.style.transform = `translate3d(${e.clientX}px, ${e.clientY}px, 0)`;
+        });
+
+        document.addEventListener("mouseout", () => {
+            cursor.style.opacity = "0";
+            isVisible = false;
+        });
+
+        document.addEventListener("mouseover", () => {
+            if (!isVisible) {
+                cursor.style.opacity = "1";
+                isVisible = true;
+            }
+        });
+
+        // Interactive Elements Hover
+        const interactiveSelectors =
+            'a, button, [role="button"], input, select, textarea, .folder-trigger';
+
+        document.addEventListener("mouseover", (e) => {
+            if ((e.target as HTMLElement).closest(interactiveSelectors)) {
+                cursorWrapper.classList.add("interactive");
+            }
+        });
+
+        document.addEventListener("mouseout", (e) => {
+            if ((e.target as HTMLElement).closest(interactiveSelectors)) {
+                cursorWrapper.classList.remove("interactive");
+            }
+        });
+
+        // Click animation via Class
+        document.addEventListener("mousedown", () => {
+            cursorWrapper.classList.add("clicking");
+        });
+
+        document.addEventListener("mouseup", () => {
+            cursorWrapper.classList.remove("clicking");
+        });
+    }
+</script>

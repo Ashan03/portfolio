@@ -2,6 +2,7 @@
 title: "DAG"
 description: "Transforming messy design text into structured dependency graphs."
 category: "thinking"
+order: 2
 heroImage: ""
 tags: ["Information Architecture", "Graph"]
 meta:
@@ -25,22 +26,19 @@ import PlaceholderImage from '../../components/PlaceholderImage.astro';
     <p>DAG tools help designers transform messy, unstructured design text and requirements into structured dependency graphs, enabling better visualization of complex systems.</p>
 </div>
 
-<ProjectSection title="PROVOCATION" id="provocation">
+<ProjectSection title="Problem & Opportunity" id="problem-opportunity">
     <p>In complex design systems, understanding dependencies is crucial but often obscured by messy documentation. This project explores how we can transform unstructured text into clear, visual graphs to reveal hidden connections.</p>
     <PlaceholderImage height="400px" caption="Initial sketches of dependency chaos" />
 </ProjectSection>
 
-<ProjectSection title="CONCEPTUALIZATION" id="conceptualization">
+<ProjectSection title="Approach" id="approach">
     <p>The concept emerged from observing designers struggle with "dependency hell" in large projects. I began by sketching metaphors of networks and flow, looking for ways to make abstract relationships tangible.</p>
     <PlaceholderImage height="300px" />
-</ProjectSection>
-
-<ProjectSection title="FRAMING" id="framing">
     <p>I framed the problem as an translation challenge: converting linear, ambiguous text into spatial, deterministic nodes. This required a strict ontology for what constitutes a "dependency."</p>
     <PlaceholderImage height="250px" caption="Ontology mapping diagram" />
 </ProjectSection>
 
-<ProjectSection title="COMPOSITION" id="composition">
+<ProjectSection title="Implementation" id="implementation">
     <p>The system is built using a combination of NLP parsing and force-directed graph rendering. The core engine analyzes text for causal keywords ("depends on", "requires", "blocks") and constructs an adjacency matrix.</p>
     <div class="grid-2">
         <PlaceholderImage height="300px" />
@@ -48,17 +46,17 @@ import PlaceholderImage from '../../components/PlaceholderImage.astro';
     </div>
 </ProjectSection>
 
-<ProjectSection title="MECHANICS" id="mechanics">
+<ProjectSection title="Interaction Model/UX" id="interaction-model">
     <p>Users simply paste their documentation. The tool instantly visualizes the graph. Interactive nodes allow for filtering and "what-if" analysis, showing the ripple effects of potential changes.</p>
     <PlaceholderImage height="500px" caption="Interactive graph interface" />
 </ProjectSection>
 
-<ProjectSection title="SYNTHESIS" id="synthesis">
+<ProjectSection title="Outcome" id="outcome">
     <p>The output is a live, navigable map of the project's logic. It highlights critical paths, circular dependencies, and orphaned requirements, giving teams immediate actionable insights.</p>
     <PlaceholderImage height="400px" />
 </ProjectSection>
 
-<ProjectSection title="AI AUGMENTATION" id="ai-augmentation">
+<ProjectSection title="Reflection" id="reflection">
     <p>I used AI not just for the final parsing, but throughout the process to simulate user data and stress-test the visualization with complex, generated scenarios. This allowed for rapid iteration on the graph physics.</p>
     <PlaceholderImage height="350px" caption="AI simulation results" />
 </ProjectSection>

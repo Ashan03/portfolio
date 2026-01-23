@@ -182,12 +182,14 @@
 
     .copy-btn:hover {
         transform: translateY(-2px);
-        border-color: var(--text-muted);
-        background: var(--bg-surface-hover);
+        border-color: var(--accent-secondary);
+        background: var(--accent-secondary); /* Solid Green */
+        color: #000000; /* Black text for accessibility (Contrast 8.7:1) */
+        box-shadow: 0 4px 12px rgba(66, 189, 73, 0.3); /* Glow */
     }
 
     .copy-btn:hover .icon {
-        color: var(--text-primary);
+        color: #000000;
     }
 
     .copied-msg {
@@ -196,7 +198,7 @@
         right: -4rem;
         top: 1.4rem;
 
-        color: #00d34e; /* Green (Dark Mode) */
+        color: var(--accent-secondary); /* Use theme green */
         font-weight: 700;
         font-size: 0.85rem;
         pointer-events: none;
@@ -207,7 +209,7 @@
     }
 
     :global([data-theme="light"]) .copied-msg {
-        color: #00bc2f;
+        color: var(--accent-secondary);
     }
 
     .copied-msg.hidden {
@@ -240,8 +242,10 @@
     }
 
     .action-btn.primary:hover {
-        background: var(--bg-surface-hover);
-        border-color: var(--text-muted);
+        background: var(--accent-secondary);
+        border-color: var(--accent-secondary);
+        color: #000000;
+        box-shadow: 0 4px 12px rgba(66, 189, 73, 0.3);
     }
 
     .hidden {
