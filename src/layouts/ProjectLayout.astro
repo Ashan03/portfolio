@@ -368,11 +368,16 @@ const sections = [
 
     /* RIGHT CONTENT STYLES (Hero Section) */
     .right-content {
-        padding: 4rem 3rem;
+        padding: 4rem; /* 64px equal on all sides */
         max-width: none; /* Use full available width */
         margin: 0;
         font-family: "Public Sans", sans-serif;
         scroll-behavior: smooth;
+    }
+
+    /* Remove redundant top margin from first element (Hero Image usually) */
+    .right-content > :global(:first-child) {
+        margin-top: 0 !important;
     }
 
     /* Ensure scroll margin for anchors so sticky headers don't cover them */

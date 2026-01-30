@@ -3,7 +3,7 @@ title: "Dot Threads"
 description: "Spatial knowledge management for researchers who think in connections, not folders"
 category: "thinking"
 order: 1
-heroImage: ""
+heroImage: "/assets/projects/dot-threads/hero.png"
 tags: ["Knowledge Management", "Canvas", "Browser Extension"]
 meta:
   Role: "Product Designer"
@@ -17,8 +17,9 @@ ctaText: "Try the extension out"
 
 import ProjectSection from '../../components/ProjectSection.astro';
 import FullWidthImage from '../../components/FullWidthImage.astro';
+import ImageSlider from '/src/components/ImageSlider.astro';
 
-<FullWidthImage height="500px" caption="Hero Image: Polished screenshot of the spatial canvas with dots connected by threads" />
+<FullWidthImage src="/assets/projects/dot-threads/hero.png" height="500px" caption="Hero Image: Polished screenshot of the spatial canvas with dots connected by threads" />
 
 <div slot="intro">
     <p>
@@ -27,7 +28,6 @@ import FullWidthImage from '../../components/FullWidthImage.astro';
 </div>
 
 <ProjectSection title="The Problem" id="problem-opportunity">
-    <h3>The Problem</h3>
     <p>
         Research doesn't happen in folders. It happens in webs of connected ideas.
     </p>
@@ -36,7 +36,12 @@ import FullWidthImage from '../../components/FullWidthImage.astro';
     </p>
 </ProjectSection>
 
-<FullWidthImage height="400px" caption="Before state - messy browser bookmarks in nested folders with arrows showing the chaos" />
+<ImageSlider 
+    slides={[
+        { src: "/assets/projects/dot-threads/problem.gif", alt: "Problem: Messy bookmarks", label: "The Problem" },
+        { src: "/assets/projects/dot-threads/opportunity.gif", alt: "Opportunity: Spatial Connections", label: "The Opportunity" }
+    ]}
+/>
 
 <ProjectSection title="The Problem" id="problem-opportunity-cont" hideTitle={true} group="problem-opportunity">
     <p>
