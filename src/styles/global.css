@@ -144,3 +144,20 @@ h3 {
     font-size: 1.75rem;
   }
 }
+
+/* Global Cursor Override for Text Selection */
+p,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+span,
+li,
+blockquote,
+dt,
+dd,
+figcaption {
+  cursor: text;
+}

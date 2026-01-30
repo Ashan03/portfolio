@@ -131,41 +131,70 @@
 
     if (cursor && cursorWrapper) {
         let isVisible = false;
+        let isTextHover = false;
 
-        document.addEventListener("mousemove", (e) => {
-            if (!isVisible) {
+        // Interactive Elements
+        const interactiveSelectors =
+            'a, button, [role="button"], input, select, textarea, .folder-trigger';
+        // Text Elements that should show I-beam
+        const textSelectors =
+            "p, h1, h2, h3, h4, h5, h6, span, li, blockquote, dt, dd, figcaption";
+
+        const updateCursorState = (e: MouseEvent) => {
+            const target = e.target as HTMLElement;
+            const interactive = target.closest(interactiveSelectors);
+            const text = target.closest(textSelectors);
+
+            // Priority: Interactive > Text > Default
+            if (interactive) {
+                cursorWrapper.classList.add("interactive");
+                isTextHover = false;
+                // Ensure opacity is 1 if it was hidden by text
+                if (isVisible) cursor.style.opacity = "1";
+            } else {
+                cursorWrapper.classList.remove("interactive");
+                if (text) {
+                    isTextHover = true;
+                    cursor.style.opacity = "0"; // Hide custom cursor
+                } else {
+                    isTextHover = false;
+                    if (isVisible) cursor.style.opacity = "1"; // Show custom cursor
+                }
+            }
+        };
+
+        document.addEventListener("mousemove", (e: MouseEvent) => {
+            // If we haven't set visibility yet
+            if (!isVisible && !isTextHover) {
                 cursor.style.opacity = "1";
                 isVisible = true;
             }
+
+            // If hovering text, keep it hidden (or hide it if it appeared)
+            if (isTextHover) {
+                cursor.style.opacity = "0";
+            }
+
             cursor.style.transform = `translate3d(${e.clientX}px, ${e.clientY}px, 0)`;
+
+            // Check state on move to be responsive (optional, mouseover usually catches it,
+            // but sometimes moving between elements doesn't trigger if nested weirdly?
+            // Actually mouseover is better for performance. Let's trust mouseover/out.)
         });
 
         document.addEventListener("mouseout", () => {
             cursor.style.opacity = "0";
             isVisible = false;
+            isTextHover = false; // Reset text hover state on mouseout of document
+            cursorWrapper.classList.remove("interactive"); // Also remove interactive state
         });
 
-        document.addEventListener("mouseover", () => {
-            if (!isVisible) {
+        document.addEventListener("mouseover", (e: MouseEvent) => {
+            if (!isVisible && !isTextHover) {
                 cursor.style.opacity = "1";
                 isVisible = true;
             }
-        });
-
-        // Interactive Elements Hover
-        const interactiveSelectors =
-            'a, button, [role="button"], input, select, textarea, .folder-trigger';
-
-        document.addEventListener("mouseover", (e) => {
-            if ((e.target as HTMLElement).closest(interactiveSelectors)) {
-                cursorWrapper.classList.add("interactive");
-            }
-        });
-
-        document.addEventListener("mouseout", (e) => {
-            if ((e.target as HTMLElement).closest(interactiveSelectors)) {
-                cursorWrapper.classList.remove("interactive");
-            }
+            updateCursorState(e);
         });
 
         // Click animation via Class
