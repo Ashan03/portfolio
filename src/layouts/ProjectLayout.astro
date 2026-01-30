@@ -8,9 +8,11 @@ interface Props {
     description?: string;
     meta?: Record<string, string>; // Flexible key-value pairs
     tags?: string[];
+    ctaUrl?: string;
+    ctaText?: string;
 }
 
-const { title, description, meta = {}, tags = [] } = Astro.props;
+const { title, description, meta = {}, tags = [], ctaUrl, ctaText } = Astro.props;
 
 // Convert meta object to array for iteration
 const metaEntries = Object.entries(meta).filter(
@@ -65,10 +67,21 @@ const sections = [
                         </div>
                     )
                 }
-            </div>
 
+                {
+                    ctaUrl && (
+                        <a href={ctaUrl} target="_blank" rel="noopener noreferrer" class="sidebar-cta-button">
+                            {ctaText || "Try it out"}
+                        </a>
+                    )
+                }
+            </div>
+        </div>
+
+        <div class="sidebar-bottom">
             <nav class="toc-nav">
                 <ul>
+                    <div class="active-indicator"></div>
                     {
                         sections.map((section) => (
                             <li>
@@ -84,9 +97,6 @@ const sections = [
                     }
                 </ul>
             </nav>
-        </div>
-
-        <div class="sidebar-bottom">
             <div class="theme-toggle-wrapper">
                 <ThemeToggle />
             </div>
@@ -103,6 +113,17 @@ const sections = [
     document.addEventListener("DOMContentLoaded", () => {
         const tocLinks = document.querySelectorAll(".toc-link");
         const sections = document.querySelectorAll("section.project-section");
+        const indicator = document.querySelector(".active-indicator");
+
+        const updateIndicator = (activeLi) => {
+            if (activeLi && indicator) {
+                const top = activeLi.offsetTop;
+                const height = activeLi.offsetHeight;
+                indicator.style.top = `${top}px`;
+                indicator.style.height = `${height}px`;
+                indicator.style.opacity = "1";
+            }
+        };
 
         const observerOptions = {
             root: null,
@@ -113,7 +134,8 @@ const sections = [
         const observer = new IntersectionObserver((entries) => {
             entries.forEach((entry) => {
                 if (entry.isIntersecting) {
-                    const id = entry.target.getAttribute("id");
+                    const group = entry.target.getAttribute("data-toc-group");
+                    const id = group || entry.target.getAttribute("id");
 
                     // Remove active class from all links
                     tocLinks.forEach((link) => {
@@ -121,16 +143,16 @@ const sections = [
                         link.parentElement?.classList.remove("active-item");
                     });
 
-                    // Add active class to current link
+                    // Add active class to current link AND update indicator
                     if (id) {
                         const activeLink = document.querySelector(
                             `.toc-link[data-target="${id}"]`,
                         );
                         if (activeLink) {
                             activeLink.classList.add("active");
-                            activeLink.parentElement?.classList.add(
-                                "active-item",
-                            );
+                            const parentLi = activeLink.parentElement;
+                            parentLi?.classList.add("active-item");
+                            if (parentLi) updateIndicator(parentLi);
                         }
                     }
                 }
@@ -184,7 +206,7 @@ const sections = [
 
     .sidebar-tags span {
         font-size: 0.75rem; /* 12px */
-        color: var(--text-muted);
+        color: var(--text-muted);x
         text-transform: uppercase;
         letter-spacing: 0.05em;
         font-weight: 500;
@@ -203,6 +225,44 @@ const sections = [
         margin-bottom: 2rem;
     }
 
+    .sidebar-cta-button {
+        display: inline-block;
+        background-color: var(--surface-secondary);
+        color: var(--text-primary);
+        border: 2px solid var(--accent-secondary);
+        padding: 0.75rem 1rem;
+        border-radius: var(--radius-sm);
+        text-decoration: none;
+        font-weight: 500;
+        font-size: 0.875rem;
+        margin-top: 1.5rem;
+        margin-bottom: 1rem;
+        transition: box-shadow 0.2s ease, opacity 0.2s;
+        text-align: center;
+        width: 100%;
+        box-sizing: border-box;
+    }
+    .sidebar-cta-button:hover {
+        box-shadow: 0 0 16px rgba(100, 200, 150, 0.5);
+        background-color: var(--surface-primary); /* Brighter overlap */
+        filter: brightness(1.05);
+    }
+    :global(.dark) .sidebar-cta-button:hover {
+        background-color: var(--surface-tertiary); /* Darker overlap */
+        filter: brightness(0.92);
+    }
+
+    /* TABLET/MOBILE STYLES */
+    @media (max-width: 1024px) {
+        .sidebar-cta-button {
+            display: none;
+        }
+
+        .toc-nav {
+            display: none;
+        }
+    }
+
     /* TOC STYLES */
     .toc-nav {
         margin: 1rem 0;
@@ -219,21 +279,32 @@ const sections = [
         border-left: none;
         margin-left: 0;
         padding-left: 0;
+        position: relative; /* Essential for absolute indicator */
     }
 
     .toc-nav li {
         margin-left: 0;
-        margin-right: -1px; /* Overlap right border */
+        margin-right: 0;
         padding-left: 0;
         padding-right: 1.5rem;
-        border-right: 2px solid transparent;
+        /* Border removed in favor of pseudo-element for centering */
+        border-right: none;
         border-left: none;
         transition: all 0.2s;
         text-align: left;
+        position: relative; /* For pseudo-element positioning */
     }
 
-    .toc-nav li.active-item {
-        border-right-color: var(--accent-secondary);
+    /* Active State Indicator (Sliding) */
+    .active-indicator {
+        position: absolute;
+        right: -2px; /* Centered on border */
+        width: 3px;
+        background-color: var(--accent-secondary);
+        border-radius: 1px;
+        transition: top 0.25s cubic-bezier(0.25, 0.8, 0.25, 1), height 0.25s ease, opacity 0.2s;
+        opacity: 0;
+        pointer-events: none;
     }
 
     .toc-nav a {
@@ -260,7 +331,6 @@ const sections = [
     .sidebar-bottom {
         display: flex;
         flex-direction: column;
-        gap: var(--space-xl);
         padding-top: 2rem;
     }
 
@@ -296,12 +366,12 @@ const sections = [
         margin-top: auto;
     }
 
-    /* RIGHT CONTENT STYLES */
+    /* RIGHT CONTENT STYLES (Hero Section) */
     .right-content {
-        padding: 6rem 6rem;
-        max-width: 1000px;
-        margin: 0 auto;
-        font-family: "Inter", sans-serif;
+        padding: 4rem 3rem;
+        max-width: none; /* Use full available width */
+        margin: 0;
+        font-family: "Public Sans", sans-serif;
         scroll-behavior: smooth;
     }
 

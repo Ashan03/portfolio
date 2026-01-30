@@ -9,6 +9,8 @@ const projects = defineCollection({
 		heroImage: z.string().optional(),
 		order: z.number().optional().default(0),
 		tags: z.array(z.string()).optional(),
+		ctaUrl: z.string().optional(),
+		ctaText: z.string().optional(),
 		// Flexible metadata - add any key-value pairs here
 		meta: z.record(z.string()).optional(), // { "Course": "...", "Duration": "3 days", "Type": "Hackathon", ... }
 	}),

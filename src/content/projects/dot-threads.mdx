@@ -1,57 +1,250 @@
 ---
 title: "Dot Threads"
-description: "A Memex-inspired spatial canvas for saving and connecting web links."
+description: "Spatial knowledge management for researchers who think in connections, not folders"
 category: "thinking"
 order: 1
 heroImage: ""
-tags: ["Knowledge Management", "Canvas"]
+tags: ["Knowledge Management", "Canvas", "Browser Extension"]
 meta:
-  Course: "History and Future of Interaction Design"
-  Year: "Fall 2024"
-  Duration: "2 Weeks"
-  Advisor: "Paul Pangaro"
-  Deliverables: "Browser Extension"
+  Role: "Product Designer"
+  Duration: "2 weeks → ongoing"
+  Tools: "Figma, Browser APIs"
+  Status: "Live on Chrome Web Store"
+  Year: "2024"
+ctaUrl: "https://chromewebstore.google.com/detail/dotthreads/lecgoimdckmlkkfniojcjpfabfgoaijb?hl=en-US"
+ctaText: "Try the extension out"
 ---
 
 import ProjectSection from '../../components/ProjectSection.astro';
-import PlaceholderImage from '../../components/PlaceholderImage.astro';
+import FullWidthImage from '../../components/FullWidthImage.astro';
 
-<PlaceholderImage height="500px" caption="Hero Image" />
+<FullWidthImage height="500px" caption="Hero Image: Polished screenshot of the spatial canvas with dots connected by threads" />
 
 <div slot="intro">
     <p>
-        [Project Intro Placeholder] This project explores the intersection of design and technology. Replace this text with a specific summary of the work.
+        Research doesn't happen in folders. It happens in webs of connected ideas. Dot Threads is a browser extension that transforms web browsing into spatial knowledge building. Instead of burying research in folders, users create visual webs where every link connects by context.
     </p>
 </div>
 
-<ProjectSection title="Problem & Opportunity" id="problem-opportunity">
-    <p>Content regarding the core provocation or problem statement of this project.</p>
-    <PlaceholderImage height="400px" />
+<ProjectSection title="The Problem" id="problem-opportunity">
+    <h3>The Problem</h3>
+    <p>
+        Research doesn't happen in folders. It happens in webs of connected ideas.
+    </p>
+    <p>
+        During my thesis research on public spaces, I collected hundreds of links—architecture references, case studies, academic papers. Browser bookmarks forced me to choose: folders (hierarchy) or tags (flat lists). But <strong>my thinking happened in connections between ideas</strong>, not categories.
+    </p>
+</ProjectSection>
+
+<FullWidthImage height="400px" caption="Before state - messy browser bookmarks in nested folders with arrows showing the chaos" />
+
+<ProjectSection title="The Problem" id="problem-opportunity-cont" hideTitle={true} group="problem-opportunity">
+    <p>
+        Existing tools didn't help:
+    </p>
+    <ul>
+        <li><strong>Bookmarks:</strong> Linear, buried in folders</li>
+        <li><strong>Are.na:</strong> Visual collections but no associative linking</li>
+        <li><strong>Note apps:</strong> Text-first, not spatial</li>
+    </ul>
+    <p><strong>I needed a way to see my research, not just store it.</strong></p>
+
+    <h3>Validating the Problem</h3>
+    <p>
+        Before building anything, I surveyed <strong>25+ early adopters</strong> across 3 CMU departments (Architecture, HCI, Design).
+    </p>
+</ProjectSection>
+
+<FullWidthImage height="300px" caption="Survey insights diagram showing categories users wanted: affordability, accessibility, variety, safety" />
+
+<ProjectSection title="The Problem" id="problem-opportunity-findings" hideTitle={true} group="problem-opportunity">
+    <p><strong>Key findings:</strong></p>
+    <ul>
+        <li><strong>68%</strong> struggled with bookmark systems for research</li>
+        <li>Users wanted <strong>categorization beyond folders</strong> (by themes, contexts, projects)</li>
+        <li>Strong desire for <strong>visual representation</strong> of connections</li>
+        <li>Privacy concerns about cloud-based tools</li>
+    </ul>
+    <p>
+        <strong>The insight:</strong> I wasn't alone. Knowledge workers want spatial organization, not hierarchical filing.
+    </p>
 </ProjectSection>
 
 <ProjectSection title="Approach" id="approach">
-    <p>Content detailing the initial conceptualization and ideation phase.</p>
-    <PlaceholderImage height="300px" />
+    <h3>Design Philosophy</h3>
+    <p><strong>If thinking happens in webs, the interface should reflect that structure.</strong></p>
+    <p>
+        I mapped Vannevar Bush's 1945 MEMEX concept (associative trails of thought) to modern browsing behaviors:
+    </p>
+</ProjectSection>
+
+<FullWidthImage height="300px" caption="MEMEX fundamentals diagram from sprint deck - recording/storing/displaying/selecting/sharing trails" />
+
+<ProjectSection title="Approach" id="approach-principles" hideTitle={true} group="approach">
+    <h3>Core Design Principles</h3>
+    <p><strong>1. Frictionless Capture:</strong> Save any page in 4 clicks or less. If saving takes effort, people abandon the workflow.</p>
+    <p><strong>2. Spatial Cognition:</strong> Position and proximity carry meaning. The canvas should mirror how ideas naturally connect in your mind.</p>
+    <p><strong>3. Perspective Over Omniscience:</strong> Show relevant context from each node's viewpoint, not everything at once. Focus matters more than completeness.</p>
+    <p><strong>4. Privacy as Design:</strong> Local storage isn't just technical—it's a trust decision. Users own their knowledge graph completely.</p>
+
+    <h3>From Concept to Working Product</h3>
+</ProjectSection>
+
+<FullWidthImage height="300px" caption="Early sketches from sprint deck showing the 5 components" />
+
+<ProjectSection title="Approach" id="approach-questions" hideTitle={true} group="approach">
+    <p>
+        Started with Figma prototypes exploring spatial organization. Key design questions:
+    </p>
+    <ul>
+        <li>How do users add links without leaving their browsing flow?</li>
+        <li>What does "spatial organization" actually mean in practice?</li>
+        <li>How do you navigate 50+ nodes without getting overwhelmed?</li>
+    </ul>
+</ProjectSection>
+
+<FullWidthImage height="400px" caption="Figma prototype showing the spatial agency reference graph" />
+
+<ProjectSection title="Approach" id="approach-sprint" hideTitle={true} group="approach">
+    <p><strong>The sprint approach:</strong> Prove the concept in 2 weeks, then iterate based on real usage.</p>
+</ProjectSection>
+
+<ProjectSection title="Interaction" id="interaction-model">
+    <h3>The Core Experience</h3>
+</ProjectSection>
+
+<FullWidthImage height="400px" caption="4-step workflow diagram: Find page -> Right-click save -> Tag/connect -> View on canvas" />
+
+<ProjectSection title="Interaction" id="interaction-decision1" hideTitle={true} group="interaction-model">
+    <h3>Design Decision 1: Right-Click to Save</h3>
+    <p><strong>Decision:</strong> Integrate with browser's context menu for frictionless capture.</p>
+    <p><strong>Why:</strong> Users shouldn't need to open a new tab or panel. The context menu keeps the flow natural—right-click any page and save instantly.</p>
+</ProjectSection>
+
+<FullWidthImage height="200px" caption="Screenshot showing right-click context menu with 'Save to Dot Threads' highlighted" />
+
+<ProjectSection title="Interaction" id="interaction-detail" hideTitle={true} group="interaction-model">
+    <p><strong>Design detail:</strong> The save popup suggests existing dots from your graph, making it easy to build context as you browse.</p>
+</ProjectSection>
+
+<FullWidthImage height="300px" caption="Save popup showing suggested connections and tag input" />
+
+<ProjectSection title="Interaction" id="interaction-decision2" hideTitle={true} group="interaction-model">
+    <h3>Design Decision 2: Hero-Centric Traversal</h3>
+    <p><strong>Decision:</strong> Each node becomes the "hero" of its own view. Click a node → canvas reorganizes around it.</p>
+    <p><strong>Why:</strong> Showing the entire graph at once is overwhelming. Instead, I designed each dot to have its own "perspective"—showing only its immediate context (primary connections) and suggestions (secondary connections).</p>
+</ProjectSection>
+
+<FullWidthImage height="400px" caption="Before/after side-by-side - graph reorganizing when clicking a different node" />
+
+<ProjectSection title="Interaction" id="interaction-decision2-why" hideTitle={true} group="interaction-model">
+    <p><strong>Why this works:</strong> Maps work because you know where you are. Graphs need the same orientation. Hero-centric views give users that anchor point.</p>
+
+    <h3>Design Decision 3: Visual Hierarchy by Depth</h3>
+    <p><strong>Decision:</strong> Not all connections are equal—depth should be visual.</p>
+    <p><strong>Visual system:</strong></p>
+    <ul>
+        <li><strong>Primary links</strong> (your manual connections): Bold, 60% opacity</li>
+        <li><strong>Secondary links</strong> (connections of connections): Medium, 30% opacity</li>
+        <li><strong>Tertiary links</strong> (third-degree): Faint, 15% opacity</li>
+    </ul>
+</ProjectSection>
+
+<FullWidthImage height="300px" caption="Diagram showing three link types with different visual weights" />
+
+<ProjectSection title="Interaction" id="interaction-nav" hideTitle={true} group="interaction-model">
+    <p><strong>Why:</strong> This creates a natural fade from "definitely relevant" to "maybe interesting." Users can focus on core connections while peripheral ones provide context without noise.</p>
+
+    <h3>Navigation Patterns</h3>
+    <p><strong>Hovering:</strong> Highlights the node and its immediate connections</p>
+    <p><strong>Zooming:</strong> Text labels fade smoothly (semantic zoom) to keep readability at any scale</p>
+    <p><strong>Searching:</strong> Keyboard-driven dropdown with real-time filtering</p>
+    <p><strong>Why these interactions?</strong> Each one reduces friction between thinking and capturing. The tool should feel like an extension of thought, not a separate database to manage.</p>
 </ProjectSection>
 
 <ProjectSection title="Implementation" id="implementation">
-    <p>Details on the composition, build, or structural elements of the solution.</p>
-    <div class="grid-2">
-        <PlaceholderImage height="300px" />
-        <PlaceholderImage height="300px" />
-    </div>
+    <h3>Technical Approach</h3>
+    <p><strong>Architecture:</strong> Browser extension + spatial canvas web app</p>
+    <p><strong>Data layer:</strong> All data stored locally using browser storage APIs—no cloud, no servers, complete privacy</p>
+    <p><strong>Visualization:</strong> Force-directed graph layout with physics simulation for natural spacing</p>
 </ProjectSection>
 
-<ProjectSection title="Interaction Model/UX" id="interaction-model">
-    <p>Explanation of the mechanics, interactions, or underlying logic.</p>
-    <PlaceholderImage height="500px" />
+<FullWidthImage height="300px" caption="Simple architecture diagram: Browser Extension ↔ Local Storage ↔ Web View" />
+
+<ProjectSection title="Implementation" id="implementation-local" hideTitle={true} group="implementation">
+    <h3>Why Local-First?</h3>
+    <p>This wasn't just a technical decision—it was a <strong>design philosophy</strong>:</p>
+    <ol>
+        <li><strong>Trust:</strong> Users control their knowledge completely</li>
+        <li><strong>Speed:</strong> No network latency, works offline</li>
+        <li><strong>Privacy:</strong> No servers to compromise, no data to sell</li>
+        <li><strong>Simplicity:</strong> No accounts, no authentication, zero friction</li>
+    </ol>
+    <p><strong>The tradeoff:</strong> No cross-device sync. But for researchers who value privacy, this is the right choice.</p>
+
+    <h3>Design System</h3>
 </ProjectSection>
 
-<ProjectSection title="Outcome" id="outcome" placeholder={true}>
-    <p>Synthesis of the results, outputs, or final design artifacts.</p>
+<FullWidthImage height="400px" caption="Screenshot showing the visual design system in action" />
+
+<ProjectSection title="Implementation" id="implementation-design" hideTitle={true} group="implementation">
+    <p><strong>Colors:</strong> Custom types with user-defined colors. Hierarchy uses grayscale to distinguish depth.</p>
+    <p><strong>Typography:</strong> Labels constant size (12px) regardless of zoom. Bold weight for selected node.</p>
+    <p><strong>Motion:</strong> Nodes "bloom" outward when appearing (600ms cubic easing). Smooth camera transitions.</p>
+    <p><strong>Why organic?</strong> Knowledge graphs should feel like living structures, not rigid diagrams. The physics simulation creates natural spacing—nodes find their own positions through simulated forces.</p>
+    
+    <p><em>Technical Note: Built with modern web technologies and browser APIs. Technical architecture details available upon request.</em></p>
+</ProjectSection>
+
+<ProjectSection title="Outcome" id="outcome">
+    <h3>Shipped Product</h3>
+    <p><strong>Status:</strong> Live on Chrome Web Store, Version 1.3.3</p>
+    <p><strong>Users:</strong> 3 active users (early adopters from CMU)</p>
+    <p><strong>Timeline:</strong> Initial launch September 2024 → ongoing iteration</p>
+</ProjectSection>
+
+<FullWidthImage height="400px" caption="Chrome Web Store listing screenshot" />
+
+<ProjectSection title="Outcome" id="outcome-iteration" hideTitle={true} group="outcome">
+    <h3>Iteration Cycles</h3>
+    <p><strong>September 2024 - Initial Launch:</strong> Right-click save, spatial canvas, hero-centric traversal.</p>
+    <p><strong>Oct-Dec 2024 - Feedback Iteration:</strong> Smart suggestions, custom types, screenshot previews, better delete UX.</p>
+    <p><strong>January 2026 - Latest:</strong> Version 1.3.3, custom domain support, refined visual hierarchy.</p>
+
+    <h3>User Feedback</h3>
+    <p><strong>"Bookmarks finally make sense"</strong> - Users navigate by memory of connections instead of hunting through folders.</p>
+    <p><strong>"I keep discovering forgotten connections"</strong> - Graph layout surfaces relationships between old research and new interests.</p>
+    <p><strong>"I wish I could use this for everything"</strong> - Users want to expand beyond links, confirming spatial organization resonates.</p>
+
+    <h3>Impact Metrics</h3>
+    <ul>
+        <li>✅ Working product used by real people</li>
+        <li>✅ 4 major update cycles based on feedback</li>
+        <li>✅ Validated problem through user research</li>
+        <li>✅ Demonstrated end-to-end product execution</li>
+    </ul>
 </ProjectSection>
 
 <ProjectSection title="Reflection" id="reflection">
-    <p>Notes on how AI or computational tools augmented the workflow.</p>
-    <PlaceholderImage height="350px" />
+    <h3>Spatial Interfaces Need Perspective, Not Omniscience</h3>
+    <p>My first instinct was to show the entire graph at once. That's overwhelming. <strong>Hero-centric views</strong> solve this: show context from each node's perspective. Maps work because you know where you are. Graphs need the same orientation.</p>
+
+    <h3>Visual Representation Amplifies Thinking</h3>
+    <p>Seeing connections makes patterns visible that stay hidden in folders: clusters reveal themes, gaps show unexplored areas, bridges surface insights. The canvas isn't just storage—it's a <strong>thinking tool</strong>.</p>
+
+    <h3>Frictionless Capture is Everything</h3>
+    <p>I tested versions with 6, 8, 10 clicks. Every additional step compounds friction. <strong>4 clicks is the maximum</strong> before people abandon the workflow. The right-click save was the make-or-break feature.</p>
+
+    <h3>Users Need Onboarding for Spatial Thinking</h3>
+    <p>Spatial organization is powerful but <strong>unfamiliar</strong>. Most people have spent years with folder-based thinking. Next iteration needs guided onboarding showing how to build your first knowledge web.</p>
+
+    <h3>Shipping Teaches What Prototyping Can't</h3>
+    <p>Real issues I never saw in Figma: overlapping connections, organizing the 100th dot vs the 10th. <strong>Lesson:</strong> Ship earlier. Real usage reveals real problems that prototypes hide.</p>
+
+    <h3>What Makes a Good Tool for Thought?</h3>
+    <p><strong>1. Resist Prescriptiveness:</strong> Don't force structure.</p>
+    <p><strong>2. Make Thinking Visible:</strong> Visualization is cognition.</p>
+    <p><strong>3. Reduce Friction to Zero:</strong> Input must be frictionless.</p>
+    <p><strong>4. Respect Privacy:</strong> Local-first is about trust.</p>
+    <p><strong>5. Ship and Learn:</strong> Real usage teaches what assumptions were wrong.</p>
 </ProjectSection>

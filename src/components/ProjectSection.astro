@@ -5,18 +5,28 @@ interface Props {
     title: string;
     id?: string;
     placeholder?: boolean; /* If true, adds a placeholder image at bottom */
+    hideTitle?: boolean; /* If true, hides title and divider for continuation sections */
+    group?: string; /* ID of the parent section for sidebar highlighting */
 }
 
-const { title, id, placeholder = false } = Astro.props;
+const {
+    title,
+    id,
+    placeholder = false,
+    hideTitle = false,
+    group,
+} = Astro.props;
 ---
 
-<section class="project-section" id={id}>
-    <div class="header-group">
-        <div class="section-title">
-            <h3>{title}</h3>
-        </div>
-        <div class="section-content">
-            <slot />
+<section class="project-section" id={id} data-toc-group={group}>
+    <div class="hero-text-container">
+        <div class:list={["header-group", { continuation: hideTitle }]}>
+            <div class="section-title">
+                {!hideTitle && <h3>{title}</h3>}
+            </div>
+            <div class="section-content">
+                <slot />
+            </div>
         </div>
     </div>
     {
@@ -41,14 +51,25 @@ const { title, id, placeholder = false } = Astro.props;
 
     /* --- SPACING CONTROLS --- */
     .project-section {
-        --title-width: 160px; /* Width of the title column */
-        --column-gap: 16px; /* Gap between title and content */
-        --section-margin: 3rem; /* Space between sections */
-        --image-spacing: 16px; /* Space above images */
+        --title-width: 200px; /* Width of the title column */
+        --column-gap: 32px; /* Gap between title and content */
+        --section-margin: 4rem; /* Reasonable space between sections */
+        --image-spacing: 24px; /* Space above images */
 
         display: flex;
         flex-direction: column;
         margin-bottom: var(--section-margin);
+    }
+
+    /* --- HERO TEXT CONTAINER (Centered on Desktop) --- */
+    .hero-text-container {
+        width: 100%;
+        margin: 0 auto;
+        padding-inline: max(
+            0rem,
+            calc(50% - 450px)
+        ); /* Centers text to 900px */
+        box-sizing: border-box;
     }
 
     /* --- HEADER GRID (Title + Text) --- */
@@ -56,28 +77,50 @@ const { title, id, placeholder = false } = Astro.props;
         display: grid;
         grid-template-columns: var(--title-width) 1fr;
         gap: var(--column-gap);
-        align-items: start;
+        align-items: baseline; /* Align with heading baseline */
         overflow: visible; /* Allow images to break out of grid cell */
+
+        /* Divider Line (Matches text width) */
+        border-top: 1px solid var(--border-subtle, rgba(0, 0, 0, 0.1));
+        padding-top: 0.5rem;
     }
 
-    /* --- TITLE STYLING --- */
+    /* Hide divider for continuation sections */
+    .header-group.continuation {
+        border-top: none;
+        padding-top: 0;
+    }
+
+    /* --- TITLE STYLING (Section Subheadings) --- */
     .section-title h3 {
-        font-size: 0.75rem;
-        font-weight: 600;
+        font-size: 1.75rem; /* 28px */
+        font-weight: 500; /* Normal */
         color: var(--text-primary);
-        line-height: 1.4;
-        letter-spacing: -0.01em;
+        line-height: 1.3;
+        letter-spacing: -0.02em;
         margin: 0;
         position: sticky;
         top: 2rem;
+        font-family: "Public Sans", sans-serif;
     }
 
-    /* --- CONTENT STYLING --- */
+    /* --- CONTENT STYLING (Body Text) --- */
     .section-content {
-        font-size: 0.75rem;
-        line-height: 1.4;
+        font-size: 1rem; /* 16px */
+        line-height: 1.4; /* Reduced line spacing */
+        font-weight: 300; /* Light */
         color: var(--text-secondary);
-        font-family: "Inter", sans-serif;
+        font-family: "Public Sans", sans-serif;
+    }
+
+    /* Style nested h3 headings within content */
+    .section-content :global(h3) {
+        font-size: 1rem; /* 16px for sub-subheadings */
+        font-weight: 500; /* Normal */
+        color: var(--text-primary);
+        margin-top: 1.5rem;
+        margin-bottom: 0.5rem;
+        font-family: "Public Sans", sans-serif;
     }
 
     /* First paragraph aligns with title (no extra margin) */
@@ -91,14 +134,20 @@ const { title, id, placeholder = false } = Astro.props;
         width: 100%;
     }
 
-    /* Keep support for manual images inside content if needed */
+    /* Style strong/bold text: Underlined and normal weight */
+    .section-content :global(strong),
+    .section-content :global(b) {
+        font-weight: inherit;
+        text-decoration: underline;
+        color: inherit;
+    }
+
+    /* Images inside content are constrained to text box width */
     .section-content :global(img),
     .section-content :global(video),
     .section-content :global(.placeholder-container) {
-        /* Break out of content column to span full section width */
-        margin-left: calc(-1 * (var(--title-width) + var(--column-gap)));
-        width: calc(100% + var(--title-width) + var(--column-gap));
-        max-width: none;
+        width: 100%;
+        max-width: 100%;
         display: block;
         border-radius: var(--radius-sm);
         margin-top: var(--image-spacing);
@@ -133,6 +182,26 @@ const { title, id, placeholder = false } = Astro.props;
         .section-title h3 {
             position: static;
             margin-bottom: 0.5rem;
+            font-size: 1.125rem; /* 18px */
+        }
+
+        .section-content {
+            font-size: 0.75rem; /* 12px */
+        }
+
+        /* Reset image breakout for mobile stack */
+        .section-content :global(img),
+        .section-content :global(video),
+        .section-content :global(.placeholder-container) {
+            width: 100%;
+            margin-left: 0;
+        }
+    }
+
+    /* --- TABLET/MOBILE: Fluid container --- */
+    @media (max-width: 1024px) {
+        .hero-text-container {
+            width: 100%;
         }
     }
 </style>

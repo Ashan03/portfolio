@@ -1,0 +1,54 @@
+---
+import PlaceholderImage from "./PlaceholderImage.astro";
+
+interface Props {
+    src?: string;
+    alt?: string;
+    caption?: string;
+    height?: string;
+}
+const { src, alt = "", caption, height = "400px" } = Astro.props;
+---
+
+<figure class="full-width-image">
+    {
+        src ? (
+            <img src={src} alt={alt} />
+        ) : (
+            <div class="placeholder-wrapper">
+                <PlaceholderImage height="100%" caption={caption} />
+            </div>
+        )
+    }
+    {src && caption && <figcaption>{caption}</figcaption>}
+</figure>
+
+<style>
+    .full-width-image {
+        width: 100%;
+        margin-top: 2rem;
+        margin-bottom: 5rem;
+        aspect-ratio: 16 / 9;
+    }
+    .full-width-image img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        border-radius: var(--radius-sm);
+    }
+    .placeholder-wrapper {
+        width: 100%;
+        height: 100%;
+    }
+    /* Ensure placeholder component fills the wrapper */
+    .placeholder-wrapper :global(.placeholder-container),
+    .placeholder-wrapper :global(.placeholder-box) {
+        height: 100% !important;
+    }
+    figcaption {
+        text-align: center;
+        font-size: 0.875rem;
+        color: var(--text-tertiary);
+        margin-top: 0.5rem;
+    }
+</style>
