@@ -1,19 +1,34 @@
 ---
 import PlaceholderImage from "./PlaceholderImage.astro";
+import { Image } from "astro:assets";
 
 interface Props {
     src?: string;
     alt?: string;
     caption?: string;
     height?: string;
+    loading?: "eager" | "lazy";
 }
-const { src, alt = "", caption, height = "400px" } = Astro.props;
+const {
+    src,
+    alt = "",
+    caption,
+    height = "400px",
+    loading = "lazy",
+} = Astro.props;
 ---
 
 <figure class="full-width-image">
     {
         src ? (
-            <img src={src} alt={alt} />
+            <Image
+                src={src}
+                alt={alt}
+                width={1920}
+                height={1080}
+                class="optimized-image"
+                loading={loading}
+            />
         ) : (
             <div class="placeholder-wrapper">
                 <PlaceholderImage height="100%" caption={caption} />
@@ -30,7 +45,7 @@ const { src, alt = "", caption, height = "400px" } = Astro.props;
         margin-bottom: 5rem;
         aspect-ratio: 16 / 9;
     }
-    .full-width-image img {
+    .full-width-image .optimized-image {
         width: 100%;
         height: 100%;
         object-fit: cover;

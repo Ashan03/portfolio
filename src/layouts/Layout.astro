@@ -63,17 +63,18 @@ const { title, description = "Design Technologist Portfolio" } = Astro.props;
 		min-height: 100vh;
 		background: var(--bg-primary);
 		color: var(--text-primary);
-		cursor: none; /* Hide default cursor */
 	}
 
-	/* Ensure links also don't show cursor */
-	a,
-	button,
-	/* Ensure links also don't show cursor */
-	a,
-	button,
-	[role="button"] {
-		cursor: none !important;
+	@media (min-width: 769px) {
+		body {
+			cursor: none; /* Hide default cursor only on desktop */
+		}
+		/* Ensure links also don't show cursor */
+		a,
+		button,
+		[role="button"] {
+			cursor: none !important;
+		}
 	}
 
 	.universal-layout {

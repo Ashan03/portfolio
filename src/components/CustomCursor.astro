@@ -92,6 +92,12 @@
     .cursor-wrapper.interactive .arrow-icon {
         display: none;
     }
+    /* Mobile Override */
+    @media (max-width: 768px) {
+        .cursor-wrapper {
+            display: none !important;
+        }
+    }
     .cursor-wrapper.interactive .hand-icon {
         display: block;
     }
@@ -132,6 +138,7 @@
     if (cursor && cursorWrapper) {
         let isVisible = false;
         let isTextHover = false;
+        let isGameHover = false; // New flag for game area
 
         // Interactive Elements
         const interactiveSelectors =
@@ -139,11 +146,24 @@
         // Text Elements that should show I-beam
         const textSelectors =
             "p, h1, h2, h3, h4, h5, h6, span, li, blockquote, dt, dd, figcaption";
+        // Game Container Selector
+        const gameSelector = ".ghost-game-container";
 
         const updateCursorState = (e: MouseEvent) => {
             const target = e.target as HTMLElement;
             const interactive = target.closest(interactiveSelectors);
             const text = target.closest(textSelectors);
+            const game = target.closest(gameSelector);
+
+            // Priority 0: Game (Always hide global cursor)
+            if (game) {
+                isGameHover = true;
+                cursor.style.opacity = "0";
+                cursorWrapper.classList.remove("interactive"); // Ensure hand doesn't stick
+                return;
+            } else {
+                isGameHover = false;
+            }
 
             // Priority: Interactive > Text > Default
             if (interactive) {
@@ -165,13 +185,13 @@
 
         document.addEventListener("mousemove", (e: MouseEvent) => {
             // If we haven't set visibility yet
-            if (!isVisible && !isTextHover) {
+            if (!isVisible && !isTextHover && !isGameHover) {
                 cursor.style.opacity = "1";
                 isVisible = true;
             }
 
-            // If hovering text, keep it hidden (or hide it if it appeared)
-            if (isTextHover) {
+            // If hovering text or game, keep it hidden
+            if (isTextHover || isGameHover) {
                 cursor.style.opacity = "0";
             }
 
@@ -186,11 +206,12 @@
             cursor.style.opacity = "0";
             isVisible = false;
             isTextHover = false; // Reset text hover state on mouseout of document
+            isGameHover = false; // Reset game hover
             cursorWrapper.classList.remove("interactive"); // Also remove interactive state
         });
 
         document.addEventListener("mouseover", (e: MouseEvent) => {
-            if (!isVisible && !isTextHover) {
+            if (!isVisible && !isTextHover && !isGameHover) {
                 cursor.style.opacity = "1";
                 isVisible = true;
             }

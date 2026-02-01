@@ -19,7 +19,7 @@ import ProjectSection from '../../components/ProjectSection.astro';
 import FullWidthImage from '../../components/FullWidthImage.astro';
 import ImageSlider from '/src/components/ImageSlider.astro';
 
-<FullWidthImage src="/assets/projects/dot-threads/hero.png" height="500px" caption="Hero Image: Polished screenshot of the spatial canvas with dots connected by threads" />
+<FullWidthImage src="/assets/projects/dot-threads/hero.png" height="500px" caption="Hero Image: Polished screenshot of the spatial canvas with dots connected by threads" loading="eager" />
 
 <div slot="intro">
     <p>
@@ -28,12 +28,28 @@ import ImageSlider from '/src/components/ImageSlider.astro';
 </div>
 
 <ProjectSection title="The Problem" id="problem-opportunity">
-    <p>
-        Research doesn't happen in folders. It happens in webs of connected ideas.
-    </p>
-    <p>
-        During my thesis research on public spaces, I collected hundreds of links—architecture references, case studies, academic papers. Browser bookmarks forced me to choose: folders (hierarchy) or tags (flat lists). But <strong>my thinking happened in connections between ideas</strong>, not categories.
-    </p>
+
+<p>
+    <strong>Short story time!</strong> I was researching embodied interfaces for my thesis when I found a paper called <em>Emoto — AI Sidekick</em>. The work was compelling, so I did what any researcher does: I looked up the authors. Three were from CMU, and out of which two from the School of Design! That was interesting. I kept digging.
+</p>
+<p>
+    I discovered that two of those authors continued working together and joined Experiments with Google. Four years later, they started their own company. A third author moved to Apple as a prototyper. 
+    The fourth, a professor, relocated to Northumbria University and started a lab and worked on "Spooky Technology"—a project I recognized because I’d worked with one of its collaborators, Daragh Byrne, at CMU’s School of Architecture.
+</p>
+<p>
+    This web of connections—people, projects, companies, labs—told a story. If I ever encountered someone else who worked at Experiments with Google, I’d want to connect them to this thread.
+</p>
+
+<div class="centered-tagline">
+    But here’s the problem: bookmarks don’t preserve these connections.
+</div>
+
+<p>
+    With traditional bookmarking, I’d save all these profiles in folders: "People," "Companies," "Labs," "Projects." The folders grow. Three months later, I’d have no idea how these things connected. The story would be lost.
+</p>
+<p>
+    <strong>I needed a way to see the story behind my rabbit holes later, not just store them.</strong>
+</p>
 </ProjectSection>
 
 <ImageSlider 
@@ -44,54 +60,47 @@ import ImageSlider from '/src/components/ImageSlider.astro';
 />
 
 <ProjectSection title="The Problem" id="problem-opportunity-cont" hideTitle={true} group="problem-opportunity">
-    <p>
-        Existing tools didn't help:
-    </p>
-    <ul>
-        <li><strong>Bookmarks:</strong> Linear, buried in folders</li>
-        <li><strong>Are.na:</strong> Visual collections but no associative linking</li>
-        <li><strong>Note apps:</strong> Text-first, not spatial</li>
-    </ul>
-    <p><strong>I needed a way to see my research, not just store it.</strong></p>
-
     <h3>Validating the Problem</h3>
     <p>
-        Before building anything, I surveyed <strong>25+ early adopters</strong> across 3 CMU departments (Architecture, HCI, Design).
+        To see if there is a broader pattern with this problem, I got to survey 25 people across 3 CMU departments (Architecture, HCI, Design) using an <a href="https://narayan-s-research-assistant-851405604897.us-west1.run.app" target="_blank" class="bento-button">AI conversational research assistant <span style="margin-left: 6px;">↗</span></a> for these sessions—letting people describe their actual bookmarking behavior instead of forcing multiple-choice answers.
     </p>
 </ProjectSection>
 
-<FullWidthImage height="300px" caption="Survey insights diagram showing categories users wanted: affordability, accessibility, variety, safety" />
+<FullWidthImage src="/assets/projects/dot-threads/user-study.png" height="500px" caption="User study insights visualization showing the breakdown of bookmarking behaviors and pain points" />
 
-<ProjectSection title="The Problem" id="problem-opportunity-findings" hideTitle={true} group="problem-opportunity">
-    <p><strong>Key findings:</strong></p>
-    <ul>
-        <li><strong>68%</strong> struggled with bookmark systems for research</li>
-        <li>Users wanted <strong>categorization beyond folders</strong> (by themes, contexts, projects)</li>
-        <li>Strong desire for <strong>visual representation</strong> of connections</li>
-        <li>Privacy concerns about cloud-based tools</li>
-    </ul>
+<ProjectSection title="The Problem" id="problem-opportunity-insight" hideTitle={true} group="problem-opportunity">
     <p>
-        <strong>The insight:</strong> I wasn't alone. Knowledge workers want spatial organization, not hierarchical filing.
+        <strong>The insight:</strong> Bookmarking systems break at scale. As the list keeps growing, people either abandon the system or can't remember where they filed things—which defeats the whole point of saving things for future use. Sharing bookmarks adds another layer of complexity, forcing people to use other tools like Are.na, OneTab, or Notion. This fragments their workflow across multiple tools, breaking the flow they were already in.
     </p>
 </ProjectSection>
+
+
 
 <ProjectSection title="Approach" id="approach">
-    <h3>Design Philosophy</h3>
-    <p><strong>If thinking happens in webs, the interface should reflect that structure.</strong></p>
+    <h3>MEMEX as Framework</h3>
     <p>
-        I mapped Vannevar Bush's 1945 MEMEX concept (associative trails of thought) to modern browsing behaviors:
+        In 1945, Vannevar Bush proposed MEMEX—a desk-sized machine for saving information through associative trails instead of categories. The idea: record links between ideas the way thinking actually happens, not the way filing systems force organization. This concept later inspired the creation of hyperlinks.
+    </p>
+    <p>
+        Bush outlined five fundamentals: recording, storing, displaying, selecting, and sharing trails of thought.
     </p>
 </ProjectSection>
 
-<FullWidthImage height="300px" caption="MEMEX fundamentals diagram from sprint deck - recording/storing/displaying/selecting/sharing trails" />
+<FullWidthImage src="/assets/projects/dot-threads/approach.gif" height="300px" caption="Organizing the Thinking" />
 
 <ProjectSection title="Approach" id="approach-principles" hideTitle={true} group="approach">
-    <h3>Core Design Principles</h3>
-    <p><strong>1. Frictionless Capture:</strong> Save any page in 4 clicks or less. If saving takes effort, people abandon the workflow.</p>
-    <p><strong>2. Spatial Cognition:</strong> Position and proximity carry meaning. The canvas should mirror how ideas naturally connect in your mind.</p>
-    <p><strong>3. Perspective Over Omniscience:</strong> Show relevant context from each node's viewpoint, not everything at once. Focus matters more than completeness.</p>
-    <p><strong>4. Privacy as Design:</strong> Local storage isn't just technical—it's a trust decision. Users own their knowledge graph completely.</p>
-
+    <p>
+        MEMEX provided a structure for breaking down the bookmarking problem into actionable components. Two of Bush's fundamentals particularly shaped the direction:
+    </p>
+    <p>
+        <strong>Displaying:</strong> Bush wrote about making connections visible through spatial positioning—"trails" that show how things are associated and how one idea leads to another. This resonated with what users described: folders hide how things relate. The challenge became: how to make relationships visible without overwhelming the interface.
+    </p>
+    <p>
+        <strong>Sharing trails:</strong> Bush emphasized sharing entire paths of thought, not isolated items. This aligned with the user study finding—people struggled to share specific bookmarks scattered across lists. But sharing raised an immediate question: where should the data live? Cloud storage enables sharing but creates dependency. This tension pushed toward local-first architecture as a core constraint.
+    </p>
+    <p>
+        These two aspects—visible relationships and data ownership—became the organizing principles for the design process.
+    </p>
     <h3>From Concept to Working Product</h3>
 </ProjectSection>
 

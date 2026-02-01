@@ -74,15 +74,14 @@ const {
 
     /* --- HEADER GRID (Title + Text) --- */
     .header-group {
-        display: grid;
-        grid-template-columns: var(--title-width) 1fr;
-        gap: var(--column-gap);
-        align-items: baseline; /* Align with heading baseline */
-        overflow: visible; /* Allow images to break out of grid cell */
+        display: flex;
+        flex-direction: column;
+        gap: 1.5rem; /* Vertical gap between title and content */
+        overflow: visible;
 
-        /* Divider Line (Matches text width) */
+        /* Divider Line */
         border-top: 1px solid var(--border-subtle, rgba(0, 0, 0, 0.1));
-        padding-top: 0.5rem;
+        padding-top: 0.75rem; /* Reduced to 12px */
     }
 
     /* Hide divider for continuation sections */
@@ -94,13 +93,12 @@ const {
     /* --- TITLE STYLING (Section Subheadings) --- */
     .section-title h3 {
         font-size: 1.75rem; /* 28px */
-        font-weight: 500; /* Normal */
+        font-weight: 800;
         color: var(--text-primary);
         line-height: 1.3;
         letter-spacing: -0.02em;
         margin: 0;
-        position: sticky;
-        top: 2rem;
+        /* Removed sticky positioning for vertical layout */
         font-family: "Public Sans", sans-serif;
     }
 
@@ -203,5 +201,48 @@ const {
         .hero-text-container {
             width: 100%;
         }
+    }
+
+    /* --- GLOBAL HELPERS FOR CONTENT --- */
+    /* Centered Tagline (Responsive) */
+    .section-content :global(.centered-tagline) {
+        text-align: center;
+        font-weight: 500;
+        font-size: 20px;
+        line-height: 1.4;
+        margin: 1.5rem 0;
+        color: var(--text-primary);
+    }
+
+    @media (max-width: 768px) {
+        .section-content :global(.centered-tagline) {
+            font-size: 14px;
+        }
+    }
+
+    /* Bento Button Link */
+    .section-content :global(.bento-button) {
+        display: inline-flex;
+        align-items: center;
+        background: var(--bg-secondary);
+        border: 1px solid var(--border-subtle, rgba(0, 0, 0, 0.1));
+        padding: 4px 12px;
+        border-radius: 8px;
+        color: var(
+            --accent-secondary
+        ); /* Dark grey for contrast against light surface */
+        text-decoration: none;
+        font-size: 0.9em;
+        font-weight: 500;
+        transition: all 0.2s ease;
+        margin: 0 4px;
+        vertical-align: middle;
+    }
+
+    .section-content :global(.bento-button:hover) {
+        background: var(--bg-surface-hover);
+        transform: translateY(-1px);
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+        color: #ee6b02;
     }
 </style>

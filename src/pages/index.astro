@@ -6,6 +6,7 @@ import CategoryFilter from "../components/CategoryFilter.astro";
 import SidebarNavigation from "../components/SidebarNavigation.astro";
 import ThemeToggle from "../components/ThemeToggle.astro";
 import ContactSection from "../components/ContactSection.astro";
+import GhostRunner from "../components/GhostRunner.astro";
 import { getCollection } from "astro:content";
 
 // Fetch all projects
@@ -92,6 +93,8 @@ const strategyProjects = allProjects
 		<!-- LAYER 1: HERO / INTRO -->
 		<section class="hero" id="about">
 			<div class="hero-container">
+				<!-- Game inserted above bio -->
+				<GhostRunner />
 				<div class="bio-content">
 					<div class="hero-headline bio-short">
 						I’m Narayan, a Product Designer and graduate student at
@@ -102,8 +105,8 @@ const strategyProjects = allProjects
 							><span class="u-item">systems thinking</span></span
 						> and <span class="highlight"
 							><span class="u-item">rapid prototyping</span></span
-						> to create digital products that feel responsive, intentional and are grounded
-						in existing ecosystems.
+						> to create digital products that feel responsive, intentional
+						and are grounded in existing ecosystems.
 					</div>
 					<div class="hero-headline bio-long">
 						<div class="bio-text">
@@ -261,7 +264,7 @@ const strategyProjects = allProjects
 
 	/* Content Area Styles */
 	.home-content {
-		padding: var(--space-2xl) var(--space-xl);
+		padding: 20px var(--space-xl) var(--space-2xl); /* Top 20px, Sides XL, Bottom 2XL */
 		max-width: 1200px;
 		margin: 0 auto;
 		width: 100%;
@@ -269,7 +272,7 @@ const strategyProjects = allProjects
 
 	/* Hero Section */
 	.hero {
-		padding: 5rem 0 3rem; /* Adjusted padding for line placement */
+		padding: 0 0 3rem; /* EXACTLY 20px top padding as requested */
 		font-weight: 400;
 		font-size: 32px;
 		border-bottom: 1px solid var(--border-subtle); /* Hero Separator */
