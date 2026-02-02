@@ -18,9 +18,11 @@ ctaText: "Try the extension out"
 import ProjectSection from '../../components/ProjectSection.astro';
 import FullWidthImage from '../../components/FullWidthImage.astro';
 import ImageSlider from '/src/components/ImageSlider.astro';
+import ImageToggle from '../../components/ImageToggle.astro';
+import ReviewBubble from '../../components/ReviewBubble.astro';
+import ReviewContainer from '../../components/ReviewContainer.astro';
 
-<FullWidthImage src="/assets/projects/dot-threads/hero.png" height="500px" caption="Hero Image: Polished screenshot of the spatial canvas with dots connected by threads" loading="eager" />
-
+<FullWidthImage src="/assets/projects/dot-threads/hero.png" height="500px" loading="eager" />
 <div slot="intro">
     <p>
         Research doesn't happen in folders. It happens in webs of connected ideas. Dot Threads is a browser extension that transforms web browsing into spatial knowledge building. Instead of burying research in folders, users create visual webs where every link connects by context.
@@ -101,164 +103,100 @@ import ImageSlider from '/src/components/ImageSlider.astro';
     <p>
         These two aspects—visible relationships and data ownership—became the organizing principles for the design process.
     </p>
-    <h3>From Concept to Working Product</h3>
 </ProjectSection>
 
-<FullWidthImage height="300px" caption="Early sketches from sprint deck showing the 5 components" />
+<FullWidthImage src="/assets/projects/dot-threads/figma-prototype.png" height="400px" caption="Figma prototype explorations" />
 
-<ProjectSection title="Approach" id="approach-questions" hideTitle={true} group="approach">
+<ProjectSection title="Approach" id="approach-prototyping" hideTitle={true} group="approach">
     <p>
-        Started with Figma prototypes exploring spatial organization. Key design questions:
+        After establishing these organizing principles, the next step was translating them into interface explorations through rapid prototyping in Figma.
     </p>
-    <ul>
-        <li>How do users add links without leaving their browsing flow?</li>
-        <li>What does "spatial organization" actually mean in practice?</li>
-        <li>How do you navigate 50+ nodes without getting overwhelmed?</li>
-    </ul>
-</ProjectSection>
-
-<FullWidthImage height="400px" caption="Figma prototype showing the spatial agency reference graph" />
-
-<ProjectSection title="Approach" id="approach-sprint" hideTitle={true} group="approach">
-    <p><strong>The sprint approach:</strong> Prove the concept in 2 weeks, then iterate based on real usage.</p>
 </ProjectSection>
 
 <ProjectSection title="Interaction" id="interaction-model">
-    <h3>The Core Experience</h3>
+    <h3>Prototyping the Parallels</h3>
+    <p>Each MEMEX fundamental translated into specific interface explorations:</p>
 </ProjectSection>
 
-<FullWidthImage height="400px" caption="4-step workflow diagram: Find page -> Right-click save -> Tag/connect -> View on canvas" />
+<FullWidthImage src="/assets/projects/dot-threads/right-click.gif" height="400px" caption="Right-click context menu integration" />
 
-<ProjectSection title="Interaction" id="interaction-decision1" hideTitle={true} group="interaction-model">
-    <h3>Design Decision 1: Right-Click to Save</h3>
-    <p><strong>Decision:</strong> Integrate with browser's context menu for frictionless capture.</p>
-    <p><strong>Why:</strong> Users shouldn't need to open a new tab or panel. The context menu keeps the flow natural—right-click any page and save instantly.</p>
+<ProjectSection title="Interaction" id="interaction-entering" hideTitle={true} group="interaction-model">
+    <p><strong>Entering:</strong> How to capture links without breaking browsing flow? Right-click context menu integration—save any link instantly from the browser's native menu.</p>
 </ProjectSection>
 
-<FullWidthImage height="200px" caption="Screenshot showing right-click context menu with 'Save to Dot Threads' highlighted" />
+<FullWidthImage src="/assets/projects/dot-threads/viewing.gif" height="400px" caption="Canvas layout where proximity indicates relatedness" />
 
-<ProjectSection title="Interaction" id="interaction-detail" hideTitle={true} group="interaction-model">
-    <p><strong>Design detail:</strong> The save popup suggests existing dots from your graph, making it easy to build context as you browse.</p>
+<ProjectSection title="Interaction" id="interaction-web-info" hideTitle={true} group="interaction-model">
+    <p><strong>Web of info:</strong> How to show relationships spatially? Canvas layout where proximity indicates relatedness. Clicking any node reorganizes the view around it—making that node the "hero" of its own neighborhood.</p>
 </ProjectSection>
 
-<FullWidthImage height="300px" caption="Save popup showing suggested connections and tag input" />
+<FullWidthImage src="/assets/projects/dot-threads/editing.gif" height="400px" caption="Tag input and connection suggestions during save" />
 
-<ProjectSection title="Interaction" id="interaction-decision2" hideTitle={true} group="interaction-model">
-    <h3>Design Decision 2: Hero-Centric Traversal</h3>
-    <p><strong>Decision:</strong> Each node becomes the "hero" of its own view. Click a node → canvas reorganizes around it.</p>
-    <p><strong>Why:</strong> Showing the entire graph at once is overwhelming. Instead, I designed each dot to have its own "perspective"—showing only its immediate context (primary connections) and suggestions (secondary connections).</p>
+<ProjectSection title="Interaction" id="interaction-cataloging" hideTitle={true} group="interaction-model">
+    <p><strong>Cataloguing:</strong> How to preserve context when saving? Tag input and connection suggestions appear immediately during save, capturing why something mattered before the moment passes.</p>
 </ProjectSection>
 
-<FullWidthImage height="400px" caption="Before/after side-by-side - graph reorganizing when clicking a different node" />
+<FullWidthImage src="/assets/projects/dot-threads/hero-section.gif" height="400px" caption="Direct exploration—click, hover, zoom" />
 
-<ProjectSection title="Interaction" id="interaction-decision2-why" hideTitle={true} group="interaction-model">
-    <p><strong>Why this works:</strong> Maps work because you know where you are. Graphs need the same orientation. Hero-centric views give users that anchor point.</p>
-
-    <h3>Design Decision 3: Visual Hierarchy by Depth</h3>
-    <p><strong>Decision:</strong> Not all connections are equal—depth should be visual.</p>
-    <p><strong>Visual system:</strong></p>
-    <ul>
-        <li><strong>Primary links</strong> (your manual connections): Bold, 60% opacity</li>
-        <li><strong>Secondary links</strong> (connections of connections): Medium, 30% opacity</li>
-        <li><strong>Tertiary links</strong> (third-degree): Faint, 15% opacity</li>
-    </ul>
+<ProjectSection title="Interaction" id="interaction-browsing" hideTitle={true} group="interaction-model">
+    <p><strong>Browsing:</strong> How to navigate without hierarchies? Direct exploration—click a node to see its connections, hover to preview, zoom to adjust detail level.</p>
 </ProjectSection>
 
-<FullWidthImage height="300px" caption="Diagram showing three link types with different visual weights" />
+<FullWidthImage src="/assets/projects/dot-threads/sharing.gif" height="400px" caption="Local export as portable files" />
 
-<ProjectSection title="Interaction" id="interaction-nav" hideTitle={true} group="interaction-model">
-    <p><strong>Why:</strong> This creates a natural fade from "definitely relevant" to "maybe interesting." Users can focus on core connections while peripheral ones provide context without noise.</p>
-
-    <h3>Navigation Patterns</h3>
-    <p><strong>Hovering:</strong> Highlights the node and its immediate connections</p>
-    <p><strong>Zooming:</strong> Text labels fade smoothly (semantic zoom) to keep readability at any scale</p>
-    <p><strong>Searching:</strong> Keyboard-driven dropdown with real-time filtering</p>
-    <p><strong>Why these interactions?</strong> Each one reduces friction between thinking and capturing. The tool should feel like an extension of thought, not a separate database to manage.</p>
+<ProjectSection title="Interaction" id="interaction-sharing" hideTitle={true} group="interaction-model">
+    <p><strong>Sharing:</strong> How to export threads without cloud dependency? Local export as portable files—threads package as self-contained data that can be shared directly.</p>
 </ProjectSection>
 
 <ProjectSection title="Implementation" id="implementation">
-    <h3>Technical Approach</h3>
-    <p><strong>Architecture:</strong> Browser extension + spatial canvas web app</p>
-    <p><strong>Data layer:</strong> All data stored locally using browser storage APIs—no cloud, no servers, complete privacy</p>
-    <p><strong>Visualization:</strong> Force-directed graph layout with physics simulation for natural spacing</p>
+    <h3>Core Components of the Product</h3>
 </ProjectSection>
 
-<FullWidthImage height="300px" caption="Simple architecture diagram: Browser Extension ↔ Local Storage ↔ Web View" />
+<ImageToggle 
+    baseSrc="/assets/projects/dot-threads/artifacts-0.png"
+    overlaySrc="/assets/projects/dot-threads/artifacts.png"
+    buttonLabel="Labels"
+    alt="Core components of the Dot Threads interface"
+/>
 
-<ProjectSection title="Implementation" id="implementation-local" hideTitle={true} group="implementation">
-    <h3>Why Local-First?</h3>
-    <p>This wasn't just a technical decision—it was a <strong>design philosophy</strong>:</p>
-    <ol>
-        <li><strong>Trust:</strong> Users control their knowledge completely</li>
-        <li><strong>Speed:</strong> No network latency, works offline</li>
-        <li><strong>Privacy:</strong> No servers to compromise, no data to sell</li>
-        <li><strong>Simplicity:</strong> No accounts, no authentication, zero friction</li>
-    </ol>
-    <p><strong>The tradeoff:</strong> No cross-device sync. But for researchers who value privacy, this is the right choice.</p>
-
-    <h3>Design System</h3>
+<ProjectSection title="Implementation" id="implementation-components" hideTitle={true} group="implementation">
+    <p><strong>Most recent section in world view:</strong> Quick access list showing the last viewed dots. Provides linear navigation when the spatial canvas feels too open-ended.</p>
+    <p><strong>Clickable hero image of website:</strong> Screenshot preview generated via Microlink API. Clicking opens the original URL. Provides visual memory cue beyond just text titles.</p>
+    <p><strong>Markdown supported notes:</strong> Expandable notes field with markdown formatting. Captures context about why something was saved before that context fades.</p>
+    <p><strong>Right-click pop up for quick saving and associating:</strong> Browser context menu integration. Shows existing dots as connection suggestions. Allows type assignment during capture to minimize friction.</p>
+    <p><strong>Edit menu for customizing and cataloguing:</strong> Modal interface for modifying saved dots. Includes title editing, type reassignment with color picker, and connection management through searchable dropdown.</p>
+    <p><strong>Physics-based organic visuals with depth through connection opacity:</strong> D3.js force simulation positions nodes naturally. Connection lines fade by depth—primary bold, secondary medium, tertiary faint—creating visual hierarchy without hiding information.</p>
+    <p><strong>Traditional list access when spatial navigation feels overwhelming:</strong> Right sidebar organizes connections linearly by depth (primary, secondary, tertiary). Text-based list with hover effects for users who prefer hierarchical browsing.</p>
+    <p><strong>Know where your dot lives:</strong> World map in bottom-right shows miniature of full graph. Current position highlighted. Updates as you navigate to maintain orientation.</p>
+    <p><strong>Sharing dot threads with JSON export:</strong> Export button packages selected threads as portable JSON files. Import button merges shared threads into existing graph.</p>
+    <h3>Technical Architecture</h3>
 </ProjectSection>
 
-<FullWidthImage height="400px" caption="Screenshot showing the visual design system in action" />
+<FullWidthImage src="/assets/projects/dot-threads/architecture.png" height="400px" caption="Technical architecture diagram" />
 
-<ProjectSection title="Implementation" id="implementation-design" hideTitle={true} group="implementation">
-    <p><strong>Colors:</strong> Custom types with user-defined colors. Hierarchy uses grayscale to distinguish depth.</p>
-    <p><strong>Typography:</strong> Labels constant size (12px) regardless of zoom. Bold weight for selected node.</p>
-    <p><strong>Motion:</strong> Nodes "bloom" outward when appearing (600ms cubic easing). Smooth camera transitions.</p>
-    <p><strong>Why organic?</strong> Knowledge graphs should feel like living structures, not rigid diagrams. The physics simulation creates natural spacing—nodes find their own positions through simulated forces.</p>
-    
-    <p><em>Technical Note: Built with modern web technologies and browser APIs. Technical architecture details available upon request.</em></p>
+<ProjectSection title="Implementation" id="implementation-architecture" hideTitle={true} group="implementation">
+    <p>Chrome extension stores data locally using browser storage API. Web application reads this data through message bridge and visualizes using D3.js force-directed graph. Development mode includes local filesystem persistence. When extension not installed, app loads static demo data. Microlink API handles screenshot generation.</p>
+    <p><a href="https://github.com/narayan-works/dot.threads" target="_blank" rel="noopener noreferrer" class="bento-button">View source on GitHub <span style="margin-left: 6px;">↗</span></a></p>
 </ProjectSection>
 
 <ProjectSection title="Outcome" id="outcome">
     <h3>Shipped Product</h3>
-    <p><strong>Status:</strong> Live on Chrome Web Store, Version 1.3.3</p>
-    <p><strong>Users:</strong> 3 active users (early adopters from CMU)</p>
-    <p><strong>Timeline:</strong> Initial launch September 2024 → ongoing iteration</p>
 </ProjectSection>
 
-<FullWidthImage height="400px" caption="Chrome Web Store listing screenshot" />
+<FullWidthImage src="/assets/projects/dot-threads/chrome-store.png" height="400px" caption="Chrome Web Store listing" />
 
-<ProjectSection title="Outcome" id="outcome-iteration" hideTitle={true} group="outcome">
-    <h3>Iteration Cycles</h3>
-    <p><strong>September 2024 - Initial Launch:</strong> Right-click save, spatial canvas, hero-centric traversal.</p>
-    <p><strong>Oct-Dec 2024 - Feedback Iteration:</strong> Smart suggestions, custom types, screenshot previews, better delete UX.</p>
-    <p><strong>January 2026 - Latest:</strong> Version 1.3.3, custom domain support, refined visual hierarchy.</p>
-
+<ProjectSection title="Outcome" id="outcome-shipped" hideTitle={true} group="outcome">
+    <p>Dot Threads launched on Chrome Web Store in September 2024 and has been actively maintained through January 2026. Currently at version 1.3.3 with 10 active users.</p>
     <h3>User Feedback</h3>
-    <p><strong>"Bookmarks finally make sense"</strong> - Users navigate by memory of connections instead of hunting through folders.</p>
-    <p><strong>"I keep discovering forgotten connections"</strong> - Graph layout surfaces relationships between old research and new interests.</p>
-    <p><strong>"I wish I could use this for everything"</strong> - Users want to expand beyond links, confirming spatial organization resonates.</p>
-
-    <h3>Impact Metrics</h3>
-    <ul>
-        <li>✅ Working product used by real people</li>
-        <li>✅ 4 major update cycles based on feedback</li>
-        <li>✅ Validated problem through user research</li>
-        <li>✅ Demonstrated end-to-end product execution</li>
-    </ul>
+    <ReviewContainer>
+        <ReviewBubble quote="The design is very effective and intuitive once the user gets used to it." />
+        <ReviewBubble quote="It's visually clear and thoughtfully crafted, with a strong focus on making bookmarking more engaging and intuitive. The idea of using thumbnails and interactive elements adds personalization to the experience." />
+    </ReviewContainer>
 </ProjectSection>
 
-<ProjectSection title="Reflection" id="reflection">
-    <h3>Spatial Interfaces Need Perspective, Not Omniscience</h3>
-    <p>My first instinct was to show the entire graph at once. That's overwhelming. <strong>Hero-centric views</strong> solve this: show context from each node's perspective. Maps work because you know where you are. Graphs need the same orientation.</p>
-
-    <h3>Visual Representation Amplifies Thinking</h3>
-    <p>Seeing connections makes patterns visible that stay hidden in folders: clusters reveal themes, gaps show unexplored areas, bridges surface insights. The canvas isn't just storage—it's a <strong>thinking tool</strong>.</p>
-
-    <h3>Frictionless Capture is Everything</h3>
-    <p>I tested versions with 6, 8, 10 clicks. Every additional step compounds friction. <strong>4 clicks is the maximum</strong> before people abandon the workflow. The right-click save was the make-or-break feature.</p>
-
-    <h3>Users Need Onboarding for Spatial Thinking</h3>
-    <p>Spatial organization is powerful but <strong>unfamiliar</strong>. Most people have spent years with folder-based thinking. Next iteration needs guided onboarding showing how to build your first knowledge web.</p>
-
-    <h3>Shipping Teaches What Prototyping Can't</h3>
-    <p>Real issues I never saw in Figma: overlapping connections, organizing the 100th dot vs the 10th. <strong>Lesson:</strong> Ship earlier. Real usage reveals real problems that prototypes hide.</p>
-
-    <h3>What Makes a Good Tool for Thought?</h3>
-    <p><strong>1. Resist Prescriptiveness:</strong> Don't force structure.</p>
-    <p><strong>2. Make Thinking Visible:</strong> Visualization is cognition.</p>
-    <p><strong>3. Reduce Friction to Zero:</strong> Input must be frictionless.</p>
-    <p><strong>4. Respect Privacy:</strong> Local-first is about trust.</p>
-    <p><strong>5. Ship and Learn:</strong> Real usage teaches what assumptions were wrong.</p>
+<ProjectSection title="Outcome" id="outcome-iterations" hideTitle={true} group="outcome">
+    <h3>Iterations Based on Feedback</h3>
+    <p>The reviews surfaced two key areas for improvement:</p>
+    <p><strong>Connection clarity:</strong> Users found the lines between colored nodes unclear. Added visual hierarchy (bold/medium/faint opacity) to distinguish connection depths and updated the trails sidebar to explicitly label primary/secondary/tertiary relationships.</p>
+    <p><strong>Multi-bookmark workflows:</strong> Request for connected bookmarks to open together. This validated the export/import feature—users can now share entire research threads as portable JSON files rather than individual links.</p>
 </ProjectSection>

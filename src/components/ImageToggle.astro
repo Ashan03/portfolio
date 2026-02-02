@@ -1,0 +1,107 @@
+---
+import { Image } from "astro:assets";
+
+interface Props {
+    baseSrc: string;
+    overlaySrc: string;
+    buttonLabel?: string;
+    alt?: string;
+}
+
+const { baseSrc, overlaySrc, buttonLabel = "Labels", alt = "" } = Astro.props;
+const toggleId = `toggle-${Math.random().toString(36).substr(2, 9)}`;
+---
+
+<div class="image-toggle" id={toggleId}>
+    <div class="image-container">
+        <Image
+            src={baseSrc}
+            alt={alt}
+            width={1920}
+            height={1080}
+            class="base-image"
+        />
+        <Image
+            src={overlaySrc}
+            alt={`${alt} with labels`}
+            width={1920}
+            height={1080}
+            class="overlay-image"
+        />
+    </div>
+    <button class="toggle-btn">{buttonLabel}</button>
+</div>
+
+<style>
+    .image-toggle {
+        width: 100%;
+        margin: 0.5rem 0;
+        position: relative;
+    }
+
+    .image-container {
+        position: relative;
+        width: 100%;
+        border-radius: var(--radius-md);
+        overflow: hidden;
+    }
+
+    .base-image,
+    .overlay-image {
+        width: 100%;
+        height: auto;
+        display: block;
+    }
+
+    .overlay-image {
+        position: absolute;
+        top: 0;
+        left: 0;
+        opacity: 0;
+        transition: opacity 0.15s ease;
+    }
+
+    .image-toggle.active .overlay-image {
+        opacity: 1;
+    }
+
+    .toggle-btn {
+        position: absolute;
+        bottom: 16px;
+        right: 16px;
+        background: var(--bg-surface);
+        border: 1px solid var(--border-subtle);
+        padding: 0.6rem 1.2rem;
+        border-radius: var(--radius-sm);
+        color: var(--text-secondary);
+        font-size: 14px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.15s ease;
+        font-family: var(--font-sans);
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    .toggle-btn:hover {
+        background: var(--text-primary);
+        color: var(--bg-surface);
+    }
+
+    .image-toggle.active .toggle-btn {
+        background: var(--text-primary);
+        color: var(--bg-surface);
+    }
+</style>
+
+<script define:vars={{ toggleId }}>
+    document.addEventListener("DOMContentLoaded", () => {
+        const container = document.getElementById(toggleId);
+        if (!container) return;
+
+        const btn = container.querySelector(".toggle-btn");
+
+        btn.addEventListener("click", () => {
+            container.classList.toggle("active");
+        });
+    });
+</script>

@@ -1,0 +1,22 @@
+---
+interface Props {}
+---
+
+<div class="review-container">
+    <slot />
+</div>
+
+<style>
+    .review-container {
+        display: flex;
+        flex-direction: row;
+        gap: 1rem;
+        margin: 0.5rem 0;
+    }
+
+    @media (max-width: 768px) {
+        .review-container {
+            flex-direction: column;
+        }
+    }
+</style>
