@@ -5,7 +5,8 @@ import ProjectCard from "../components/ProjectCard.astro";
 import CategoryFilter from "../components/CategoryFilter.astro";
 import SidebarNavigation from "../components/SidebarNavigation.astro";
 import ThemeToggle from "../components/ThemeToggle.astro";
-import ContactSection from "../components/ContactSection.astro";
+import SocialLinks from "../components/SocialLinks.astro";
+import Footer from "../components/Footer.astro";
 import GhostRunner from "../components/GhostRunner.astro";
 import { getCollection } from "astro:content";
 
@@ -35,57 +36,7 @@ const strategyProjects = allProjects
 		<SidebarNavigation isHome={true} />
 		<div class="sidebar-controls">
 			<ThemeToggle />
-			<!-- Socials -->
-			<div class="social-group">
-				<a
-					href="https://linkedin.com/in/narayan-ashanahalli/"
-					target="_blank"
-					class="social-link"
-				>
-					<img
-						src="/logos/linkedIn-light.png"
-						class="s-icon icon-light"
-						alt="LinkedIn"
-					/>
-					<img
-						src="/logos/linkedIn-dark.png"
-						class="s-icon icon-dark"
-						alt="LinkedIn"
-					/>
-				</a>
-				<a
-					href="https://www.instagram.com/narayan.3dm/"
-					target="_blank"
-					class="social-link"
-				>
-					<img
-						src="/logos/instagram-light.png"
-						class="s-icon icon-light"
-						alt="Instagram"
-					/>
-					<img
-						src="/logos/instagram-dark.png"
-						class="s-icon icon-dark"
-						alt="Instagram"
-					/>
-				</a>
-				<a
-					href="https://github.com/narayan-works"
-					target="_blank"
-					class="social-link"
-				>
-					<img
-						src="/logos/github-light.png"
-						class="s-icon icon-light"
-						alt="GitHub"
-					/>
-					<img
-						src="/logos/github-dark.png"
-						class="s-icon icon-dark"
-						alt="GitHub"
-					/>
-				</a>
-			</div>
+			<SocialLinks />
 		</div>
 	</div>
 
@@ -248,8 +199,7 @@ const strategyProjects = allProjects
 			</CategorySection>
 		</section>
 
-		<!-- LAYER 3: CONTACT -->
-		<ContactSection />
+		<Footer />
 	</div>
 </Layout>
 
@@ -264,7 +214,7 @@ const strategyProjects = allProjects
 
 	/* Content Area Styles */
 	.home-content {
-		padding: 20px var(--space-xl) var(--space-2xl); /* Top 20px, Sides XL, Bottom 2XL */
+		padding: 20px var(--space-xl) 20px; /* Top 20px, Sides XL, Bottom 20px */
 		max-width: 1200px;
 		margin: 0 auto;
 		width: 100%;
@@ -295,7 +245,6 @@ const strategyProjects = allProjects
 		); /* Ensure opaque background for layering */
 		padding-bottom: var(--space-4xl);
 		scroll-margin-top: 0; /* Ensure flush alignment with viewport top */
-		border-bottom: 1px solid var(--border-subtle); /* Works Separator */
 	}
 
 	.works-header-sticky {
@@ -333,7 +282,7 @@ const strategyProjects = allProjects
 	/* Tablet View */
 	@media (max-width: 1024px) {
 		.home-content {
-			padding: 20px;
+			padding: 20px 20px 40px 20px;
 		}
 	}
 
@@ -342,7 +291,7 @@ const strategyProjects = allProjects
 			font-size: 32px;
 		}
 		.home-content {
-			padding: 20px;
+			padding: 20px 20px 40px 20px;
 		}
 	}
 
@@ -420,18 +369,37 @@ const strategyProjects = allProjects
 
 		.sidebar-controls {
 			position: fixed;
-			bottom: var(--space-md);
-			left: var(--space-md);
+			bottom: 20px;
+			left: 20px;
 			z-index: 90;
 			display: flex;
 			align-items: center;
-			gap: 0.5rem;
+			gap: 0; /* Remove gap, we'll use padding/margins if needed */
 			background: var(--bg-surface);
-			padding: 0.5rem;
-			border-radius: 1rem;
+			padding: 0.5rem 0.75rem; /* Match bento padding */
+			border-radius: var(--radius-md);
 			border: 1px solid var(--border-subtle);
 			box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
 			width: fit-content;
+			transition: bottom 0.1s ease-out; /* Smooth docking */
+		}
+
+		/* Style children to look like one unified component */
+		.sidebar-controls :global(#theme-toggle) {
+			border: none;
+			background: transparent;
+			padding: 0 0.5rem 0 0; /* Right padding for spacing */
+			border-radius: 0;
+			border-right: 1px solid var(--border-subtle); /* Divider */
+			height: 24px; /* Fix height for alignment */
+			margin-right: 0.5rem;
+		}
+
+		.sidebar-controls :global(.social-group) {
+			border: none;
+			background: transparent;
+			padding: 0;
+			gap: 0.5rem;
 		}
 	}
 
@@ -447,50 +415,6 @@ const strategyProjects = allProjects
 			margin-top: auto;
 			padding-top: var(--space-lg);
 		}
-	}
-
-	.social-group {
-		display: flex;
-		gap: 0.8rem;
-		align-items: center;
-		padding: 0.5rem 0.75rem;
-		border: 1px solid var(--border-subtle);
-		border-radius: var(--radius-md);
-		background: transparent;
-	}
-
-	.social-link {
-		display: flex;
-		align-items: center;
-		opacity: 0.5;
-		transition: all 0.2s ease;
-	}
-	.social-link:hover {
-		opacity: 1;
-		transform: translateY(-2px);
-	}
-
-	.s-icon {
-		width: 18px;
-		height: 18px;
-		object-fit: contain;
-	}
-
-	/* Icon Theme Logic */
-	/* Dark Mode (Default) -> Show Dark Icon (Light Colored) */
-	.icon-light {
-		display: none;
-	}
-	.icon-dark {
-		display: block;
-	}
-
-	/* Light Mode -> Show Light Icon (Dark Colored) */
-	:global([data-theme="light"]) .icon-light {
-		display: block;
-	}
-	:global([data-theme="light"]) .icon-dark {
-		display: none;
 	}
 
 	@media (min-width: 1025px) {
@@ -729,4 +653,53 @@ const strategyProjects = allProjects
 			);
 		}
 	});
+</script>
+
+<script>
+	// Mobile sidebar controls docking behavior
+	function updateControlsPosition() {
+		// Only run on mobile/tablet (roughly check media query or just let it run if sidebar-controls is visible)
+		// Better to check if the element has fixed positioning or use media query
+		if (window.matchMedia("(min-width: 1025px)").matches) {
+			const controls = document.querySelector(
+				".sidebar-controls",
+			) as HTMLElement;
+			if (controls) controls.style.bottom = ""; // Reset
+			return;
+		}
+
+		const controls = document.querySelector(
+			".sidebar-controls",
+		) as HTMLElement;
+		const footerText = document.querySelector(
+			".contact-message",
+		) as HTMLElement;
+
+		if (!controls || !footerText) return;
+
+		const footerRect = footerText.getBoundingClientRect();
+		const windowHeight = window.innerHeight;
+
+		// Base bottom offset matches CSS 20px
+		const baseBottom = 20;
+		const gap = 20; // Ensure 40px gap above the footer text ("name card")
+
+		// Check if footer text is entering viewport from bottom
+		if (footerRect.top < windowHeight) {
+			// Calculate new bottom position to stay above the text
+			// bottom = (windowHeight - footerTextTop) + gap
+			const overlapOffset = windowHeight - footerRect.top;
+			const newBottom = Math.max(baseBottom, overlapOffset + gap);
+			controls.style.bottom = `${newBottom}px`;
+		} else {
+			controls.style.bottom = `${baseBottom}px`;
+		}
+	}
+
+	window.addEventListener("scroll", updateControlsPosition, {
+		passive: true,
+	});
+	window.addEventListener("resize", updateControlsPosition);
+	// Initial call
+	updateControlsPosition();
 </script>

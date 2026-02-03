@@ -35,7 +35,7 @@
 
         // Configuration
         const GHOST_SIZE = 60; // Increased from 40
-        const SPEED_BASE = 8;
+        const SPEED_BASE = 2;
         const BAR_WIDTH_BASE = 60; // Base width
         const BAR_HEIGHT = 12;
 
@@ -251,6 +251,12 @@
         });
 
         const resetGame = () => {
+            // Cancel any existing game loop to prevent speed accumulation
+            if (frameId) {
+                cancelAnimationFrame(frameId);
+                frameId = 0;
+            }
+
             isGameOver = false;
             isPlaying = false;
             score = 0;
@@ -705,11 +711,11 @@
                 ctx.textBaseline = "middle";
 
                 if (!isPlaying && !isGameOver) {
-                    // Idle State: Show "CLICK TO PLAY"
+                    // Idle State: Show "HOLD TO FLY"
                     // Use smaller font if needed or keep same style
                     ctx.font = "bold 11px 'Space Mono', monospace";
                     ctx.fillText(
-                        "CLICK TO PLAY",
+                        "HOLD TO FLY",
                         boxX + boxW / 2,
                         boxY + boxH / 2 + 1, // Moved down 2px
                     );
