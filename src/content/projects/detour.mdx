@@ -16,6 +16,7 @@ meta:
 import ProjectSection from '../../components/ProjectSection.astro';
 import FullWidthImage from '../../components/FullWidthImage.astro';
 import PlaceholderImage from '../../components/PlaceholderImage.astro';
+import PdfEmbed from '../../components/PdfEmbed.astro';
 
 <FullWidthImage height="500px" caption="Hero Image" />
 
@@ -35,7 +36,8 @@ import PlaceholderImage from '../../components/PlaceholderImage.astro';
     <p>Content detailing the initial conceptualization and ideation phase.</p>
 </ProjectSection>
 
-<FullWidthImage height="300px" />
+{/* PDF Viewer for approach */}
+<PdfEmbed src="/assets/projects/detur/approach.pdf" />
 
 <ProjectSection title="Implementation" id="implementation">
     <p>Details on the composition, build, or structural elements of the solution.</p>

@@ -51,6 +51,7 @@
         let isPlaying = false;
         let isGameOver = false;
         let score = 0;
+        let highScore = 0;
         let lives = 3;
         const MAX_LIVES = 3;
         let gameSpeed = SPEED_BASE;
@@ -218,7 +219,10 @@
             if (!isPlaying) {
                 isPlaying = true;
                 overlay.style.opacity = "0";
-                loop();
+                // Only start loop if one isn't already running
+                if (!frameId) {
+                    loop();
+                }
             }
             isHolding = true;
         };
@@ -379,6 +383,10 @@
 
         const gameOver = () => {
             isGameOver = true;
+            // Update high score
+            if (Math.floor(score) > highScore) {
+                highScore = Math.floor(score);
+            }
             overlay.style.opacity = "0";
             overlay.innerHTML = "";
         };
@@ -640,6 +648,17 @@
                     }
                 }
                 ctx.globalAlpha = 1.0;
+
+                // High Score (beside sun/moon)
+                if (highScore > 0) {
+                    ctx.font = "bold 10px 'Space Mono', monospace";
+                    ctx.fillStyle = isDarkHUD
+                        ? "rgba(218,221,208,0.6)"
+                        : "rgba(40,40,40,0.6)";
+                    ctx.textAlign = "right";
+                    ctx.textBaseline = "middle";
+                    ctx.fillText(`HI: ${highScore}`, iconX - 18, iconY);
+                }
 
                 // 1. Hearts (Top Left)
                 ctx.textAlign = "left";

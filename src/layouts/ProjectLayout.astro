@@ -405,10 +405,16 @@ const sections = [
             margin-top: 0;
         }
 
+
         /* Allow sidebar to collapse vertically */
         .project-sidebar-content {
             height: auto;
             display: block;
         }
+    }
+
+    /* Force 240px margin for footer on project pages */
+    .right-content :global(.site-footer) {
+        margin-top: 240px !important;
     }
 </style>
