@@ -19,6 +19,21 @@ const { title, description, image, tags = [], href = "#" } = Astro.props;
                 <div class="placeholder-image" />
             )
         }
+        <div class="redirect-btn">
+            <svg
+                width="16"
+                height="16"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2.5"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+            >
+                <line x1="7" y1="17" x2="17" y2="7"></line>
+                <polyline points="7 7 17 7 17 17"></polyline>
+            </svg>
+        </div>
     </div>
     <div class="card-content">
         <h3>{title}</h3>
@@ -42,6 +57,8 @@ const { title, description, image, tags = [], href = "#" } = Astro.props;
             background-color 0.3s ease,
             box-shadow 0.3s ease,
             transform 0.3s ease;
+        position: relative; /* For absolute positioning context if needed */
+        text-decoration: none; /* Ensure no underline on text */
     }
 
     .project-card:hover {
@@ -61,6 +78,7 @@ const { title, description, image, tags = [], href = "#" } = Astro.props;
         border-radius: var(--radius-md);
         overflow: hidden;
         margin-bottom: 1.5rem; /* Space between image and title */
+        position: relative; /* Context for overlay button */
     }
 
     .card-image img {
@@ -68,13 +86,43 @@ const { title, description, image, tags = [], href = "#" } = Astro.props;
         height: 100%;
         object-fit: cover;
         transition: transform 0.7s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-        filter: grayscale(100%);
-        filter: saturate(0);
+        /* Removed grayscale/saturate filters as requested */
     }
 
     .project-card:hover .card-image img {
         transform: scale(1.03);
-        filter: saturate(1);
+    }
+
+    /* Redirect Button Overlay */
+    .redirect-btn {
+        position: absolute;
+        top: 10px;
+        right: 10px;
+        width: 32px;
+        height: 32px;
+        background: rgba(255, 255, 255, 0.9);
+        backdrop-filter: blur(4px);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        opacity: 0;
+        transform: scale(0.8) rotate(-10deg);
+        transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1); /* Pop effect */
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        z-index: 10;
+        color: #000;
+    }
+
+    .project-card:hover .redirect-btn {
+        opacity: 1;
+        transform: scale(1) rotate(0deg);
+    }
+
+    :global(.dark) .redirect-btn {
+        background: rgba(30, 30, 30, 0.8);
+        color: #fff;
+        border: 1px solid rgba(255, 255, 255, 0.1);
     }
 
     .card-content {

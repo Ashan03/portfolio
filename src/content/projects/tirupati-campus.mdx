@@ -3,7 +3,7 @@ title: "Tirupati Campus"
 description: "Strategic spatial optimization for a manufacturing giant (Amara Raja)."
 category: "strategy"
 order: 7
-heroImage: ""
+heroImage: "/assets/projects/tirupati/cover.avif"
 tags: ["Service Design", "Spatial Strategy"]
 meta:
   Role: "Product Designer"
@@ -14,51 +14,154 @@ meta:
 ---
 
 import ProjectSection from '../../components/ProjectSection.astro';
+import PdfEmbed from '../../components/PdfEmbed.astro';
 import FullWidthImage from '../../components/FullWidthImage.astro';
-import PlaceholderImage from '../../components/PlaceholderImage.astro';
-
-<FullWidthImage height="500px" caption="Hero Image" />
 
 <div slot="intro">
     <p>
-        [Project Intro Placeholder] This project explores the intersection of design and technology. Replace this text with a specific summary of the work.
+        Strategic spatial optimization for Amara Raja's Tirupati campus, focusing on workflow efficiency and employee experience.
     </p>
 </div>
 
-<ProjectSection title="Problem & Opportunity" id="problem-opportunity">
-    <p>Content regarding the core provocation or problem statement of this project.</p>
-</ProjectSection>
+{/* Sticky Pause/Play Button */}
+<button id="global-pause-btn" class="global-pause-btn" aria-label="Pause autoplay">
+    <span class="pause-icon"></span>
+</button>
 
-<FullWidthImage height="400px" />
+<style>{`
+    .global-pause-btn {
+        position: fixed;
+        top: 1rem;
+        right: 1rem;
+        width: 36px;
+        height: 36px;
+        background: #f5f0e8;
+        backdrop-filter: blur(8px);
+        border: 1px solid rgba(0, 0, 0, 0.1);
+        border-radius: 6px;
+        color: #1a1a1a;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        z-index: 1000;
+        transition: all 0.2s ease;
+    }
+    :root[data-theme="light"] .global-pause-btn {
+        background: #1a1a1a;
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        color: #ffffff;
+    }
+    .global-pause-btn:hover {
+        background: var(--accent-secondary, #42bd49);
+        border-color: var(--accent-secondary, #42bd49);
+        color: #ffffff;
+    }
+    .pause-icon {
+        display: flex;
+        gap: 3px;
+    }
+    .pause-icon::before,
+    .pause-icon::after {
+        content: '';
+        width: 2px;
+        height: 12px;
+        background: currentColor;
+        border-radius: 1px;
+    }
+    .global-pause-btn.playing .pause-icon::before {
+        width: 0;
+        height: 0;
+        border-left: 8px solid currentColor;
+        border-top: 6px solid transparent;
+        border-bottom: 6px solid transparent;
+        background: transparent;
+    }
+    .global-pause-btn.playing .pause-icon::after {
+        display: none;
+    }
+    @media (max-width: 768px) {
+        .global-pause-btn {
+            top: auto;
+            bottom: 1rem;
+        }
+    }
+`}</style>
+
+<script is:inline>{`
+    // Set global pause state immediately
+    window.pdfAutoplayPaused = true;
+
+    document.addEventListener('DOMContentLoaded', () => {
+        const btn = document.getElementById('global-pause-btn');
+        const footer = document.querySelector('.site-footer');
+        // Start in PAUSED state
+        let paused = true;
+        
+        // Update button UI to show Play icon
+        if (btn) {
+            btn.classList.add('playing');
+            btn.setAttribute('aria-label', 'Play autoplay');
+
+            btn.addEventListener('click', () => {
+                paused = !paused;
+                window.pdfAutoplayPaused = paused;
+                btn.classList.toggle('playing', paused);
+                btn.setAttribute('aria-label', paused ? 'Play autoplay' : 'Pause autoplay');
+                window.dispatchEvent(new CustomEvent('pdfAutoplayToggle', { detail: { paused } }));
+            });
+        }
+
+        // Dispatch initial event to ensure all components are synced
+        window.dispatchEvent(new CustomEvent('pdfAutoplayToggle', { detail: { paused } }));
+
+
+        // Keep button above footer when scrolled to bottom
+        function updateButtonPosition() {
+            if (!footer) return;
+            const footerRect = footer.getBoundingClientRect();
+            const windowHeight = window.innerHeight;
+            const btnHeight = btn.offsetHeight;
+            const margin = 10;
+            
+            if (footerRect.top < windowHeight) {
+                const offset = windowHeight - footerRect.top + margin;
+                btn.style.bottom = offset + 'px';
+            } else {
+                btn.style.bottom = '1rem';
+            }
+        }
+
+        window.addEventListener('scroll', updateButtonPosition);
+        window.addEventListener('resize', updateButtonPosition);
+        updateButtonPosition();
+    });
+`}</script>
+
+<FullWidthImage src="/assets/projects/tirupati/cover.avif" caption="Tirupati Campus Overview" />
+
+<ProjectSection title="Premise" id="premise">
+    <p>Context about why this project was initiated.</p>
+    <PdfEmbed src="/assets/projects/tirupati/Premise.pdf" fullWidth={false} />
+</ProjectSection>
 
 <ProjectSection title="Approach" id="approach">
-    <p>Content detailing the initial conceptualization and ideation phase.</p>
+    <p>Strategic approach and methodology.</p>
+    <PdfEmbed src="/assets/projects/tirupati/Approach.pdf" fullWidth={false} />
 </ProjectSection>
 
-<FullWidthImage height="300px" />
+<ProjectSection title="Study" id="study">
+    <p>Research and analysis phase.</p>
+    <PdfEmbed src="/assets/projects/tirupati/Study.pdf" fullWidth={false} />
+</ProjectSection>
 
 <ProjectSection title="Implementation" id="implementation">
-    <p>Details on the composition, build, or structural elements of the solution.</p>
-    <div class="grid-2">
-        <PlaceholderImage height="300px" />
-        <PlaceholderImage height="300px" />
-    </div>
+    <p>Execution and delivery details.</p>
+    <PdfEmbed src="/assets/projects/tirupati/Implementation.pdf" fullWidth={false} />
 </ProjectSection>
-
-<ProjectSection title="Interaction Model/UX" id="interaction-model">
-    <p>Explanation of the mechanics, interactions, or underlying logic.</p>
-</ProjectSection>
-
-<FullWidthImage height="500px" />
 
 <ProjectSection title="Outcome" id="outcome">
-    <p>Synthesis of the results, outputs, or final design artifacts.</p>
+    <p>Final results and impact.</p>
+    <PdfEmbed src="/assets/projects/tirupati/Outcome.pdf" fullWidth={false} />
+    <img src="/assets/projects/tirupati/outcome-2.gif" alt="Outcome animation" style="width: 100%; margin-top: 2rem; border-radius: 8px;" />
 </ProjectSection>
-
-<FullWidthImage height="400px" />
-
-<ProjectSection title="Reflection" id="reflection">
-    <p>Notes on how AI or computational tools augmented the workflow.</p>
-</ProjectSection>
-
-<FullWidthImage height="350px" />

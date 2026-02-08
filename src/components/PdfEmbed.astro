@@ -2,33 +2,48 @@
 interface Props {
     src: string;
     alt?: string;
+    fullWidth?: boolean;
 }
 
-const { src } = Astro.props;
+const { src, fullWidth = true } = Astro.props;
+const uniqueId = "pdf-" + Math.random().toString(36).substr(2, 9);
 ---
 
-<div class="pdf-viewer-wrapper">
+<div
+    class:list={["pdf-viewer-wrapper", { "pdf-full-width": fullWidth }]}
+    id={`wrapper-${uniqueId}`}
+>
     <div class="pdf-container">
         <!-- Pages Container -->
-        <div id="pdf-pages" class="pdf-pages"></div>
+        <div id={`pdf-pages-${uniqueId}`} class="pdf-pages"></div>
 
         <!-- Controls Overlay -->
         <div class="pdf-controls">
-            <button id="pdf-prev" class="nav-btn" aria-label="Previous page">
-                ←
+            <button
+                id={`pdf-prev-${uniqueId}`}
+                class="nav-btn"
+                aria-label="Previous page"
+            >
+                <span class="nav-btn-inner">←</span>
             </button>
-            <div id="pdf-page-indicator" class="page-indicator">1 / 1</div>
-            <button id="pdf-next" class="nav-btn" aria-label="Next page">
-                →
+            <div id={`pdf-page-indicator-${uniqueId}`} class="page-indicator">
+                1 / 1
+            </div>
+            <button
+                id={`pdf-next-${uniqueId}`}
+                class="nav-btn"
+                aria-label="Next page"
+            >
+                <span class="nav-btn-inner">→</span>
             </button>
         </div>
 
         <!-- Click Overlay (Invisible) -->
-        <div id="pdf-click-area" class="click-area"></div>
+        <div id={`pdf-click-area-${uniqueId}`} class="click-area"></div>
     </div>
 </div>
 
-<script define:vars={{ src }}>
+<script define:vars={{ src, uniqueId }}>
     async function initPDF() {
         if (!window.pdfjsLib) {
             const script = document.createElement("script");
@@ -43,12 +58,15 @@ const { src } = Astro.props;
                 "https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js";
         }
 
-        const pagesContainer = document.getElementById("pdf-pages");
-        const prevBtn = document.getElementById("pdf-prev");
-        const nextBtn = document.getElementById("pdf-next");
-        const pageIndicator = document.getElementById("pdf-page-indicator");
-        const clickArea = document.getElementById("pdf-click-area");
-        const container = document.querySelector(".pdf-container");
+        const pagesContainer = document.getElementById(`pdf-pages-${uniqueId}`);
+        const prevBtn = document.getElementById(`pdf-prev-${uniqueId}`);
+        const nextBtn = document.getElementById(`pdf-next-${uniqueId}`);
+        const pageIndicator = document.getElementById(
+            `pdf-page-indicator-${uniqueId}`,
+        );
+        const clickArea = document.getElementById(`pdf-click-area-${uniqueId}`);
+        const wrapper = document.getElementById(`wrapper-${uniqueId}`);
+        const container = wrapper.querySelector(".pdf-container");
 
         let pdfDoc = null;
         let pageNum = 1;
@@ -62,9 +80,9 @@ const { src } = Astro.props;
             // Clear existing
             pagesContainer.innerHTML = "";
 
-            // Get container dimensions
-            const containerWidth = container.clientWidth;
-            const containerHeight = container.clientHeight;
+            // Get container dimensions - use offsetHeight since padding-top creates the height
+            const containerWidth = container.offsetWidth;
+            const containerHeight = container.offsetHeight;
 
             // Render visible page first for speed
             await renderPageToCanvas(pageNum, containerWidth, containerHeight);
@@ -72,20 +90,17 @@ const { src } = Astro.props;
             // Render rest in background
             for (let i = 1; i <= totalPages; i++) {
                 if (i !== pageNum) {
-                    renderPageToCanvas(i, containerWidth, containerHeight);
+                    renderPageToCanvas(i, containerWidth);
                 }
             }
         }
 
-        async function renderPageToCanvas(num, cWidth, cHeight) {
+        async function renderPageToCanvas(num, cWidth) {
             const page = await pdfDoc.getPage(num);
             const viewport = page.getViewport({ scale: 1 });
 
-            // Calculate scale to fit within padded container
-            const scaleX = cWidth / viewport.width;
-            const scaleY = cHeight / viewport.height;
-            // Use full fit since padding is handled by CSS
-            const scale = Math.min(scaleX, scaleY);
+            // Calculate scale to fit width exactly (hug the width)
+            const scale = cWidth / viewport.width;
 
             const scaledViewport = page.getViewport({ scale });
 
@@ -100,29 +115,44 @@ const { src } = Astro.props;
             pagesContainer.appendChild(canvas);
 
             const ctx = canvas.getContext("2d");
-            await page.render({ canvasContext: ctx, viewport: scaledViewport })
-                .promise;
+            await page.render({
+                canvasContext: ctx,
+                viewport: scaledViewport,
+            }).promise;
         }
 
         function updateView() {
             // Toggle visibility of pre-rendered canvases
             const canvases = pagesContainer.querySelectorAll("canvas");
             canvases.forEach((canvas) => {
-                const isCurrent = canvas.classList.contains(`page-${pageNum}`);
-                canvas.style.display = isCurrent ? "block" : "none";
+                if (canvas.classList.contains(`page-${pageNum}`)) {
+                    canvas.style.display = "block";
+                    // Natural flow handles height
+                } else {
+                    canvas.style.display = "none";
+                }
             });
 
-            pageIndicator.textContent = `${pageNum} / ${totalPages}`;
+            // Update page indicator
+            if (totalPages > 1) {
+                pageIndicator.textContent = `${pageNum} / ${totalPages}`;
+            } else {
+                pageIndicator.style.display = "none";
+            }
 
-            // Update button states
+            // Update nav buttons state
             prevBtn.disabled = pageNum <= 1;
             nextBtn.disabled = pageNum >= totalPages;
-            prevBtn.style.opacity = pageNum <= 1 ? "0.3" : "1";
-            nextBtn.style.opacity = pageNum >= totalPages ? "0.3" : "1";
+            prevBtn.style.opacity = pageNum <= 1 ? "0.5" : "1";
+            nextBtn.style.opacity = pageNum >= totalPages ? "0.5" : "1";
         }
 
-        function changePage(delta) {
-            const newPage = pageNum + delta;
+        function changePage(delta, allowLoop = false) {
+            let newPage = pageNum + delta;
+            if (allowLoop) {
+                if (newPage > totalPages) newPage = 1;
+                if (newPage < 1) newPage = totalPages;
+            }
             if (newPage >= 1 && newPage <= totalPages) {
                 pageNum = newPage;
                 updateView();
@@ -131,17 +161,25 @@ const { src } = Astro.props;
 
         prevBtn.addEventListener("click", (e) => {
             e.stopPropagation();
-            changePage(-1);
+            changePage(-1, true);
         });
 
         nextBtn.addEventListener("click", (e) => {
             e.stopPropagation();
-            changePage(1);
+            changePage(1, true);
         });
 
-        clickArea.addEventListener("click", () => {
-            if (pageNum < totalPages) {
-                changePage(1);
+        clickArea.addEventListener("click", (e) => {
+            const rect = clickArea.getBoundingClientRect();
+            const clickX = e.clientX - rect.left;
+            const halfWidth = rect.width / 2;
+
+            if (clickX < halfWidth) {
+                // Left side - go to previous
+                changePage(-1, true);
+            } else {
+                // Right side - go to next
+                changePage(1, true);
             }
         });
 
@@ -159,14 +197,71 @@ const { src } = Astro.props;
             totalPages = pdfDoc.numPages;
             pageIndicator.textContent = `1 / ${totalPages}`;
 
+            // Get first page done, but rely on renderAllPages to draw
+            // const firstPage = await pdfDoc.getPage(1);
+            // const viewport = firstPage.getViewport({ scale: 1 });
+            // const aspectRatio = (viewport.height / viewport.width) * 100;
+            // container.style.paddingTop = aspectRatio + "%";
+
             await renderAllPages();
             updateView();
+
+            // Visibility-based autoplay: only advance when 40% of viewer is visible
+            let autoplayInterval = null;
+            let isVisible = false;
+            let isPaused = window.pdfAutoplayPaused || false;
+
+            function startAutoplay() {
+                if (autoplayInterval || totalPages <= 1 || isPaused) return;
+                autoplayInterval = setInterval(() => {
+                    if (pageNum >= totalPages) {
+                        pageNum = 1;
+                    } else {
+                        pageNum++;
+                    }
+                    updateView();
+                }, 4000);
+            }
+
+            function stopAutoplay() {
+                if (autoplayInterval) {
+                    clearInterval(autoplayInterval);
+                    autoplayInterval = null;
+                }
+            }
+
+            // Listen for global pause/resume events
+            window.addEventListener("pdfAutoplayToggle", (e) => {
+                isPaused = e.detail.paused;
+                if (isPaused) {
+                    stopAutoplay();
+                } else if (isVisible) {
+                    startAutoplay();
+                }
+            });
+
+            const observer = new IntersectionObserver(
+                (entries) => {
+                    entries.forEach((entry) => {
+                        isVisible = entry.isIntersecting;
+                        if (isVisible && !isPaused) {
+                            startAutoplay();
+                        } else {
+                            stopAutoplay();
+                        }
+                    });
+                },
+                { threshold: 0.4 },
+            );
+
+            observer.observe(wrapper);
         } catch (error) {
             console.error("Error loading PDF:", error);
             pageIndicator.textContent = "Error";
         }
     }
 
+    // Initialize immediately if DOM is ready, or wait
     if (document.readyState === "loading") {
         document.addEventListener("DOMContentLoaded", initPDF);
     } else {
@@ -177,27 +272,34 @@ const { src } = Astro.props;
 <style>
     .pdf-viewer-wrapper {
         width: 100%;
-        margin-top: 1rem;
-        margin-bottom: 2rem;
+        margin-top: 2rem;
+        margin-bottom: 4rem;
+    }
+
+    .pdf-viewer-wrapper.pdf-full-width {
+        width: 100vw;
+        margin-left: 50%;
+        transform: translateX(-50%);
+    }
+
+    .pdf-viewer-wrapper.pdf-full-width .pdf-container {
+        max-width: 1400px;
+        margin: 0 auto;
     }
 
     .pdf-container {
         width: 100%;
         position: relative;
-        /* 16:9 Aspect Ratio */
-        padding-top: 56.25%;
         background: var(--surface-secondary, #f5f5f5);
         border-radius: var(--radius-md, 8px);
         overflow: hidden;
+        /* Min-height to prevent collapse during load */
+        min-height: 200px;
     }
 
     .pdf-pages {
-        position: absolute;
-        top: 10px;
-        left: 10px;
-        right: 10px;
-        bottom: 10px;
-        width: auto;
+        position: relative;
+        width: 100%;
         height: auto;
         display: flex;
         align-items: center;
@@ -205,11 +307,46 @@ const { src } = Astro.props;
         z-index: 1;
     }
 
+    .pdf-pages canvas {
+        width: 100% !important;
+        height: auto !important;
+        display: block;
+    }
+
     .pdf-page {
         max-width: 100%;
         max-height: 100%;
         box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
         border-radius: 4px;
+    }
+
+    .pause-btn {
+        position: absolute;
+        top: 0.75rem;
+        right: 0.75rem;
+        width: 28px;
+        height: 28px;
+        background: var(--bg-secondary, rgba(30, 30, 30, 0.8));
+        backdrop-filter: blur(8px);
+        border: 1px solid var(--border-subtle, rgba(255, 255, 255, 0.1));
+        border-radius: var(--radius-sm, 4px);
+        color: rgba(255, 255, 255, 0.9);
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        z-index: 10;
+        transition: all 0.2s ease;
+    }
+
+    .pause-btn:hover {
+        background: var(--accent-secondary, #42bd49);
+        border-color: var(--accent-secondary, #42bd49);
+    }
+
+    .pause-icon {
+        font-size: 0.6rem;
+        line-height: 1;
     }
 
     .click-area {
@@ -230,32 +367,53 @@ const { src } = Astro.props;
         transform: translateX(-50%);
         display: flex;
         align-items: center;
-        gap: 0.5rem;
+        gap: 8px;
         background: var(--bg-secondary, rgba(30, 30, 30, 0.8));
         backdrop-filter: blur(8px);
-        padding: 0.5rem 0.75rem;
+        padding: 4px;
         border-radius: var(--radius-md, 8px);
         z-index: 10;
         border: 1px solid var(--border-subtle, rgba(255, 255, 255, 0.1));
         box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
     }
 
+    .page-indicator {
+        color: rgba(255, 255, 255, 0.9);
+        font-size: 0.75rem;
+        font-family: "Space Mono", monospace;
+        min-width: 30px;
+        text-align: center;
+        pointer-events: none;
+        line-height: 1;
+    }
     .nav-btn {
         background: transparent;
-        border: 1px solid var(--border-subtle, rgba(255, 255, 255, 0.2));
+        border: none;
         color: var(--text-primary, white);
-        padding: 0.35rem 0.6rem;
-        border-radius: var(--radius-md, 8px);
+        width: 21px;
+        height: 21px;
+        padding: 0;
         display: flex;
         align-items: center;
         justify-content: center;
         cursor: pointer;
         transition: all 0.2s ease;
-        font-size: 0.875rem;
-        line-height: 1;
     }
 
-    .nav-btn:hover:not(:disabled) {
+    .nav-btn-inner {
+        width: 21px;
+        height: 21px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border: 1px solid var(--border-subtle, rgba(255, 255, 255, 0.2));
+        border-radius: var(--radius-sm, 4px);
+        font-size: 0.7rem;
+        line-height: 1;
+        transition: all 0.2s ease;
+    }
+
+    .nav-btn:hover:not(:disabled) .nav-btn-inner {
         background: var(--accent-secondary, #42bd49);
         border-color: var(--accent-secondary, #42bd49);
         color: white;
@@ -263,15 +421,6 @@ const { src } = Astro.props;
 
     .nav-btn:disabled {
         cursor: not-allowed;
-    }
-
-    .page-indicator {
-        color: rgba(255, 255, 255, 0.9);
-        font-size: 0.75rem;
-        font-family: "Space Mono", monospace;
-        min-width: 40px;
-        text-align: center;
-        pointer-events: none;
     }
 
     :global([data-theme="dark"]) .pdf-container {

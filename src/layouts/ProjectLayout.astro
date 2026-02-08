@@ -24,7 +24,7 @@ const metaEntries = Object.entries(meta).filter(
 const sections = [
     { id: "problem-opportunity", label: "Why build it?" },
     { id: "approach", label: "What's the approach?" },
-    { id: "interaction-model", label: "How does it work?" },
+    { id: "study", label: "How does it work?" },
     { id: "implementation", label: "How is it built?" },
     { id: "outcome", label: "What's the outcome?" },
 ];
@@ -163,6 +163,35 @@ const sections = [
         sections.forEach((section) => {
             observer.observe(section);
         });
+
+        // Keep theme toggle above footer when scrolled to bottom (mobile only)
+        const themeToggleWrapper = document.querySelector(".theme-toggle-wrapper");
+        const footer = document.querySelector(".site-footer");
+        
+        function updateThemeTogglePosition() {
+            if (!footer || !themeToggleWrapper) return;
+            // Only apply on mobile when theme toggle is fixed
+            const isMobile = window.innerWidth <= 1024;
+            if (!isMobile) {
+                themeToggleWrapper.style.bottom = "";
+                return;
+            }
+            
+            const footerRect = footer.getBoundingClientRect();
+            const windowHeight = window.innerHeight;
+            const margin = 10;
+            
+            if (footerRect.top < windowHeight) {
+                const offset = windowHeight - footerRect.top + margin;
+                themeToggleWrapper.style.bottom = offset + "px";
+            } else {
+                themeToggleWrapper.style.bottom = "var(--space-md)";
+            }
+        }
+
+        window.addEventListener("scroll", updateThemeTogglePosition);
+        window.addEventListener("resize", updateThemeTogglePosition);
+        updateThemeTogglePosition();
     });
 </script>
 
@@ -365,6 +394,7 @@ const sections = [
 
     .theme-toggle-wrapper {
         margin-top: auto;
+        padding-top: 10px;
     }
 
     /* RIGHT CONTENT STYLES (Hero Section) */

@@ -50,9 +50,9 @@
 
 <style>
     #theme-toggle {
-        background: var(--bg-surface);
-        border: 1px solid var(--border-subtle);
-        color: var(--text-secondary);
+        background: #f5f0e8;
+        border: 1px solid rgba(0, 0, 0, 0.1);
+        color: #1a1a1a;
         cursor: pointer;
         padding: 0.5rem;
         border-radius: var(--radius-md);
@@ -62,10 +62,16 @@
         transition: all 0.2s ease;
     }
 
+    :global([data-theme="light"]) #theme-toggle {
+        background: #1a1a1a;
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        color: #ffffff;
+    }
+
     #theme-toggle:hover {
-        background-color: var(--bg-surface-hover);
-        color: var(--text-primary);
-        border-color: var(--border-focus);
+        background-color: var(--accent-secondary, #42bd49);
+        color: #ffffff;
+        border-color: var(--accent-secondary, #42bd49);
     }
 
     /* By default (dark mode), only show sun? No, let's swap logic based on theme */
