@@ -7,6 +7,8 @@ interface Props {
     href?: string;
 }
 
+import { Image } from "astro:assets";
+
 const { title, description, image, tags = [], href = "#" } = Astro.props;
 ---
 
@@ -14,7 +16,15 @@ const { title, description, image, tags = [], href = "#" } = Astro.props;
     <div class="card-image">
         {
             image ? (
-                <img src={image} alt={title} />
+                <Image
+                    src={image}
+                    alt={title}
+                    width={800}
+                    height={450}
+                    loading="lazy"
+                    decoding="async"
+                    class="optimized-image"
+                />
             ) : (
                 <div class="placeholder-image" />
             )
@@ -86,7 +96,8 @@ const { title, description, image, tags = [], href = "#" } = Astro.props;
         height: 100%;
         object-fit: cover;
         transition: transform 0.7s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-        /* Removed grayscale/saturate filters as requested */
+        /* 1% zoom in normal state */
+        transform: scale(1.01);
     }
 
     .project-card:hover .card-image img {

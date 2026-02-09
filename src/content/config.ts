@@ -13,6 +13,11 @@ const projects = defineCollection({
 		ctaText: z.string().optional(),
 		// Flexible metadata - add any key-value pairs here
 		meta: z.record(z.string()).optional(), // { "Course": "...", "Duration": "3 days", "Type": "Hackathon", ... }
+		// Optional override for sidebar sections
+		sections: z.array(z.object({
+			id: z.string(),
+			label: z.string()
+		})).optional(),
 	}),
 });
 

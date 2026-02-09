@@ -1,0 +1,110 @@
+---
+interface Props {
+    src: string;
+    title?: string;
+    height?: string;
+    aspectRatio?: string; // e.g. "16/9"
+}
+
+const {
+    src,
+    title = "Figma Prototype",
+    height = "600px",
+    aspectRatio,
+} = Astro.props;
+const uniqueId = "figma-" + Math.random().toString(36).substr(2, 9);
+
+// Ensure the URL is properly encoded for embedding
+// Force hide-ui and footer=0 for a cleaner look if they aren't already in the src
+let finalSrc = src;
+if (!finalSrc.includes("hide-ui=")) finalSrc += "&hide-ui=1";
+if (!finalSrc.includes("footer=")) finalSrc += "&footer=0";
+
+const embedUrl = `https://www.figma.com/embed?embed_host=share&url=${encodeURIComponent(finalSrc)}`;
+---
+
+<div
+    class="figma-container"
+    style={aspectRatio
+        ? `aspect-ratio: ${aspectRatio}; height: auto;`
+        : `height: ${height};`}
+>
+    <iframe src={embedUrl} allowfullscreen title={title}></iframe>
+
+    <!-- Click Hint Icon -->
+    <img
+        id={`figma-click-icon-${uniqueId}`}
+        src="/assets/logos/click.png"
+        class="click-icon"
+        alt="Click to interact"
+    />
+</div>
+
+<script define:vars={{ uniqueId }}>
+    function initFigmaClickHint() {
+        const clickIcon = document.getElementById(
+            `figma-click-icon-${uniqueId}`,
+        );
+        if (!clickIcon) return;
+
+        // Same logic: Click to hide (as it's only a starting hint)
+        clickIcon.addEventListener("click", () => {
+            clickIcon.style.opacity = "0";
+            clickIcon.style.pointerEvents = "none";
+        });
+
+        // Also hide if the user interacts with the iframe area generally
+        // Note: iframe interactions are hard to detect cross-domain,
+        // but we can detect clicks near it or just rely on the icon click.
+    }
+
+    initFigmaClickHint();
+</script>
+
+<style>
+    .figma-container {
+        width: 100%;
+        margin-top: 2rem;
+        margin-bottom: 0.5rem;
+        border-radius: 0;
+        overflow: hidden;
+        background: transparent;
+        box-shadow: none;
+        position: relative;
+    }
+
+    iframe {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        border: none;
+        display: block;
+        background: transparent;
+    }
+
+    .click-icon {
+        position: absolute;
+        bottom: 1rem;
+        right: 2rem;
+        width: 60px !important;
+        height: auto !important;
+        margin: 0 !important;
+        max-width: none !important;
+        display: block;
+        opacity: 1;
+        transition: opacity 0.3s ease;
+        z-index: 20;
+        cursor: pointer;
+        filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.2));
+    }
+
+    @media (max-width: 768px) {
+        .click-icon {
+            width: 24px !important;
+            right: 0.5rem;
+            bottom: 0.5rem;
+        }
+    }
+</style>

@@ -19,6 +19,8 @@ const toggleId = `toggle-${Math.random().toString(36).substr(2, 9)}`;
             alt={alt}
             width={1920}
             height={1080}
+            loading="lazy"
+            decoding="async"
             class="base-image"
         />
         <Image
@@ -26,6 +28,8 @@ const toggleId = `toggle-${Math.random().toString(36).substr(2, 9)}`;
             alt={`${alt} with labels`}
             width={1920}
             height={1080}
+            loading="lazy"
+            decoding="async"
             class="overlay-image"
         />
     </div>

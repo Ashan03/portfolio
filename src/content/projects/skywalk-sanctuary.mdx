@@ -3,7 +3,7 @@ title: "Skywalk Sanctuary"
 description: "Applying design systems to large-scale physical environments."
 category: "spatial"
 order: 4
-heroImage: ""
+heroImage: "/assets/projects/santuary/cover.png"
 tags: ["Environmental Design", "Systems"]
 meta:
   Role: "Product Designer"
@@ -17,48 +17,162 @@ import ProjectSection from '../../components/ProjectSection.astro';
 import FullWidthImage from '../../components/FullWidthImage.astro';
 import PlaceholderImage from '../../components/PlaceholderImage.astro';
 
-<FullWidthImage height="500px" caption="Hero Image" />
+<img 
+    src="/assets/projects/santuary/hero.png" 
+    alt="Hero Image" 
+    style={{
+        width: '100%', 
+        height: 'auto', 
+        borderRadius: 'var(--radius-md)', 
+        border: '10px solid #4CAF50',
+        marginBottom: '2rem'
+    }} 
+/>
 
-<div slot="intro">
-    <p>
-        [Project Intro Placeholder] This project explores the intersection of design and technology. Replace this text with a specific summary of the work.
-    </p>
-</div>
+{/* ==================== WHY BUILD IT ==================== */}
 
-<ProjectSection title="Problem & Opportunity" id="problem-opportunity">
-    <p>Content regarding the core provocation or problem statement of this project.</p>
+<ProjectSection title="Premise" id="problem-opportunity">
+    <p>IT park workers in Hyderabad lack accessible spaces to relax between work and home. While informal gathering spots like tea stalls and pan dabba corners exist, they're ad-hoc solutions rather than intentionally designed experiences.</p>
+    <p>Long commutes and intense work schedules in rapidly growing tech hubs leave little room for unstructured downtime.</p>
+    <p class="centered-tagline">Workers need "third places"—environments between work and home where people can decompress without the pressure of consumption or productivity.</p>
+    <p>This project identified what makes these in-between spaces work and proposed design interventions addressing greenery, accessibility, affordability, and social dynamics for an underutilized site adjacent to a major IT corridor.</p>
 </ProjectSection>
 
-<FullWidthImage height="400px" />
+<FullWidthImage src="/assets/projects/santuary/premise.png" />
 
-<ProjectSection title="Approach" id="approach">
-    <p>Content detailing the initial conceptualization and ideation phase.</p>
+<ProjectSection title="Premise" id="problem-opportunity-study" hideTitle={true} group="problem-opportunity">
+    <h3>User Study</h3>
+    <p>Distributed QR-coded posters across IT park corridors, collecting responses from 200+ workers about their leisure needs. The data revealed a proximity problem: workers value cafes and parks, but won't travel for them after long commutes.</p>
+    <p>Responses showed demand for variety within walking distance—not a single type of space, but multiple options close to work.</p>
+    <p class="centered-tagline">Workers want flexibility in how they spend breaks:</p>
+    <p>Sometimes social gatherings, sometimes solo decompression, but always without adding travel time to already exhausting days.</p>
+    <p>The design challenge became: how to bring that variety and choice directly to where workers already are.</p>
 </ProjectSection>
 
-<FullWidthImage height="300px" />
+<FullWidthImage src="/assets/projects/santuary/user study.png" />
 
-<ProjectSection title="Implementation" id="implementation">
-    <p>Details on the composition, build, or structural elements of the solution.</p>
-    <div class="grid-2">
-        <PlaceholderImage height="300px" />
-        <PlaceholderImage height="300px" />
+{/* ==================== APPROACH ==================== */}
+
+<ProjectSection title="Pattern Recognition" id="approach">
+    <h3>The Evolution of Indian Public Spaces</h3>
+    <p>Indian public spaces have transformed over time, adapting to societal shifts. Ancient step wells served as vital water sources and social hubs. Temple complexes intertwined worship, markets, and community. Colonial maidan witnessed political gatherings while urbanization introduced parks and commercial centers like malls, reshaping how people gather.</p>
+    <p>Today, public spaces increasingly adopt digital principles—prioritizing accessibility, safety, and flexibility. Modern gathering places function like digital platforms: allowing people to choose their own engagement, supporting multiple simultaneous activities, connecting physical presence with digital experiences.</p>
+</ProjectSection>
+
+<FullWidthImage src="/assets/projects/santuary/evolution.png" />
+
+<ProjectSection title="Pattern Recognition" id="approach-precedents" hideTitle={true} group="approach">
+    <h3>Precedents</h3>
+    <p>Developed an evaluation framework to systematically analyze what makes third places successful. The framework examines spaces through two dimensions:</p>
+    <p class="attribute-label">Physical Attributes</p>
+    <div class="attribute-pills">
+        <span class="attribute-pill" style="background: #e0e0e0; color: #333;">Plinth</span>
+        <span class="attribute-pill" style="background: #c8c8c8; color: #333;">Corner</span>
+        <span class="attribute-pill" style="background: #b0b0b0; color: #333;">Bay</span>
+        <span class="attribute-pill" style="background: #989898; color: #333;">Disorder</span>
+        <span class="attribute-pill" style="background: #808080; color: #fff;">Opening</span>
+        <span class="attribute-pill" style="background: #686868; color: #fff;">Roof</span>
+    </div>
+    <p class="attribute-label">Experiential Qualities</p>
+    <div class="attribute-pills">
+        <span class="attribute-pill" style="background: #4CAF50; color: #fff;">Circulation</span>
+        <span class="attribute-pill" style="background: #FFEB3B; color: #333;">Program</span>
+        <span class="attribute-pill" style="background: #2196F3; color: #fff;">Focus</span>
+        <span class="attribute-pill" style="background: #F44336; color: #fff;">Visual connection</span>
+        <span class="attribute-pill" style="background: #1a1a1a; color: #fff;">Void</span>
+    </div>
+    <p>Applied this framework to case studies across India—from Bangalore's tank parks to Mumbai's hybrid complexes. Each analysis identified specific design patterns: how circulation shapes social interaction, how programmatic variety supports different use cases, how physical openness affects accessibility.</p>
+    <p>These insights informed design decisions for the project site, translating observed patterns into interventions tailored to IT workers' specific needs.</p>
+</ProjectSection>
+
+<FullWidthImage src="/assets/projects/santuary/precedents.png" />
+
+{/* ==================== HOW DOES IT WORK ==================== */}
+
+<ProjectSection title="Design Framework" id="interaction-model">
+    <h3>Program Synthesis</h3>
+    <p>Synthesized case study analysis and user research into a framework showing which programs connect with which spatial configurations. The outer ring shows spatial attributes from the precedent studies (roof, opening, corner, bay, dis-order, plinths). Inner nodes show programs responding to user survey priorities (cafes, libraries, sports, theaters, groceries, etc.).</p>
+    <p>Connections between nodes map compatibility—not just what workers want, but which combinations of programs and spatial types can coexist. Dense clusters reveal where multiple user needs overlap. Size and color reflect survey demand.</p>
+    <p class="centered-tagline">Testing how these program combinations, using the developed spatial framework, could create the flexibility digital platforms provide.</p>
+    <p>The diagram moves from abstract user desires (greenery, affordability, variety) to concrete design decisions. Rather than optimizing for single programs, it identifies which layered combinations support different modes of use simultaneously—the spatial equivalent of toggling between feed, messages, and profile in one interface.</p>
+</ProjectSection>
+
+<FullWidthImage src="/assets/projects/santuary/program synthesis.png" />
+
+<ProjectSection title="Design Framework" id="interaction-hypothesis" hideTitle={true} group="interaction-model">
+    <h3>Design Hypothesis</h3>
+    <p>Digital platforms work because users switch fluidly between modes—browsing, connecting, creating, accessing anywhere, staying secure. The experience adapts to what users need moment-to-moment, not what the platform prescribes.</p>
+    <p class="centered-tagline">What if physical spaces worked like digital interfaces—adapting to users instead of forcing them into fixed behaviors?</p>
+    <p>Instead of fixed-purpose spaces (cafe = social, library = solo), design environments where workers shift between exploration, community, individuality, accessibility, and security based on immediate context—just like toggling between feed, messages, profile, search, and settings.</p>
+</ProjectSection>
+
+<FullWidthImage src="/assets/projects/santuary/hypothesis.png" />
+
+<ProjectSection title="Design Framework" id="interaction-site" hideTitle={true} group="interaction-model">
+    <h3>Site Selection</h3>
+    <p>Selected an underutilized site adjacent to Madhapur's IT corridor, targeting workers aged 18-30. The location sits between major tech campuses (Mindspace, Image Towers) and existing transit nodes, making it accessible within a short walk from multiple office buildings.</p>
+    <p class="centered-tagline">Site Criteria</p>
+    <ul>
+        <li>Proximity to major circulation routes and transit</li>
+        <li>Adjacent to institutional anchors (colleges, cultural spaces)</li>
+        <li>Currently underused or vacant</li>
+        <li>Potential for pedestrian-friendly street character</li>
+    </ul>
+    <div style="margin-top: 2rem;"></div>
+    <p>IT parks in Hyderabad function as isolated blocks—workers arrive, work, leave. The spaces between buildings are purely functional: parking, service access, minimal landscaping. This site offered an opportunity to test whether interstitial space could become destination space, transforming a commute path into a place worth pausing.</p>
+</ProjectSection>
+
+<FullWidthImage src="/assets/projects/santuary/site selection.png" />
+
+{/* ==================== IMPLEMENTATION ==================== */}
+
+<ProjectSection title="Design Interventions" id="implementation">
+    <p>The program synthesis revealed three site opportunities where digital flexibility could translate to physical space. Each tests a different mechanism for supporting multiple modes of use.</p>
+    <hr class="feature-divider" />
+    <p><span class="list-tagline">Parking</span> Time-based transformation using digital booking. The same space shifts between parking (weekdays), flea markets, and workshops (weekends) based on scheduled programming—like calendar slots controlling physical function.</p>
+    <hr class="feature-divider" />
+    <p><span class="list-tagline">Bridge</span> Speed-based separation within one path. Fast lane for commuters, slow lane with pods and libraries for those who want to pause. Same infrastructure supports different engagement levels simultaneously—scrolling versus reading the same platform.</p>
+    <hr class="feature-divider" />
+    <p><span class="list-tagline">Sanctuary</span> User-controlled reconfiguration through physical or digital toggles. Workers select their mode (socializing, focus, gaming, performance) and the space adapts. Community-driven customization meeting individual agency—like platform settings applied to physical environment.</p>
+    <p class="centered-tagline">Each intervention explores how spaces could respond to changing needs within the existing systems.</p>
+    <div class="grid-3">
+        <div class="image-carousel" data-images='["/assets/projects/santuary/parking 1.png", "/assets/projects/santuary/parking 2.png"]'>
+            <img src="/assets/projects/santuary/parking 1.png" alt="Parking" />
+        </div>
+        <div class="image-carousel" data-images='["/assets/projects/santuary/bridge 1.png", "/assets/projects/santuary/bridge 2.png"]'>
+            <img src="/assets/projects/santuary/bridge 1.png" alt="Bridge" />
+        </div>
+        <div class="image-carousel" data-images='["/assets/projects/santuary/santuary 1.png", "/assets/projects/santuary/santuary 2.png", "/assets/projects/santuary/santuary 3.png"]'>
+            <img src="/assets/projects/santuary/santuary 1.png" alt="Sanctuary" />
+        </div>
     </div>
 </ProjectSection>
 
-<ProjectSection title="Interaction Model/UX" id="interaction-model">
-    <p>Explanation of the mechanics, interactions, or underlying logic.</p>
-</ProjectSection>
+<script is:inline>{`
+    document.addEventListener('DOMContentLoaded', () => {
+        document.querySelectorAll('.image-carousel').forEach(carousel => {
+            const images = JSON.parse(carousel.dataset.images);
+            let currentIndex = 0;
+            const img = carousel.querySelector('img');
+            
+            carousel.style.cursor = 'pointer';
+            
+            carousel.addEventListener('click', () => {
+                currentIndex = (currentIndex + 1) % images.length;
+                img.src = images[currentIndex];
+            });
+        });
+    });
+`}</script>
 
-<FullWidthImage height="500px" />
+{/* ==================== OUTCOME ==================== */}
 
 <ProjectSection title="Outcome" id="outcome">
-    <p>Synthesis of the results, outputs, or final design artifacts.</p>
+    <p>The work shows a process: identify what people actually do, map what supports those behaviors, test combinations within the developed framework that create flexibility without forcing travel.</p>
+    <p>Physical spaces don't switch modes the way digital ones do—yet. But the gap isn't about digital vs physical experiences. It's about how decisions could be made: single-purpose programming versus layered options, optimizing for one use case versus facilitating multiple simultaneously.</p>
+    <p>The drawings try to capture what might happen if spaces gave people room to choose—when workers decide how to engage and unwind.</p>
+    <p class="centered-tagline">An attempt to create conditions for the agency and playfulness people love about digital spaces.</p>
 </ProjectSection>
 
-<FullWidthImage height="400px" />
-
-<ProjectSection title="Reflection" id="reflection">
-    <p>Notes on how AI or computational tools augmented the workflow.</p>
-</ProjectSection>
-
-<FullWidthImage height="350px" />
+<FullWidthImage src="/assets/projects/santuary/plan.png" />
+<FullWidthImage src="/assets/projects/santuary/section.png" />

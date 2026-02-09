@@ -11,23 +11,26 @@ interface Props {
     tags?: string[];
     ctaUrl?: string;
     ctaText?: string;
+    sections?: { id: string; label: string }[];
 }
 
-const { title, description, meta = {}, tags = [], ctaUrl, ctaText } = Astro.props;
+const { title, description, meta = {}, tags = [], ctaUrl, ctaText, sections: propSections } = Astro.props;
 
 // Convert meta object to array for iteration
 const metaEntries = Object.entries(meta).filter(
     ([_, value]) => value && value.trim() !== "",
 );
 
-// Standard Sections for Navigation
-const sections = [
+// Standard Sections for Navigation (Fallback)
+const defaultSections = [
     { id: "problem-opportunity", label: "Why build it?" },
     { id: "approach", label: "What's the approach?" },
-    { id: "study", label: "How does it work?" },
+    { id: "interaction-model", label: "How does it work?" },
     { id: "implementation", label: "How is it built?" },
     { id: "outcome", label: "What's the outcome?" },
 ];
+
+const sections = propSections || defaultSections;
 ---
 
 <Layout title={`${title} | Narayan Ashanahalli`}>
@@ -446,5 +449,20 @@ const sections = [
     /* Force 240px margin for footer on project pages */
     .right-content :global(.site-footer) {
         margin-top: 240px !important;
+    }
+
+    /* Smart Spacing: If section follows a visual, keep tight margin (new topic separation handled by image's bottom margin) */
+    .right-content :global(.full-width-image + .project-section),
+    .right-content :global(iframe + .project-section),
+    .right-content :global(.figma-container + .project-section),
+    .right-content :global(.pdf-viewer-wrapper + .project-section) {
+        margin-top: 0.5rem !important; /* Tight - image's large bottom margin provides separation */
+    }
+
+    /* Images/PDFs after sections get REDUCED top margin (text above describes the image) */
+    .right-content :global(.project-section + .full-width-image),
+    .right-content :global(.project-section + .figma-container),
+    .right-content :global(.project-section + .pdf-viewer-wrapper) {
+        margin-top: 1rem !important; /* Tight - text above describes this image */
     }
 </style>

@@ -11,6 +11,17 @@ meta:
   Duration: "4 Weeks"
   Team: "Solo Project"
   Year: "2023"
+sections:
+  - id: "problem-opportunity"
+    label: "Why build it?"
+  - id: "approach"
+    label: "What's the approach?"
+  - id: "implementation"
+    label: "How does it work?"
+  - id: "interaction-model"
+    label: "How is it built?"
+  - id: "outcome"
+    label: "What's the outcome?"
 ---
 
 import ProjectSection from '../../components/ProjectSection.astro';
@@ -18,7 +29,122 @@ import FullWidthImage from '../../components/FullWidthImage.astro';
 import PlaceholderImage from '../../components/PlaceholderImage.astro';
 import PdfEmbed from '../../components/PdfEmbed.astro';
 
-<FullWidthImage src="/assets/projects/detur/hero.avif" caption="Detour App Concept" />
+{/* Sticky Pause/Play Button */}
+<button id="global-pause-btn" class="global-pause-btn" aria-label="Pause autoplay">
+    <span class="pause-icon"></span>
+</button>
+
+<style>{`
+    .global-pause-btn {
+        position: fixed;
+        top: 1rem;
+        right: 1rem;
+        width: 36px;
+        height: 36px;
+        background: #f5f0e8;
+        backdrop-filter: blur(8px);
+        border: 1px solid rgba(0, 0, 0, 0.1);
+        border-radius: 6px;
+        color: #1a1a1a;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        z-index: 1000;
+        transition: all 0.2s ease;
+    }
+    :root[data-theme="light"] .global-pause-btn {
+        background: #1a1a1a;
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        color: #ffffff;
+    }
+    .global-pause-btn:hover {
+        background: var(--accent-secondary, #42bd49);
+        border-color: var(--accent-secondary, #42bd49);
+        color: #ffffff;
+    }
+    .pause-icon {
+        display: flex;
+        gap: 3px;
+    }
+    .pause-icon::before,
+    .pause-icon::after {
+        content: '';
+        width: 2px;
+        height: 12px;
+        background: currentColor;
+        border-radius: 1px;
+    }
+    .global-pause-btn.playing .pause-icon::before {
+        width: 0;
+        height: 0;
+        border-left: 8px solid currentColor;
+        border-top: 6px solid transparent;
+        border-bottom: 6px solid transparent;
+        background: transparent;
+    }
+    .global-pause-btn.playing .pause-icon::after {
+        display: none;
+    }
+    @media (max-width: 768px) {
+        .global-pause-btn {
+            top: auto;
+            bottom: 1rem;
+        }
+    }
+`}</style>
+
+<script is:inline>{`
+    // Set global pause state immediately
+    window.pdfAutoplayPaused = true;
+
+    document.addEventListener('DOMContentLoaded', () => {
+        const btn = document.getElementById('global-pause-btn');
+        const footer = document.querySelector('.site-footer');
+        // Start in PAUSED state
+        let paused = true;
+        
+        // Update button UI to show Play icon
+        if (btn) {
+            btn.classList.add('playing');
+            btn.setAttribute('aria-label', 'Play autoplay');
+
+            btn.addEventListener('click', () => {
+                paused = !paused;
+                window.pdfAutoplayPaused = paused;
+                btn.classList.toggle('playing', paused);
+                btn.setAttribute('aria-label', paused ? 'Play autoplay' : 'Pause autoplay');
+                window.dispatchEvent(new CustomEvent('pdfAutoplayToggle', { detail: { paused } }));
+            });
+        }
+
+        // Dispatch initial event to ensure all components are synced
+        window.dispatchEvent(new CustomEvent('pdfAutoplayToggle', { detail: { paused } }));
+
+
+        // Keep button above footer when scrolled to bottom
+        function updateButtonPosition() {
+            if (!footer) return;
+            const footerRect = footer.getBoundingClientRect();
+            const windowHeight = window.innerHeight;
+            const btnHeight = btn.offsetHeight;
+            const margin = 10;
+            
+            if (footerRect.top < windowHeight) {
+                const offset = windowHeight - footerRect.top + margin;
+                btn.style.bottom = offset + 'px';
+            } else {
+                btn.style.bottom = '1rem';
+            }
+        }
+
+        window.addEventListener('scroll', updateButtonPosition);
+        window.addEventListener('resize', updateButtonPosition);
+        updateButtonPosition();
+    });
+`}</script>
+
+<FullWidthImage src="/assets/projects/detur/hero.avif" caption="Detour App Concept" loading="eager" />
 
 <div slot="intro">
     <p>
@@ -26,41 +152,107 @@ import PdfEmbed from '../../components/PdfEmbed.astro';
     </p>
 </div>
 
-<ProjectSection title="Problem & Opportunity" id="problem-opportunity">
-    <p>Content regarding the core provocation or problem statement of this project.</p>
+<ProjectSection title="Premise" id="problem-opportunity">
+    <p>Commutes follow the same routes, optimized for speed. People pass potential detours—parks, cafes, trails—but rarely deviate. Not because options don't exist, but because choosing where to go and what to do adds cognitive load to an already routine decision.</p>
+    <p class="centered-tagline">What if small nudges during movement you're already doing could shift behavior from pure efficiency to occasional unwinding experiences?</p>
+    <p>Detour explores whether lightweight interventions can make urban exploration feel less like a separate activity requiring planning and more like an option embedded in existing routines.</p>
 </ProjectSection>
+
+{/* PDF Viewer for premise */}
+<PdfEmbed src="/assets/projects/detur/premise.pdf" fullWidth={false} />
 
 <FullWidthImage height="400px" />
 
 <ProjectSection title="Approach" id="approach">
-    <p>Content detailing the initial conceptualization and ideation phase.</p>
+    <p>Looking at prior art which were successful to integrate themselves into users' daily routines — to understand what makes behavior change stick.</p>
+    <p class="attribute-label">Three patterns emerged:</p>
+    <div class="attribute-pills">
+        <span class="attribute-pill" style="background: #D31D31; color: #fff; text-align: left;">Reducing cognitive load<br />at decision points</span>
+        <span class="attribute-pill" style="background: #39AD48; color: #fff; text-align: left;">Building habits through<br />consistent triggers & rewards</span>
+        <span class="attribute-pill" style="background: #FBD104; color: #1a1a1a; text-align: left;">Giving users reasons that<br />feel personally meaningful</span>
+    </div>
+    <p>How do these apply to making detours feel natural instead of effortful?</p>
+    <p><strong>Design direction:</strong> Lower the friction of choosing (daily quests, limited options), create habit loops through small wins and progression, frame detours as opportunities tied to user intent—relaxation, play, social connection, necessities.</p>
 </ProjectSection>
 
 {/* PDF Viewer for approach */}
-<PdfEmbed src="/assets/projects/detur/approach.pdf" />
+<PdfEmbed src="/assets/projects/detur/approach.pdf" fullWidth={false} />
 
 <ProjectSection title="Implementation" id="implementation">
-    <p>Details on the composition, build, or structural elements of the solution.</p>
-    <div class="grid-2">
-        <PlaceholderImage height="300px" />
-        <PlaceholderImage height="300px" />
+    <p style="margin-bottom: 2rem;">Translating the prior art principles into a product system meant limiting variables at every decision point.</p>
+    <ul style="list-style: none; padding: 0; margin-bottom: 2rem;">
+        <li style="margin-bottom: 1rem; display: flex; align-items: center; gap: 1rem;">
+            <span style="display: inline-flex; width: 28px; height: 28px; background: #000; color: #ffffffff; border-radius: 50%; justify-content: center; align-items: center; font-weight: 700; flex-shrink: 0; text-decoration: none; padding-top: 2px; padding-right: 1px;">4</span>
+            <span>intent categories to choose a detour from.</span>
+        </li>
+        <li style="margin-bottom: 1rem; display: flex; align-items: center; gap: 1rem;">
+            <span style="display: inline-flex; width: 28px; height: 28px; background: #000; color: #ffffffff; border-radius: 50%; justify-content: center; align-items: center; font-weight: 700; flex-shrink: 0; text-decoration: none; padding-top: 2px; padding-right: 1px;">3</span>
+            <span>daily prompts nudging to capture and be present.</span>
+        </li>
+        <li style="margin-bottom: 1rem; display: flex; align-items: center; gap: 1rem;">
+            <span style="display: inline-flex; width: 28px; height: 28px; background: #000; color: #ffffffff; border-radius: 50%; justify-content: center; align-items: center; font-weight: 700; flex-shrink: 0; text-decoration: none; padding-top: 2px; padding-right: 1px;">2</span>
+            <span>detours per day to promote habits.</span>
+        </li>
+        <li style="margin-bottom: 1rem; display: flex; align-items: center; gap: 1rem;">
+            <span style="display: inline-flex; width: 28px; height: 28px; background: #000; color: #ffffffff; border-radius: 50%; justify-content: center; align-items: center; font-weight: 700; flex-shrink: 0; text-decoration: none; padding-top: 2px; padding-right: 1px;">1</span>
+            <span>trail to help associate experiences with memories.</span>
+        </li>
+    </ul>
+    <p>The goal is to create just enough friction to make choosing feel manageable. Each constraint addresses a specific behavioral barrier—categories give meaning, quests build habits, limited detours reduce overwhelm, single trail maintains memories.</p>
+    <p class="centered-tagline">Deliberately small to lower the cost of saying yes.</p>
+</ProjectSection>
+
+{/* PDF Viewer for rules */}
+<PdfEmbed src="/assets/projects/detur/Rules.pdf" fullWidth={false} />
+
+<ProjectSection title="Interaction Framework" id="interaction-model">
+    <p>The interaction model tries to prioritize presence over precision.</p>
+
+    <h3>👀  Intent-Based Scoping</h3>
+    <p>Wandering without a goal can feel aimless, but wandering with a specific destination feels like a chore. The system bridges this by filtering the map through four emotional states:</p>
+    <div class="attribute-pills" style="margin-top: 1rem;">
+        <span class="attribute-pill" style="background: #38BB39; color: #fff;">Relax</span>
+        <span class="attribute-pill" style="background: #EA5D49; color: #fff;">Play</span>
+        <span class="attribute-pill" style="background: #F6F727; color: #1a1a1a;">Social</span>
+        <span class="attribute-pill" style="background: #F64CB9; color: #fff;">Essentials</span>
     </div>
+    <p style="margin-top: 1rem;">This allows the backend to generate relevant waypoints while the user feels they are simply choosing a "vibe" rather than a coordinate.</p>
+
+    <p class="centered-tagline">Structure enables spontaneity by narrowing the paradox of choice.</p>
+
+    <FullWidthImage src="/assets/projects/detur/artifact.png" height="400px" caption="Interaction Artifact" />
+
+    <h3>🧭  Heads-Up Navigation</h3>
+    <p>Standard turn-by-turn directions optimize for certainty but demand constant screen attention. This "loose" navigation provides just enough information to keep the user oriented, shifting their primary focus from the screen back to the physical world.</p>
+
+    <p class="centered-tagline">Reducing the interaction cost of wayfinding to keep users present.</p>
+
+    <h3>🎰  Gamified Observation</h3>
+    <p>To break the habit of "tunnel vision" during commutes, the system interjects with Quests—prompts to find specific textures, colors, or objects (e.g., "Find bird poop," "Capture three doors"). These act as cognitive speed bumps, forcing the user to slow down and actively scan their environment to earn Daily XP.</p>
+
+    <p class="centered-tagline">Validating the detour by turning observation into a quantifiable achievement.</p>
 </ProjectSection>
 
-<ProjectSection title="Interaction Model/UX" id="interaction-model">
-    <p>Explanation of the mechanics, interactions, or underlying logic.</p>
-</ProjectSection>
-
-<FullWidthImage height="500px" />
+import FigmaEmbed from '../../components/FigmaEmbed.astro';
 
 <ProjectSection title="Outcome" id="outcome">
-    <p>Synthesis of the results, outputs, or final design artifacts.</p>
+    <p>The accompanying bodystorming and persona study validate the core hypothesis: that efficiency and exploration can coexist. By contrasting a standard commute with a Detour-enabled journey, the narrative highlights how "Artifact" collection shifts attention from the destination to the immediate environment. This habit is further reinforced through collaborative trails, where shared wayfinding creates enhanced scores—transforming a solitary walk into a collective ritual.</p>
+
+    <p class="centered-tagline">Shifting focus from the destination to the journey.</p>
+
+    <FigmaEmbed 
+        src="https://www.figma.com/deck/D7RI2elOtVZww3FeSMIBxS/IxD-Final?node-id=16-392&viewport=-144%2C-104%2C0.67&t=bzRk8Cs5FPHLEiLt-1&scaling=min-zoom&content-scaling=fixed&page-id=0%3A1" 
+        aspectRatio="16/9"
+        title="Detour Final Presentation"
+    />
+
+    <h3>Interaction Model</h3>
+    <p>The prototype build demonstrates the core loop in real-time: filtering intent, engaging with quests, and navigating generative paths.</p>
+
+    <FigmaEmbed 
+        src="https://www.figma.com/proto/U7Q19OfYZC42ioyAsme8i7/IxD?page-id=655%3A5588&scaling=contain&content-scaling=fixed&show-proto-sidebar=0&hide-ui=1&t=fgaXnQBrnzCQjb7Z-9&node-id=927-2990&starting-point-node-id=927%3A2990" 
+        height="900px"
+        title="Detour Interactive Prototype"
+    />
 </ProjectSection>
 
-<FullWidthImage height="400px" />
-
-<ProjectSection title="Reflection" id="reflection">
-    <p>Notes on how AI or computational tools augmented the workflow.</p>
-</ProjectSection>
-
-<FullWidthImage height="350px" />

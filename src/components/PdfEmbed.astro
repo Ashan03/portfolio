@@ -40,6 +40,14 @@ const uniqueId = "pdf-" + Math.random().toString(36).substr(2, 9);
 
         <!-- Click Overlay (Invisible) -->
         <div id={`pdf-click-area-${uniqueId}`} class="click-area"></div>
+
+        <!-- First Page Click Icon -->
+        <img
+            id={`pdf-click-icon-${uniqueId}`}
+            src="/assets/logos/click.png"
+            class="click-icon"
+            alt="Click to navigate"
+        />
     </div>
 </div>
 
@@ -65,6 +73,7 @@ const uniqueId = "pdf-" + Math.random().toString(36).substr(2, 9);
             `pdf-page-indicator-${uniqueId}`,
         );
         const clickArea = document.getElementById(`pdf-click-area-${uniqueId}`);
+        const clickIcon = document.getElementById(`pdf-click-icon-${uniqueId}`);
         const wrapper = document.getElementById(`wrapper-${uniqueId}`);
         const container = wrapper.querySelector(".pdf-container");
 
@@ -72,6 +81,10 @@ const uniqueId = "pdf-" + Math.random().toString(36).substr(2, 9);
         let pageNum = 1;
         let totalPages = 0;
         let isRendered = false;
+        let isVisible = false;
+        let isPaused = window.pdfAutoplayPaused || false;
+        let isHovered = false;
+        let autoplayInterval = null;
 
         async function renderAllPages() {
             if (!pdfDoc) return;
@@ -99,15 +112,27 @@ const uniqueId = "pdf-" + Math.random().toString(36).substr(2, 9);
             const page = await pdfDoc.getPage(num);
             const viewport = page.getViewport({ scale: 1 });
 
-            // Calculate scale to fit width exactly (hug the width)
-            const scale = cWidth / viewport.width;
+            // Calculate visual scale to fit container width
+            const visualScale = cWidth / viewport.width;
 
-            const scaledViewport = page.getViewport({ scale });
+            // Get device pixel ratio for high-DPI rendering
+            const dpr = window.devicePixelRatio || 1;
+
+            // Render at higher resolution based on dpr
+            const renderViewport = page.getViewport({
+                scale: visualScale * dpr,
+            });
 
             const canvas = document.createElement("canvas");
             canvas.className = `pdf-page page-${num}`;
-            canvas.height = scaledViewport.height;
-            canvas.width = scaledViewport.width;
+
+            // Set actual canvas size (high-res)
+            canvas.height = renderViewport.height;
+            canvas.width = renderViewport.width;
+
+            // Fix for high-DPI: Constrain display size to container instructions
+            canvas.style.width = "100%";
+            canvas.style.height = "auto";
 
             // Initial visibility state
             canvas.style.display = num === pageNum ? "block" : "none";
@@ -117,7 +142,7 @@ const uniqueId = "pdf-" + Math.random().toString(36).substr(2, 9);
             const ctx = canvas.getContext("2d");
             await page.render({
                 canvasContext: ctx,
-                viewport: scaledViewport,
+                viewport: renderViewport,
             }).promise;
         }
 
@@ -145,6 +170,12 @@ const uniqueId = "pdf-" + Math.random().toString(36).substr(2, 9);
             nextBtn.disabled = pageNum >= totalPages;
             prevBtn.style.opacity = pageNum <= 1 ? "0.5" : "1";
             nextBtn.style.opacity = pageNum >= totalPages ? "0.5" : "1";
+
+            // Click Icon Visibility (Only on Page 1)
+            if (clickIcon) {
+                clickIcon.style.opacity = pageNum === 1 ? "1" : "0";
+                clickIcon.style.pointerEvents = pageNum === 1 ? "auto" : "none"; // Make clickable only on page 1
+            }
         }
 
         function changePage(delta, allowLoop = false) {
@@ -169,6 +200,21 @@ const uniqueId = "pdf-" + Math.random().toString(36).substr(2, 9);
             changePage(1, true);
         });
 
+        // Keyboard Interaction
+        window.addEventListener("keydown", (e) => {
+            if (!isVisible) return;
+
+            // Don't trigger if user is typing in an input
+            if (["INPUT", "TEXTAREA"].includes(document.activeElement?.tagName))
+                return;
+
+            if (e.key === "ArrowRight") {
+                changePage(1, true);
+            } else if (e.key === "ArrowLeft") {
+                changePage(-1, true);
+            }
+        });
+
         clickArea.addEventListener("click", (e) => {
             const rect = clickArea.getBoundingClientRect();
             const clickX = e.clientX - rect.left;
@@ -182,6 +228,14 @@ const uniqueId = "pdf-" + Math.random().toString(36).substr(2, 9);
                 changePage(1, true);
             }
         });
+
+        // Click Icon interaction
+        if (clickIcon) {
+            clickIcon.addEventListener("click", (e) => {
+                e.stopPropagation();
+                changePage(1, true); // Go to next page
+            });
+        }
 
         // Re-render on resize (debounced)
         let resizeTimeout;
@@ -207,12 +261,27 @@ const uniqueId = "pdf-" + Math.random().toString(36).substr(2, 9);
             updateView();
 
             // Visibility-based autoplay: only advance when 40% of viewer is visible
-            let autoplayInterval = null;
-            let isVisible = false;
-            let isPaused = window.pdfAutoplayPaused || false;
+
+            wrapper.addEventListener("mouseenter", () => {
+                isHovered = true;
+                stopAutoplay();
+            });
+
+            wrapper.addEventListener("mouseleave", () => {
+                isHovered = false;
+                if (isVisible && !isPaused) {
+                    startAutoplay();
+                }
+            });
 
             function startAutoplay() {
-                if (autoplayInterval || totalPages <= 1 || isPaused) return;
+                if (
+                    autoplayInterval ||
+                    totalPages <= 1 ||
+                    isPaused ||
+                    isHovered
+                )
+                    return;
                 autoplayInterval = setInterval(() => {
                     if (pageNum >= totalPages) {
                         pageNum = 1;
@@ -220,7 +289,7 @@ const uniqueId = "pdf-" + Math.random().toString(36).substr(2, 9);
                         pageNum++;
                     }
                     updateView();
-                }, 4000);
+                }, 1500);
             }
 
             function stopAutoplay() {
@@ -235,7 +304,7 @@ const uniqueId = "pdf-" + Math.random().toString(36).substr(2, 9);
                 isPaused = e.detail.paused;
                 if (isPaused) {
                     stopAutoplay();
-                } else if (isVisible) {
+                } else if (isVisible && !isHovered) {
                     startAutoplay();
                 }
             });
@@ -272,14 +341,25 @@ const uniqueId = "pdf-" + Math.random().toString(36).substr(2, 9);
 <style>
     .pdf-viewer-wrapper {
         width: 100%;
-        margin-top: 2rem;
-        margin-bottom: 4rem;
+        margin-top: 6rem;
+        margin-bottom: 0.5rem;
     }
 
     .pdf-viewer-wrapper.pdf-full-width {
-        width: 100vw;
-        margin-left: 50%;
-        transform: translateX(-50%);
+        /* Break out of parent padding (4rem = 64px on desktop) */
+        width: calc(100% + 8rem);
+        margin-left: -4rem;
+        margin-right: -4rem;
+        transform: none;
+    }
+
+    @media (max-width: 1024px) {
+        .pdf-viewer-wrapper.pdf-full-width {
+            /* Break out of parent padding (20px on mobile) */
+            width: calc(100% + 40px);
+            margin-left: -20px;
+            margin-right: -20px;
+        }
     }
 
     .pdf-viewer-wrapper.pdf-full-width .pdf-container {
@@ -307,13 +387,13 @@ const uniqueId = "pdf-" + Math.random().toString(36).substr(2, 9);
         z-index: 1;
     }
 
-    .pdf-pages canvas {
+    .pdf-pages :global(canvas) {
         width: 100% !important;
         height: auto !important;
         display: block;
     }
 
-    .pdf-page {
+    .pdf-pages :global(.pdf-page) {
         max-width: 100%;
         max-height: 100%;
         box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
@@ -354,7 +434,7 @@ const uniqueId = "pdf-" + Math.random().toString(36).substr(2, 9);
         top: 0;
         left: 0;
         width: 100%;
-        height: 85%; /* Leave bottom 15% for controls interaction safety */
+        height: 100%;
         z-index: 5;
         cursor: pointer;
     }
@@ -427,7 +507,32 @@ const uniqueId = "pdf-" + Math.random().toString(36).substr(2, 9);
         background: rgba(255, 255, 255, 0.03);
     }
 
-    :global([data-theme="dark"]) .pdf-page {
+    :global([data-theme="dark"] .pdf-page) {
         box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+    }
+
+    .click-icon {
+        position: absolute;
+        bottom: 1rem;
+        right: 2rem;
+        width: 60px !important; /* Override ProjectSection global img styles */
+        height: auto !important;
+        margin: 0 !important;
+        max-width: none !important;
+        display: block;
+        opacity: 0;
+        transition: opacity 0.3s ease;
+        z-index: 20;
+        pointer-events: none; /* Changed via JS */
+        cursor: pointer;
+        filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.2));
+    }
+
+    @media (max-width: 768px) {
+        .click-icon {
+            width: 24px !important;
+            right: 0.5rem;
+            bottom: 0.5rem;
+        }
     }
 </style>

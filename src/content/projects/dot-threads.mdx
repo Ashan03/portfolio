@@ -95,12 +95,15 @@ import ReviewContainer from '../../components/ReviewContainer.astro';
     <p>
         MEMEX provided a structure for breaking down the bookmarking problem into actionable components. Two of Bush's fundamentals particularly shaped the direction:
     </p>
+    <hr class="feature-divider" />
     <p>
-        <strong>Displaying:</strong> Bush wrote about making connections visible through spatial positioning—"trails" that show how things are associated and how one idea leads to another. This resonated with what users described: folders hide how things relate. The challenge became: how to make relationships visible without overwhelming the interface.
+        <span class="list-tagline">Displaying</span> Bush wrote about making connections visible through spatial positioning—"trails" that show how things are associated and how one idea leads to another. This resonated with what users described: folders hide how things relate. The challenge became: how to make relationships visible without overwhelming the interface.
     </p>
+    <hr class="feature-divider" />
     <p>
-        <strong>Sharing trails:</strong> Bush emphasized sharing entire paths of thought, not isolated items. This aligned with the user study finding—people struggled to share specific bookmarks scattered across lists. But sharing raised an immediate question: where should the data live? Cloud storage enables sharing but creates dependency. This tension pushed toward local-first architecture as a core constraint.
+        <span class="list-tagline">Sharing trails</span> Bush emphasized sharing entire paths of thought, not isolated items. This aligned with the user study finding—people struggled to share specific bookmarks scattered across lists. But sharing raised an immediate question: where should the data live? Cloud storage enables sharing but creates dependency. This tension pushed toward local-first architecture as a core constraint.
     </p>
+    <hr class="feature-divider" />
     <p>
         These two aspects—visible relationships and data ownership—became the organizing principles for the design process.
     </p>
@@ -108,49 +111,60 @@ import ReviewContainer from '../../components/ReviewContainer.astro';
 
 <FullWidthImage src="/assets/projects/dot-threads/figma-prototype.png" height="400px" caption="Figma prototype explorations" />
 
-<ProjectSection title="Approach" id="approach-prototyping" hideTitle={true} group="approach">
-    <p>
-        After establishing these organizing principles, the next step was translating them into interface explorations through rapid prototyping in Figma.
-    </p>
-</ProjectSection>
-
 <ProjectSection title="Interaction" id="interaction-model">
     <h3>Prototyping the Parallels</h3>
     <p>Each MEMEX fundamental translated into specific interface explorations:</p>
 </ProjectSection>
 
+<ProjectSection title="Interaction" id="interaction-entering" hideTitle={true} group="interaction-model">
+    <p><span class="list-tagline">Entering</span> How to capture links without breaking browsing flow? Right-click context menu integration—save any link instantly from the browser's native menu.</p>
+</ProjectSection>
+
 <FullWidthImage src="/assets/projects/dot-threads/right-click.gif" height="400px" caption="Right-click context menu integration" />
 
-<ProjectSection title="Interaction" id="interaction-entering" hideTitle={true} group="interaction-model">
-    <p><strong>Entering:</strong> How to capture links without breaking browsing flow? Right-click context menu integration—save any link instantly from the browser's native menu.</p>
+<ProjectSection title="Interaction" id="interaction-web-info" hideTitle={true} group="interaction-model">
+    <p><span class="list-tagline">Web of info</span> How to show relationships spatially? Canvas layout where proximity indicates relatedness. Clicking any node reorganizes the view around it—making that node the "hero" of its own neighborhood.</p>
 </ProjectSection>
 
 <FullWidthImage src="/assets/projects/dot-threads/viewing.gif" height="400px" caption="Canvas layout where proximity indicates relatedness" />
 
-<ProjectSection title="Interaction" id="interaction-web-info" hideTitle={true} group="interaction-model">
-    <p><strong>Web of info:</strong> How to show relationships spatially? Canvas layout where proximity indicates relatedness. Clicking any node reorganizes the view around it—making that node the "hero" of its own neighborhood.</p>
+<ProjectSection title="Interaction" id="interaction-cataloging" hideTitle={true} group="interaction-model">
+    <p><span class="list-tagline">Cataloguing</span> How to preserve context when saving? Tag input and connection suggestions appear immediately during save, capturing why something mattered before the moment passes.</p>
 </ProjectSection>
 
 <FullWidthImage src="/assets/projects/dot-threads/editing.gif" height="400px" caption="Tag input and connection suggestions during save" />
 
-<ProjectSection title="Interaction" id="interaction-cataloging" hideTitle={true} group="interaction-model">
-    <p><strong>Cataloguing:</strong> How to preserve context when saving? Tag input and connection suggestions appear immediately during save, capturing why something mattered before the moment passes.</p>
+<ProjectSection title="Interaction" id="interaction-browsing" hideTitle={true} group="interaction-model">
+    <p><span class="list-tagline">Browsing</span> How to navigate without hierarchies? Direct exploration—click a node to see its connections, hover to preview, zoom to adjust detail level.</p>
 </ProjectSection>
 
 <FullWidthImage src="/assets/projects/dot-threads/hero-section.gif" height="400px" caption="Direct exploration—click, hover, zoom" />
 
-<ProjectSection title="Interaction" id="interaction-browsing" hideTitle={true} group="interaction-model">
-    <p><strong>Browsing:</strong> How to navigate without hierarchies? Direct exploration—click a node to see its connections, hover to preview, zoom to adjust detail level.</p>
+<ProjectSection title="Interaction" id="interaction-sharing" hideTitle={true} group="interaction-model">
+    <p><span class="list-tagline">Sharing</span> How to export threads without cloud dependency? Local export as portable files—threads package as self-contained data that can be shared directly.</p>
 </ProjectSection>
 
 <FullWidthImage src="/assets/projects/dot-threads/sharing.gif" height="400px" caption="Local export as portable files" />
 
-<ProjectSection title="Interaction" id="interaction-sharing" hideTitle={true} group="interaction-model">
-    <p><strong>Sharing:</strong> How to export threads without cloud dependency? Local export as portable files—threads package as self-contained data that can be shared directly.</p>
-</ProjectSection>
-
 <ProjectSection title="Implementation" id="implementation">
     <h3>Core Components of the Product</h3>
+    <p><span class="list-tagline">Most recent section in world view</span> Quick access list showing the last viewed dots. Provides linear navigation when the spatial canvas feels too open-ended.</p>
+    <hr class="feature-divider" />
+    <p><span class="list-tagline">Clickable hero image of website</span> Screenshot preview generated via Microlink API. Clicking opens the original URL. Provides visual memory cue beyond just text titles.</p>
+    <hr class="feature-divider" />
+    <p><span class="list-tagline">Markdown supported notes</span> Expandable notes field with markdown formatting. Captures context about why something was saved before that context fades.</p>
+    <hr class="feature-divider" />
+    <p><span class="list-tagline">Right-click pop up for quick saving and associating</span> Browser context menu integration. Shows existing dots as connection suggestions. Allows type assignment during capture to minimize friction.</p>
+    <hr class="feature-divider" />
+    <p><span class="list-tagline">Edit menu for customizing and cataloguing</span> Modal interface for modifying saved dots. Includes title editing, type reassignment with color picker, and connection management through searchable dropdown.</p>
+    <hr class="feature-divider" />
+    <p><span class="list-tagline">Physics-based organic visuals with depth through connection opacity</span> D3.js force simulation positions nodes naturally. Connection lines fade by depth—primary bold, secondary medium, tertiary faint—creating visual hierarchy without hiding information.</p>
+    <hr class="feature-divider" />
+    <p><span class="list-tagline">Traditional list access when spatial navigation feels overwhelming</span> Right sidebar organizes connections linearly by depth (primary, secondary, tertiary). Text-based list with hover effects for users who prefer hierarchical browsing.</p>
+    <hr class="feature-divider" />
+    <p><span class="list-tagline">Know where your dot lives</span> World map in bottom-right shows miniature of full graph. Current position highlighted. Updates as you navigate to maintain orientation.</p>
+    <hr class="feature-divider" />
+    <p><span class="list-tagline">Sharing dot threads with JSON export</span> Export button packages selected threads as portable JSON files. Import button merges shared threads into existing graph.</p>
 </ProjectSection>
 
 <ImageToggle 
@@ -160,20 +174,10 @@ import ReviewContainer from '../../components/ReviewContainer.astro';
     alt="Core components of the Dot Threads interface"
 />
 
-<ProjectSection title="Implementation" id="implementation-components" hideTitle={true} group="implementation">
-    <p><strong>Most recent section in world view:</strong> Quick access list showing the last viewed dots. Provides linear navigation when the spatial canvas feels too open-ended.</p>
-    <p><strong>Clickable hero image of website:</strong> Screenshot preview generated via Microlink API. Clicking opens the original URL. Provides visual memory cue beyond just text titles.</p>
-    <p><strong>Markdown supported notes:</strong> Expandable notes field with markdown formatting. Captures context about why something was saved before that context fades.</p>
-    <p><strong>Right-click pop up for quick saving and associating:</strong> Browser context menu integration. Shows existing dots as connection suggestions. Allows type assignment during capture to minimize friction.</p>
-    <p><strong>Edit menu for customizing and cataloguing:</strong> Modal interface for modifying saved dots. Includes title editing, type reassignment with color picker, and connection management through searchable dropdown.</p>
-    <p><strong>Physics-based organic visuals with depth through connection opacity:</strong> D3.js force simulation positions nodes naturally. Connection lines fade by depth—primary bold, secondary medium, tertiary faint—creating visual hierarchy without hiding information.</p>
-    <p><strong>Traditional list access when spatial navigation feels overwhelming:</strong> Right sidebar organizes connections linearly by depth (primary, secondary, tertiary). Text-based list with hover effects for users who prefer hierarchical browsing.</p>
-    <p><strong>Know where your dot lives:</strong> World map in bottom-right shows miniature of full graph. Current position highlighted. Updates as you navigate to maintain orientation.</p>
-    <p><strong>Sharing dot threads with JSON export:</strong> Export button packages selected threads as portable JSON files. Import button merges shared threads into existing graph.</p>
+<ProjectSection title="Implementation" id="implementation-architecture" hideTitle={true} group="implementation">
     <h3>Technical Architecture</h3>
+    <FullWidthImage src="/assets/projects/dot-threads/architecture.png" height="400px" caption="Technical architecture diagram" />
 </ProjectSection>
-
-<FullWidthImage src="/assets/projects/dot-threads/architecture.png" height="400px" caption="Technical architecture diagram" />
 
 <ProjectSection title="Implementation" id="implementation-architecture" hideTitle={true} group="implementation">
     <p>Chrome extension stores data locally using browser storage API. Web application reads this data through message bridge and visualizes using D3.js force-directed graph. Development mode includes local filesystem persistence. When extension not installed, app loads static demo data. Microlink API handles screenshot generation.</p>
@@ -182,12 +186,11 @@ import ReviewContainer from '../../components/ReviewContainer.astro';
 
 <ProjectSection title="Outcome" id="outcome">
     <h3>Shipped Product</h3>
+    <p>Dot Threads launched on Chrome Web Store in September 2024 and has been actively maintained through January 2026. Currently at version 1.3.3 with 10 active users.</p>
+    <FullWidthImage src="/assets/projects/dot-threads/chrome-store.png" height="400px" caption="Chrome Web Store listing" />
 </ProjectSection>
 
-<FullWidthImage src="/assets/projects/dot-threads/chrome-store.png" height="400px" caption="Chrome Web Store listing" />
-
 <ProjectSection title="Outcome" id="outcome-shipped" hideTitle={true} group="outcome">
-    <p>Dot Threads launched on Chrome Web Store in September 2024 and has been actively maintained through January 2026. Currently at version 1.3.3 with 10 active users.</p>
     <h3>User Feedback</h3>
     <ReviewContainer>
         <ReviewBubble quote="The design is very effective and intuitive once the user gets used to it." />

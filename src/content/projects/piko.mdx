@@ -3,61 +3,71 @@ title: "Piko"
 description: "A soft robotic companion that breathes and responds to touch."
 category: "embodied"
 order: 5
-heroImage: ""
+heroImage: "/assets/projects/piko/cover.png"
 tags: ["Soft Robotics", "HRI"]
 meta:
   Course: "Making Things Interactive"
   Duration: "3 Weeks"
   Team: "Solo Project"
   Year: "2023"
+sections:
+  - id: "problem-opportunity"
+    label: "Why build it?"
+  - id: "approach"
+    label: "What's the approach?"
+  - id: "implementation"
+    label: "How does it work?"
+  - id: "interaction-model"
+    label: "How is it built?"
+  - id: "outcome"
+    label: "What's the outcome?"
 ---
 
 import ProjectSection from '../../components/ProjectSection.astro';
 import FullWidthImage from '../../components/FullWidthImage.astro';
+import VideoEmbed from '../../components/VideoEmbed.astro';
 import PlaceholderImage from '../../components/PlaceholderImage.astro';
 
-<FullWidthImage height="500px" caption="Hero Image" />
-
-<div slot="intro">
-    <p>
-        [Project Intro Placeholder] This project explores the intersection of design and technology. Replace this text with a specific summary of the work.
-    </p>
-</div>
-
-<ProjectSection title="Problem & Opportunity" id="problem-opportunity">
-    <p>Content regarding the core provocation or problem statement of this project.</p>
-</ProjectSection>
-
-<FullWidthImage height="400px" />
-
-<ProjectSection title="Approach" id="approach">
-    <p>Content detailing the initial conceptualization and ideation phase.</p>
-</ProjectSection>
-
-<FullWidthImage height="300px" />
-
-<ProjectSection title="Implementation" id="implementation">
-    <p>Details on the composition, build, or structural elements of the solution.</p>
-    <div class="grid-2">
-        <PlaceholderImage height="300px" />
-        <PlaceholderImage height="300px" />
+<ProjectSection title="Piko" id="piko-intro" hideTitle={true}>
+    <FullWidthImage src="/assets/projects/piko/cover.png" height="500px" caption="Piko: The soft robotic companion" />
+    <div slot="intro">
+        <p>
+            In an era of hyper-digital fatigue, Piko explores how "softness" can serve as a medium for emotional regulation. It is a handheld robotic companion that mimics physiological rhythms, responding to the user's touch and presence with life-like breathing patterns.
+        </p>
     </div>
 </ProjectSection>
 
-<ProjectSection title="Interaction Model/UX" id="interaction-model">
-    <p>Explanation of the mechanics, interactions, or underlying logic.</p>
+<ProjectSection title="Why build it?" id="problem-opportunity">
+    <p>Modern interactive rituals often demand high cognitive attention—constant notifications, infinite feeds, and bright screens. The opportunity was to design an object that exists in the "periphery" of our attention, providing comfort without demanding interaction.</p>
+    
+    <FullWidthImage src="/assets/projects/piko/doom scrooling.png" height="400px" caption="Addressing the stress of digital depletion" />
 </ProjectSection>
 
-<FullWidthImage height="500px" />
-
-<ProjectSection title="Outcome" id="outcome">
-    <p>Synthesis of the results, outputs, or final design artifacts.</p>
+<ProjectSection title="What's the approach?" id="approach">
+    <p>Drawing from "Social Tech" frameworks and soft-robotic research, the approach focused on non-verbal communication. By studying how humans comfort each other through physical presence, I developed a system that uses breathing as a primary feedback loop.</p>
+    
+    <FullWidthImage src="/assets/projects/piko/social-tech.png" height="300px" caption="Social Technology Framework" />
+    <FullWidthImage src="/assets/projects/piko/cv.png" height="300px" caption="Computer Vision Exploration" />
 </ProjectSection>
 
-<FullWidthImage height="400px" />
+<ProjectSection title="How does it work?" id="implementation">
+    <p>Building an "inside-out" robot required balancing mechanical rigidity with organic softness. The internal skeleton supports the actuators while the external fabric skin provides the haptic feedback essential for comfort.</p>
+    
+    <FullWidthImage src="/assets/projects/piko/Piko inside-out.webp" height="500px" caption="Internal mechanics vs External form" />
 
-<ProjectSection title="Reflection" id="reflection">
-    <p>Notes on how AI or computational tools augmented the workflow.</p>
+    <FullWidthImage src="/assets/projects/piko/privacy.png" height="300px" caption="Haptic privacy explorations" />
+    <FullWidthImage src="/assets/projects/piko/interactions.gif" height="300px" caption="Breathe and Touch interactions" />
 </ProjectSection>
 
-<FullWidthImage height="350px" />
+<ProjectSection title="How is it built?" id="interaction-model">
+    <p>The system architecture bridges hardware sensing with behavioral responses. The robot doesn't just "breathe"; it reacts to how the user holds it, adjusting its pace to match or soothe the user's own rhythm.</p>
+    
+    <FullWidthImage src="/assets/projects/piko/architecture.gif" height="400px" caption="System communication flow" />
+</ProjectSection>
+
+<ProjectSection title="What's the outcome?" id="outcome">
+    <p>The final prototype demonstrates a seamless integration of soft-goods and electronics—an object that feels less like a device and more like a living companion.</p>
+    
+    <VideoEmbed type="vimeo" id="1163205367" title="Piko Interaction Flow" />
+    <FullWidthImage src="/assets/projects/piko/bts.png" height="400px" caption="Behind the scenes: Assembly and testing" />
+</ProjectSection>
