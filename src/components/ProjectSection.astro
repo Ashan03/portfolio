@@ -56,7 +56,7 @@ const {
         --column-gap: 32px; /* Gap between title and content */
         --section-margin: 6rem; /* Increased space between sections */
         --continuation-margin: 2rem; /* Reduced space for continuation sections */
-        --image-spacing: 24px; /* Space above images */
+        --image-spacing: 4rem; /* Space above images */
 
         display: flex;
         flex-direction: column;
@@ -131,6 +131,12 @@ const {
         font-family: "Public Sans", sans-serif;
     }
 
+    .section-content :global(h3.prominent-title) {
+        font-size: 1.5rem;
+        font-weight: 700;
+        margin-bottom: 0.5rem;
+    }
+
     /* First paragraph aligns with title (no extra margin) */
     .section-content > :global(*:first-child) {
         margin-top: 0;
@@ -159,13 +165,13 @@ const {
         display: block;
         border-radius: var(--radius-sm);
         margin-top: var(--image-spacing);
-        margin-bottom: 1rem;
+        margin-bottom: 2rem;
     }
 
-    /* Full-width images inside section content get reduced top margin */
+    /* Full-width images inside section content get unified margins */
     .section-content :global(.full-width-image) {
-        margin-top: 1.5rem !important;
-        margin-bottom: 0.5rem !important;
+        margin-top: 4rem !important;
+        margin-bottom: 2rem !important;
     }
 
     .section-content :global(.grid-2) {
@@ -252,8 +258,8 @@ const {
     .section-content :global(.list-tagline) {
         display: block;
         font-weight: 600;
-        font-size: 1.125rem; /* 18px */
-        line-height: 1.2;
+        font-size: 1rem; /* 16px - body text size */
+        line-height: 1.4;
         margin-bottom: 0.25rem;
         color: var(--text-primary);
     }
@@ -287,10 +293,11 @@ const {
         display: inline-block;
         background: var(--bg-secondary);
         border: 1px solid var(--border-subtle, rgba(0, 0, 0, 0.1));
-        padding: 6px 12px 4px 12px; /* Adjusted: 2px added to top, 2px removed from bottom for 2px nudge */
+        padding: 6px 12px 4px 12px; /* Adjusted: +2px on top, -2px on bottom to move text down */
         border-radius: var(--radius-md);
         font-size: 0.875rem;
         color: var(--text-secondary);
+        text-align: center;
         box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08); /* Added blurred shadow */
     }
 

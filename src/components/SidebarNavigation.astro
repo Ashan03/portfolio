@@ -492,7 +492,8 @@ const projectsByCategory = categories.map((cat) => ({
         font-size: 12px;
         overflow: hidden;
         white-space: nowrap;
-        
+        flex: 1; /* Allow taking available space */
+        min-width: 0; /* Enable flex child shrinking */
     }
 
     /* Links */

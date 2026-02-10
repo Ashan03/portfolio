@@ -1,42 +1,80 @@
 ---
 import Layout from "../layouts/Layout.astro";
-import CategorySection from "../components/CategorySection.astro";
-import ProjectCard from "../components/ProjectCard.astro";
-import CategoryFilter from "../components/CategoryFilter.astro";
+import GhostRunner from "../components/GhostRunner.astro";
+import BentoGrid from "../components/BentoGrid.astro";
+import BentoCard from "../components/BentoCard.astro";
 import SidebarNavigation from "../components/SidebarNavigation.astro";
 import ThemeToggle from "../components/ThemeToggle.astro";
 import SocialLinks from "../components/SocialLinks.astro";
 import Footer from "../components/Footer.astro";
-import GhostRunner from "../components/GhostRunner.astro";
 import { getCollection } from "astro:content";
 
 // Fetch all projects
-const allProjects = await getCollection("projects");
+const allProjects = (await getCollection("projects"))
+	.filter((project) =>
+		[
+			"detour",
+			"tirupati-campus",
+			"skywalk-sanctuary",
+			"dot-threads",
+			"piko",
+		].includes(project.slug),
+	)
+	.sort((a, b) => (a.data.order || 0) - (b.data.order || 0));
 
-// Filter projects by category
-const thinkingProjects = allProjects
-	.filter((p) => p.data.category === "thinking")
-	.sort((a, b) => (a.data.order || 0) - (b.data.order || 0));
-const embodiedProjects = allProjects
-	.filter((p) => p.data.category === "embodied")
-	.sort((a, b) => (a.data.order || 0) - (b.data.order || 0));
-const spatialProjects = allProjects
-	.filter((p) => p.data.category === "spatial")
-	.sort((a, b) => (a.data.order || 0) - (b.data.order || 0));
-const strategyProjects = allProjects
-	.filter((p) => p.data.category === "strategy")
-	.sort((a, b) => (a.data.order || 0) - (b.data.order || 0));
+const heroImages: Record<string, string> = {
+	"dot-threads": "/assets/projects/dot-threads/hero-dothreads.gif",
+	detour: "/assets/projects/detur/hero-detur.png",
+	piko: "/assets/projects/piko/hero-piko.gif",
+	"skywalk-sanctuary": "/assets/projects/santuary/hero-santuary.png",
+	"tirupati-campus": "/assets/projects/tirupati/hero-tirupati.gif",
+};
+
+// Home bento sizing override so cards keep simple proportions / layout
+const homeBentoSizeBySlug: Record<string, "small" | "medium" | "large" | "wide" | "tall"> =
+	{
+		"dot-threads": "medium",
+		detour: "medium",
+		piko: "medium",
+		"skywalk-sanctuary": "medium",
+		"tirupati-campus": "medium",
+	};
+
+// Convenience references by slug for manual column layout
+const dotThreadsProject = allProjects.find(
+	(project) => project.slug === "dot-threads",
+);
+const sanctuaryProject = allProjects.find(
+	(project) => project.slug === "skywalk-sanctuary",
+);
+const detourProject = allProjects.find(
+	(project) => project.slug === "detour",
+);
+const tirupatiProject = allProjects.find(
+	(project) => project.slug === "tirupati-campus",
+);
+const pikoProject = allProjects.find((project) => project.slug === "piko");
 ---
 
 <Layout
 	title="Narayan Ashanahalli"
 	description="Hi! I’m a graduate student at CMU HCI & SoA. I work at the intersection of sensing, computing, and IxD to create playful, intentional experiences between human -human and human - AI interactions"
+	fullWidth={true}
 >
-	<div slot="sidebar" class="home-sidebar">
-		<SidebarNavigation isHome={true} />
-		<div class="sidebar-controls">
-			<ThemeToggle />
+	<!-- Fixed Nav: Top Right -->
+	<div class="fixed-nav-top-right">
+		<div class="nav-wrapper-mobile">
+			<SidebarNavigation isHome={true} />
+		</div>
+		<div class="mobile-social-hidden">
 			<SocialLinks />
+		</div>
+	</div>
+
+		<div class="toggle-floater">
+			<div class="sidebar-controls">
+				<ThemeToggle />
+			</div>
 		</div>
 	</div>
 
@@ -44,8 +82,14 @@ const strategyProjects = allProjects
 		<!-- LAYER 1: HERO / INTRO -->
 		<section class="hero" id="about">
 			<div class="hero-container">
-				<!-- Game inserted above bio -->
+				<!-- Social Links: Column 1, top-aligned with nav -->
+				<div class="hero-social-links">
+					<SocialLinks />
+				</div>
+
+				<!-- Game: Full Width Top -->
 				<GhostRunner />
+
 				<div class="bio-content">
 					<div class="hero-headline bio-short">
 						I’m Narayan, a Product Designer and graduate student at
@@ -82,6 +126,7 @@ const strategyProjects = allProjects
 						</div>
 					</div>
 				</div>
+
 				<div class="hero-actions">
 					<a
 						href="https://drive.google.com/file/d/1z9FwSv_cy2_RxAijZzFVZaNBnRlbI5rQ/view?usp=sharing"
@@ -112,112 +157,353 @@ const strategyProjects = allProjects
 
 		<!-- LAYER 2: WORKS -->
 		<section id="works" class="layer-works">
-			<!-- Sticky Filter Header -->
-			<div class="works-header-sticky">
-				<CategoryFilter />
+			<div class="works-container">
+				<BentoGrid>
+					<div>
+						{
+							dotThreadsProject && (
+								<BentoCard
+									title={dotThreadsProject.data.title}
+									image={
+										heroImages[dotThreadsProject.slug] ||
+										dotThreadsProject.data.heroImage
+									}
+									href={`/works/${dotThreadsProject.slug}`}
+									size={
+										homeBentoSizeBySlug[dotThreadsProject.slug] ||
+										(dotThreadsProject.data.bentoSize as any) ||
+										"small"
+									}
+									tags={dotThreadsProject.data.tags}
+								/>
+							)
+						}
+
+						{
+							sanctuaryProject && (
+								<BentoCard
+									title={sanctuaryProject.data.title}
+									image={
+										heroImages[sanctuaryProject.slug] ||
+										sanctuaryProject.data.heroImage
+									}
+									href={`/works/${sanctuaryProject.slug}`}
+									size={
+										homeBentoSizeBySlug[sanctuaryProject.slug] ||
+										(sanctuaryProject.data.bentoSize as any) ||
+										"small"
+									}
+									tags={sanctuaryProject.data.tags}
+								/>
+							)
+						}
+					</div>
+
+					<div>
+						{
+							detourProject && (
+								<BentoCard
+									title={detourProject.data.title}
+									image={
+										heroImages[detourProject.slug] ||
+										detourProject.data.heroImage
+									}
+									href={`/works/${detourProject.slug}`}
+									size={
+										homeBentoSizeBySlug[detourProject.slug] ||
+										(detourProject.data.bentoSize as any) ||
+										"small"
+									}
+									tags={detourProject.data.tags}
+								/>
+							)
+						}
+
+						{
+							tirupatiProject && (
+								<BentoCard
+									title={tirupatiProject.data.title}
+									image={
+										heroImages[tirupatiProject.slug] ||
+										tirupatiProject.data.heroImage
+									}
+									href={`/works/${tirupatiProject.slug}`}
+									size={
+										homeBentoSizeBySlug[tirupatiProject.slug] ||
+										(tirupatiProject.data.bentoSize as any) ||
+										"small"
+									}
+									tags={tirupatiProject.data.tags}
+								/>
+							)
+						}
+					</div>
+
+					<div>
+						{
+							pikoProject && (
+								<BentoCard
+									title={pikoProject.data.title}
+									image={
+										heroImages[pikoProject.slug] ||
+										pikoProject.data.heroImage
+									}
+									href={`/works/${pikoProject.slug}`}
+									size={
+										homeBentoSizeBySlug[pikoProject.slug] ||
+										(pikoProject.data.bentoSize as any) ||
+										"small"
+									}
+									tags={pikoProject.data.tags}
+								/>
+							)
+						}
+					</div>
+				</BentoGrid>
 			</div>
-
-			<!-- Projects Grid -->
-			<!-- 1. Tools for Thinking -->
-			<CategorySection
-				title="Tools for Thinking"
-				description="Software that helps people organize complex data and workflows."
-				id="thinking"
-				id="thinking"
-			>
-				{
-					thinkingProjects.map((project) => (
-						<ProjectCard
-							title={project.data.title}
-							description={project.data.description}
-							tags={project.data.tags}
-							href={`/works/${project.slug}`}
-							image={project.data.heroImage}
-						/>
-					))
-				}
-			</CategorySection>
-
-			<!-- 2. Spatial Interactions -->
-			<CategorySection
-				title="Spatial Interactions"
-				description="Bridging the digital layer with the physical world."
-				id="spatial"
-				id="spatial"
-			>
-				{
-					spatialProjects.map((project) => (
-						<ProjectCard
-							title={project.data.title}
-							description={project.data.description}
-							tags={project.data.tags}
-							href={`/works/${project.slug}`}
-							image={project.data.heroImage}
-						/>
-					))
-				}
-			</CategorySection>
-
-			<!-- 3. Tangible Interactions -->
-			<CategorySection
-				title="Tangible Interactions"
-				description="Giving technology a physical, emotional presence."
-				id="embodied"
-				id="embodied"
-			>
-				{
-					embodiedProjects.map((project) => (
-						<ProjectCard
-							title={project.data.title}
-							description={project.data.description}
-							tags={project.data.tags}
-							href={`/works/${project.slug}`}
-							image={project.data.heroImage}
-						/>
-					))
-				}
-			</CategorySection>
-
-			<!-- 4. Design Strategy -->
-			<CategorySection
-				title="Design Strategy"
-				description="Strategic systems at scale, from pixels to campuses."
-				id="strategy"
-				id="strategy"
-			>
-				{
-					strategyProjects.map((project) => (
-						<ProjectCard
-							title={project.data.title}
-							description={project.data.description}
-							tags={project.data.tags}
-							href={`/works/${project.slug}`}
-							image={project.data.heroImage}
-						/>
-					))
-				}
-			</CategorySection>
 		</section>
 
-		<Footer />
+		<div class="footer-alignment-wrapper">
+			<Footer />
+		</div>
 	</div>
 </Layout>
 
 <style>
-	/* Sidebar Styles */
-	.home-sidebar {
-		height: 100%;
-		display: flex;
-		flex-direction: column;
-		justify-content: space-between;
+	/* Fixed Nav Positions */
+	.fixed-nav-top-right {
+		position: fixed;
+		top: 20px;
+		right: 20px;
+		z-index: 100;
+		width: 280px; /* 320px col - 40px padding = 280px content width */
 	}
 
-	/* Content Area Styles */
+	.mobile-social-hidden {
+		display: none;
+	}
+
+	/* Desktop (3-col): shrink sidebar to maintain 3rem gap with social links */
+	@media (min-width: 1200px) {
+		.fixed-nav-top-right {
+			/* 
+			   Aligned to Right:
+			   - Available Space = 33vw (Col 3) - 20px (Right) - 3rem (Gap) - SocialWidth (~140px)
+			   - 33vw - 210px
+			*/
+			width: clamp(200px, calc(33vw - 210px), 280px);
+		}
+	}
+
+	.fixed-nav-bottom-right {
+		position: fixed;
+		bottom: 20px;
+		right: 20px;
+		z-index: 100;
+		width: auto; /* Allow it to shrink to content */
+		display: flex; /* Ensure proper stacking if multiple items */
+		justify-content: flex-end;
+		transition: bottom 0.1s ease-out; /* Smooth collision movement */
+	}
+
+	.toggle-floater {
+		position: fixed;
+		bottom: 20px;
+		right: 20px;
+		z-index: 100;
+		width: auto;
+		display: flex;
+		justify-content: flex-end;
+		transition: bottom 0.1s ease-out;
+	}
+
+	.sidebar-controls {
+		display: flex;
+		gap: 1rem;
+		align-items: center;
+	}
+
+
+	/* Content Area */
+	/* Content Area */
 	.home-content {
-		padding: 20px var(--space-xl) 20px; /* Top 20px, Sides XL, Bottom 20px */
-		max-width: 1200px;
-		margin: 0 auto;
+		padding: 20px 20px 0; /* Match 20px nav offset, 0 bottom padding so footer margin controls spacing */
+		max-width: 100%;
+		margin: 0;
 		width: 100%;
+	}
+
+	/* Hero Section - Grid Layout to Match Bento */
+	.hero-container {
+		display: grid;
+		grid-template-columns: 1fr; /* Mobile Default */
+		gap: var(--space-md);
+		width: 100%;
+	}
+
+	/* Social Links in Column 3 - left-aligned to touch middle content right edge */
+	/* Actually, user wants "socials to the right of the game". Game is Left. */
+	/* If Game in Col 1-2, Socials in Col 3, Align Left (start) */
+	.hero-social-links {
+		display: flex;
+		justify-content: flex-start;
+		align-items: flex-start;
+		padding-left: 0px; /* gap to match bento column-gap */
+	}
+
+	/* Desktop: 3 Columns, Content starts at Col 1 (Span 2) */
+	@media (min-width: 1200px) {
+		.hero-container {
+			grid-template-columns: 1fr 1fr 1fr;
+		}
+
+		/* Align all direct children to start at column 1 (Left Aligned Layout) */
+		/* Game, Bio, Actions span first 2 columns */
+		.hero-container > :global(*) {
+			grid-column: 1 / 3;
+		}
+
+		/* Social links moves to column 3 (Right) */
+		.hero-social-links {
+			grid-column: 3 / 4;
+			grid-row: 1;
+		}
+	}
+
+	/* Tablet: 2 Columns */
+	@media (min-width: 768px) and (max-width: 1199px) {
+		.hero-container {
+			grid-template-columns: 1fr 1fr;
+		}
+
+		/* In 2-col layout (Tablet), if Sidebar is right fixed... usually overlay or adjust */
+		/* If flip keeps logic: Content in Col 1, Social/Sidebar in Col 2? */
+		/* Original was: Content Col 2, Nav Col 1. */
+		/* Flip: Content Col 1, Nav Col 2. */
+
+		.hero-container > :global(*) {
+			grid-column: 1 / 2;
+		}
+
+		/* Social links stays in column 2 */
+		.hero-social-links {
+			grid-column: 2 / 3;
+			grid-row: 1;
+		}
+	}
+
+	/* Bio Content */
+	.bio-content {
+		padding-top: 0;
+		padding-left: 0;
+		max-width: 100%; /* Matches Game Width */
+	}
+
+	.hero-actions {
+		display: flex;
+		justify-content: flex-start; /* Align links to left */
+		gap: 1.5rem;
+	}
+
+	/* Footer Alignment - Move to Left? Or keep Right? */
+	/* If Layout Flipped, Footer usually follows main flow. */
+	/* But footer is usually site-wide. Let's align left now? */
+	.footer-alignment-wrapper {
+		display: flex;
+		justify-content: flex-start; /* Align Footer to Left */
+		margin-top: 2rem;
+	}
+
+	/* Footer width matching right alignment preference */
+	.footer-alignment-wrapper :global(.site-footer) {
+		width: 100%; /* Full Width as requested */
+		margin-bottom: 20px;
+		margin-top: 240px !important; /* Restore valid top margin from previous global style */
+	}
+
+	/* Responsive */
+	@media (max-width: 1024px) {
+		.fixed-nav-top-right {
+			position: static;
+			width: 100%;
+			margin-bottom: 2rem;
+			display: flex;
+			flex-direction: row;
+			flex-wrap: nowrap; /* Prevent wrapping */
+			justify-content: space-between; /* Sidebar Left, Socials Right */
+			align-items: center;
+			gap: 20px; /* Padding between items */
+			padding: 20px; /* Padding all sides */
+			box-sizing: border-box; /* Include padding in width */
+			margin-bottom: 0; /* 0 Margin + 20px Padding = 20px Visual Gap */
+		}
+
+		.nav-wrapper-mobile {
+			flex: 1 1 auto; /* Allow Sidebar to fill available space, but shrink if needed */
+			min-width: 0; /* Critical for text truncation/shrinking in flex */
+			position: relative; /* Context */
+			z-index: 2; /* Ensure above spacer if any */
+		}
+
+		.mobile-social-hidden {
+			flex: 0 0 auto; /* Keep intrinsic size */
+			position: relative;
+			z-index: 2;
+		}
+
+		/* Override Sidebar Fixed Position on Mobile Home */
+		.fixed-nav-top-right :global(.nav-bento-wrapper) {
+			position: static !important; /* Force into flow */
+			width: 100% !important;
+			margin: 0 !important;
+			transform: none !important;
+			padding: 0 !important; /* Reset component padding if any */
+			top: auto !important;
+			left: auto !important;
+			right: auto !important;
+			border: none !important; /* Border handled by component or container? */
+			/* Component has border: 1px solid var(--border-subtle); keep it? */
+			/* If component border is on wrapper, keep it. Just position reset. */
+		}
+
+		/* Hide the spacer which pushes content down */
+		.fixed-nav-top-right :global(.nav-spacer) {
+			display: none !important;
+		}
+
+		/* Override width: 100% on nav trigger for mobile horizontal layout */
+		.fixed-nav-top-right :global(.nav-trigger) {
+			width: 100%; /* Fill the wrapper */
+		}
+
+		.fixed-nav-bottom-right {
+			position: static;
+			width: 100%;
+			margin-bottom: 2rem;
+		}
+		
+		.mobile-social-hidden {
+			display: block;
+		}
+		
+		.hero-social-links {
+			display: none !important;
+		}
+
+		.hero-container {
+			grid-template-columns: 1fr;
+			padding-left: 0;
+		}
+
+		.bio-content {
+			padding-left: 0;
+			padding-top: 0;
+		}
+
+		.footer-alignment-wrapper {
+			justify-content: center;
+			padding-left: 0;
+		}
 	}
 
 	/* Hero Section */
@@ -226,13 +512,13 @@ const strategyProjects = allProjects
 		font-weight: 400;
 		font-size: 32px;
 		border-bottom: 1px solid var(--border-subtle); /* Hero Separator */
-		margin-bottom: 36px; /* Gap below line */
+		margin-bottom: 20px; /* Gap below line */
 	}
 
 	.hero-intro {
 		font-size: 1.25rem;
 		color: var(--text-secondary);
-		max-width: 600px;
+		max-width: 100%;
 		line-height: 1.1;
 	}
 
@@ -282,7 +568,7 @@ const strategyProjects = allProjects
 	/* Tablet View */
 	@media (max-width: 1024px) {
 		.home-content {
-			padding: 20px 20px 40px 20px;
+			padding: 20px 20px 0 20px;
 		}
 	}
 
@@ -291,7 +577,7 @@ const strategyProjects = allProjects
 			font-size: 32px;
 		}
 		.home-content {
-			padding: 20px 20px 40px 20px;
+			padding: 20px 20px 0 20px;
 		}
 	}
 
@@ -335,19 +621,25 @@ const strategyProjects = allProjects
 
 	.bio-long {
 		width: 100%;
+		max-width: calc((100% - var(--space-md)) / 2); /* Align with First Column only */
 		display: none; /* Default hidden */
 		opacity: 0;
 		transition: opacity 0.4s ease;
 
-		/* Grid Alignment Layout */
-		grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+		/* Remove grid-template-columns which forced width */
+		/* grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); */
 		gap: 1.25rem;
 	}
 
-	/* When active, we set display: grid in JS, not block */
+	/* When active, we set display: block/grid in JS. 
+	   If we use block, width works fine. */
 
 	.bio-text {
-		grid-column: 1 / 3; /* Spans first two columns */
+		/* grid-column: 1 / 3; */ /* No longer needed if container is constrained */
+		font-size: 16px;
+		line-height: 1.4;
+		color: var(--text-secondary);
+	}
 		font-size: 16px;
 		line-height: 1.4;
 		color: var(--text-secondary);
@@ -357,49 +649,6 @@ const strategyProjects = allProjects
 		/* Collapse to single column on mobile */
 		.bio-text {
 			grid-column: 1 / -1;
-		}
-	}
-
-	@media (max-width: 1024px) {
-		/* Mobile Sidebar Adjustments */
-		.home-sidebar {
-			height: auto;
-			display: block;
-		}
-
-		.sidebar-controls {
-			position: fixed;
-			bottom: 20px;
-			left: 20px;
-			z-index: 90;
-			display: flex;
-			align-items: center;
-			gap: 0; /* Remove gap, we'll use padding/margins if needed */
-			background: var(--bg-surface);
-			padding: 0.5rem 0.75rem; /* Match bento padding */
-			border-radius: var(--radius-md);
-			border: 1px solid var(--border-subtle);
-			box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-			width: fit-content;
-			transition: bottom 0.1s ease-out; /* Smooth docking */
-		}
-
-		/* Style children to look like one unified component */
-		.sidebar-controls :global(#theme-toggle) {
-			border: none;
-			background: transparent;
-			padding: 0 0.5rem 0 0; /* Right padding for spacing */
-			border-radius: 0;
-			border-right: 1px solid var(--border-subtle); /* Divider */
-			height: 24px; /* Fix height for alignment */
-			margin-right: 0.5rem;
-		}
-
-		.sidebar-controls :global(.social-group) {
-			border: none;
-			background: transparent;
-			padding: 0;
-			gap: 0.5rem;
 		}
 	}
 
@@ -656,57 +905,41 @@ const strategyProjects = allProjects
 </script>
 
 <script>
-	// Mobile sidebar controls docking behavior
-	function updateControlsPosition() {
-		// Only run on mobile/tablet (roughly check media query or just let it run if sidebar-controls is visible)
-		// Better to check if the element has fixed positioning or use media query
-		if (window.matchMedia("(min-width: 1025px)").matches) {
-			const controls = document.querySelector(
-				".sidebar-controls",
-			) as HTMLElement;
-			if (controls) controls.style.bottom = ""; // Reset
-			return;
-		}
-
-		const controls = document.querySelector(
-			".sidebar-controls",
+	// Sticky Theme Toggle Collision Logic (desktop, tablet, and phone)
+	function updateThemeTogglePosition() {
+		const toggleContainer = document.querySelector(
+			".toggle-floater",
 		) as HTMLElement;
-		const footerText = document.querySelector(
-			".contact-message",
+		// Target the actual .site-footer to ignore the wrapper margins/flex alignment
+		const footer = document.querySelector(
+			".site-footer",
 		) as HTMLElement;
 
-		if (!controls || !footerText) return;
+		if (!toggleContainer || !footer) return;
 
-		const footerRect = footerText.getBoundingClientRect();
+		const footerRect = footer.getBoundingClientRect();
 		const windowHeight = window.innerHeight;
-
-		// Base bottom offset matches CSS 20px
 		const baseBottom = 20;
-		const gap = 20; // Ensure 40px gap above the footer text ("name card")
+		const gap = 20;
 
-		// Check if footer text is entering viewport from bottom
+		// If footer enters viewport
 		if (footerRect.top < windowHeight) {
-			// Calculate new bottom position to stay above the text
-			// bottom = (windowHeight - footerTextTop) + gap
-			const overlapOffset = windowHeight - footerRect.top;
-			const newBottom = Math.max(baseBottom, overlapOffset + gap);
-			controls.style.bottom = `${newBottom}px`;
+			// We want bottom to be such that button is 'gap' px above footer top
+			// newBottom = (windowHeight - footerRect.top) + gap
+			const newBottom = windowHeight - footerRect.top + gap;
+			toggleContainer.style.bottom = `${Math.max(
+				baseBottom,
+				newBottom,
+			)}px`;
 		} else {
-			controls.style.bottom = `${baseBottom}px`;
+			toggleContainer.style.bottom = `${baseBottom}px`;
 		}
 	}
 
-	window.addEventListener("scroll", updateControlsPosition, {
+	window.addEventListener("scroll", updateThemeTogglePosition, {
 		passive: true,
 	});
-	window.addEventListener("resize", updateControlsPosition);
-	// Initial call
-	updateControlsPosition();
+	window.addEventListener("resize", updateThemeTogglePosition);
+	// Initial call (slight delay to ensure layout is ready)
+	setTimeout(updateThemeTogglePosition, 100);
 </script>
-
-<style is:global>
-	/* 240px margin for footer on home page */
-	.home-content .site-footer {
-		margin-top: 240px !important;
-	}
-</style>

@@ -3,19 +3,28 @@ title: "Tirupati Campus"
 description: "Strategic spatial optimization for a manufacturing giant (Amara Raja)."
 category: "strategy"
 order: 7
-heroImage: "/assets/projects/tirupati/cover.avif"
+heroImage: "/assets/projects/tirupati/hero-tirupati.gif"
 tags: ["Service Design", "Spatial Strategy"]
+bentoSize: "wide"
 meta:
   Role: "Product Designer"
   Tools: "Figma, React"
   Duration: "4 Weeks"
   Team: "Solo Project"
   Year: "2023"
+sections:
+  - { id: "premise", label: "Why build it?" }
+  - { id: "approach", label: "What's the approach?" }
+  - { id: "study", label: "How does it work?" }
+  - { id: "implementation", label: "How is it built?" }
+  - { id: "outcome", label: "What's the outcome?" }
 ---
 
 import ProjectSection from '../../components/ProjectSection.astro';
 import PdfEmbed from '../../components/PdfEmbed.astro';
 import FullWidthImage from '../../components/FullWidthImage.astro';
+
+<FullWidthImage src="/assets/projects/tirupati/hero-tirupati.gif" caption="Outcome Preview" loading="eager" constrain={false} />
 
 <div slot="intro">
     <p>
@@ -138,30 +147,217 @@ import FullWidthImage from '../../components/FullWidthImage.astro';
     });
 `}</script>
 
-<FullWidthImage src="/assets/projects/tirupati/outcome-2.gif" caption="Outcome Preview" loading="eager" />
+
 
 <ProjectSection title="Premise" id="premise">
-    <p>Context about why this project was initiated.</p>
+    <p>
+        Amara Raja’s Tirupati facility operates with a distinct demographic advantage: 80% of its workforce consists of first-time industrial employees from the surrounding rural population. The organization’s long-term vision is to foster a "non-migratory" labor force, creating a stable economic ecosystem that supports rather than displaces the local agricultural community.
+    </p>
+
+    <p class="centered-tagline">Stabilizing a rural ecosystem through human-centric industrial design.</p>
+
     <PdfEmbed src="/assets/projects/tirupati/Premise.pdf" fullWidth={false} />
+
+    <h3>The Opportunity</h3>
+    <p>
+        Rapid expansion established the facility as an industry leader, but the physical site lagged behind the company's cultural maturity. The path to modernization wasn't random; it was methodological. By triangulating three critical inputs:
+    </p>
+
+    <div class="attribute-pills" style="justify-content: center; margin: 2rem 0;">
+        <span class="attribute-pill" style="background: #FE0A8D; color: #fff; flex: 1;">Spatial Campus Study</span>
+        <span class="attribute-pill" style="background: #FF6D01; color: #fff; flex: 1;">Behavioral Research</span>
+        <span class="attribute-pill" style="background: #02F375; color: #1a1a1a; flex: 1;">Core Amara Raja Values</span>
+    </div>
+
+    <p>
+        The strategy identified a specific zone of "Transition". The opportunity lay in bridging these elements to create a "Home Base"—a strategic alignment where the built environment actively supports the vision of a non-migratory, thriving workforce.
+    </p>
 </ProjectSection>
 
-<ProjectSection title="Approach" id="approach">
-    <p>Strategic approach and methodology.</p>
+<ProjectSection title="Research & Scoping" id="approach">
+    <p>
+        Understanding the user environment began with an analysis of industrial typologies. Historical data reveals a clear evolution: from the isolated, efficient "Autonomous" models of the 20th century to emerging "Integrated" systems where technology and humanity coexist. This research identified a critical shift—modern efficiency is no longer about segregation, but Synchronization, where diverse operations function concurrently in the same space.
+    </p>
+
+    <p class="centered-tagline">Decoding the industrial vernacular using Kevin Lynch’s cognitive framework to transform static infrastructure—Pathways, Edges, and Nodes—into active drivers of social cohesion and identity.</p>
+
     <PdfEmbed src="/assets/projects/tirupati/Approach.pdf" fullWidth={false} />
+
+    <h3>Scoping the Interventions</h3>
+    <p>
+        To translate this high-level strategy into tangible design scope, the project utilized Kevin Lynch’s Cognitive Approach. This framework was not used for simple mapping, but to identify the specific spatial "features" required to drive the desired organizational culture.
+    </p>
+
+    <hr class="feature-divider" />
+    
+    <p style="font-weight: 700;">The 5 Strategic Scopes:</p>
+    
+    <div style="display: flex; flex-direction: column; gap: 1rem; margin-top: 1rem;">
+        <div style="display: flex; align-items: flex-end; gap: 1rem;">
+            <span class="attribute-pill" style="background: #FF6D01; color: #fff; display: inline-flex; align-items: flex-end; justify-content: flex-start; text-align: left; padding-bottom: 4px; min-width: 100px; flex-shrink: 0; font-weight: 700;">Pathways</span>
+            <span style="line-height: 1.2; padding-bottom: 4px;">Moving beyond logistics to design routes that foster collaboration and safety.</span>
+        </div>
+        <div style="display: flex; align-items: flex-end; gap: 1rem;">
+            <span class="attribute-pill" style="background: #FF730B; color: #fff; display: inline-flex; align-items: flex-end; justify-content: flex-start; text-align: left; padding-bottom: 4px; min-width: 100px; flex-shrink: 0; font-weight: 700;">Nodes</span>
+            <span style="line-height: 1.2; padding-bottom: 4px;">Creating active intersections that promote innovation and connectivity among the workforce.</span>
+        </div>
+        <div style="display: flex; align-items: flex-end; gap: 1rem;">
+            <span class="attribute-pill" style="background: #FF7915; color: #fff; display: inline-flex; align-items: flex-end; justify-content: flex-start; text-align: left; padding-bottom: 4px; min-width: 100px; flex-shrink: 0; font-weight: 700;">Edges</span>
+            <span style="line-height: 1.2; padding-bottom: 4px;">Transforming barriers into points of interaction to facilitate connection.</span>
+        </div>
+        <div style="display: flex; align-items: flex-end; gap: 1rem;">
+            <span class="attribute-pill" style="background: #FF7F1F; color: #fff; display: inline-flex; align-items: flex-end; justify-content: flex-start; text-align: left; padding-bottom: 4px; min-width: 100px; flex-shrink: 0; font-weight: 700;">Districts</span>
+            <span style="line-height: 1.2; padding-bottom: 4px;">Defining zones with unique identities to enhance community pride and social ties.</span>
+        </div>
+        <div style="display: flex; align-items: flex-end; gap: 1rem;">
+            <span class="attribute-pill" style="background: #FF852A; color: #fff; display: inline-flex; align-items: flex-end; justify-content: flex-start; text-align: left; padding-bottom: 4px; min-width: 100px; flex-shrink: 0; font-weight: 700;">Landmarks</span>
+            <span style="line-height: 1.2; padding-bottom: 4px;">Establishing visual anchors to reinforce belonging and connection to the workplace.</span>
+        </div>
+    </div>
 </ProjectSection>
 
-<ProjectSection title="Study" id="study">
-    <p>Research and analysis phase.</p>
+<ProjectSection title="Campus Audit" id="study">
+    <p>
+        Before designing interventions, the study established a baseline by analyzing the campus as a system of interactions. The goal was to identify specific spatial levers that could directly impact the organization’s most critical KPI: creating a stable, non-migratory labor force.
+    </p>
+    
+    <div style="display: flex; flex-direction: column; gap: 1rem; margin-top: 1rem;">
+        <div>
+            <span class="attribute-pill" style="background: #F50102; color: #ffffffff; margin-bottom: 0.75rem; font-weight: 700;">Campus Character</span>
+            <p>Studying the campus DNA using a structural framework: <span style="font-weight: 500;">Campus + Axes + Massing</span>. The site is organized around rigid "Entry" and "Main" spines. These spines serve as legacy 'Growth' infrastructure—optimized for material throughput. This structural rigidity now bottlenecks the 'Place' phase, isolating the human capital essential for long-term stability.</p>
+        </div>
+
+        <hr class="feature-divider" style="margin: 0;" />
+
+        <div>
+            <span class="attribute-pill" style="background: #F534A7; color: #ffffff; margin-bottom: 0.75rem; font-weight: 700;">Campus Edge</span>
+            <p>Evaluating the campus perimeter using the framework: <span style="font-weight: 500;">Campus + Town + Connect</span>. This interface currently serves as the critical junction where the industrial ecosystem interacts with the residential town, functioning as a shared space for community engagement. The layout facilitates inter-town collaboration, effectively utilizing the edge to foster social cohesion rather than separation. Research highlights the value of this integration, noting that active campus edges correlate with a 23% increase in community well-being, strengthening the bond between the organization and its locality.</p>
+        </div>
+
+        <hr class="feature-divider" style="margin: 0;" />
+
+        <div>
+            <span class="attribute-pill" style="background: #F66F06; color: #ffffff; margin-bottom: 0.75rem; font-weight: 700;">Public Realm</span>
+            <p>We audited the shared environments utilizing the framework: <span style="font-weight: 500;">Campus + Public + Community</span>. These spaces currently function as the site's "connective tissue," facilitating movement and linkage between distinct operational zones. The analysis identifies the potential to elevate this network from a functional transit system to a driver of psychological well-being through accessible green infrastructure. Research supports this strategic enhancement, linking environmental quality to a 45% decrease in stress-related absenteeism.</p>
+        </div>
+    </div>
+
     <PdfEmbed src="/assets/projects/tirupati/Study.pdf" fullWidth={false} />
+
+    <div style="display: flex; flex-direction: column; gap: 1rem; margin-top: 1rem;">
+        <hr class="feature-divider" style="margin: 0;" />
+
+        <div>
+            <span class="attribute-pill" style="background: #3089FE; color: #ffffff; margin-bottom: 0.75rem; font-weight: 700;">Third Places</span>
+            <p>The distribution of informal zones were studied using the framework: <span style="font-weight: 500;">Greens + Access</span>. These areas currently function as decentralized pockets of respite, offering the workforce essential opportunities for decompression and connection to nature. The strategic opportunity lies in programming these spaces to serve as active "Third Places," physically manifesting the "Amara Raja Way" of Entrepreneurship by enabling the spontaneous cross-pollination of ideas. Data supports this activation, showing that effective placemaking drives a 13-16% improvement in peer collaboration and a 19-23% increase in job satisfaction.</p>
+        </div>
+
+        <hr class="feature-divider" style="margin: 0;" />
+
+        <div>
+            <span class="attribute-pill" style="background: #2FA000; color: #ffffffff; margin-bottom: 0.75rem; font-weight: 700;">System of Parts</span>
+            <p>Finally we analysed the macro-level integration of <span style="font-weight: 500;">Production, Innovation, Housing, Services, and Public Spaces</span> to assess the campus's operational unity. The study highlights that these functions achieve maximum impact only when aligned strategies and shared resources bridge the gap between sectors. Transforming these isolated verticals into a cohesive ecosystem is critical for growth; it fosters the cross-pollination of ideas required for innovation while providing the holistic amenities that secure long-term employee retention.</p>
+        </div>
+    </div>
+
+    <hr class="feature-divider" />
+
+    <h3>Scoping the Intervention</h3>
+    <p>
+        This diagnostic phase successfully mapped the business problems (attrition, isolation, stress) to spatial root causes. This allowed us to scope the design work into four targeted interventions: Landscape, Indoor Experience, Signage & Branding, and Architectural Language—ensuring every design dollar spent addressed a specific systemic gap.
+    </p>
 </ProjectSection>
 
-<ProjectSection title="Implementation" id="implementation">
-    <p>Execution and delivery details.</p>
+<ProjectSection title="Systemic Acupuncture" id="implementation">
+    <p>
+        To translate the "Home Base" vision into reality, the implementation strategy moved beyond a cosmetic renovation to a programmable interface update. We treated the campus as hardware needing a new operating system, defining four strategic pillars
+    </p>
+
+    <p class="centered-tagline">Landscape, Indoor Experience, Signage, and Architectural Language</p>
+
+    <p>
+        to drive behavior change. This "Systemic Acupuncture" approach targeted high-leverage nodes where minimal physical interventions could yield maximum cultural impact, ensuring that every modification reinforced the "Amara Raja Way."
+    </p>
+
     <PdfEmbed src="/assets/projects/tirupati/Implementation.pdf" fullWidth={false} />
+
+    <div style="display: flex; flex-direction: column; gap: 1rem; margin-top: 2rem;">
+        <div>
+            <span class="attribute-pill" style="background: #2d2d2dff; color: #ffffff; margin-bottom: 0.75rem; font-weight: 500;">Landscape</span>
+            <p>We redefined the campus ground plane using the framework: <span style="font-weight: 500;">Streetscape + Vegetation + Nodes</span>. Moving beyond simple beautification, the landscape strategy integrates functionality with aesthetics to shift the user experience from "traversing" to "inhabiting." By activating the "in-between" spaces, we inspire a sense of pride and purpose, turning logistical routes into restorative journeys.</p>
+        </div>
+
+        <hr class="feature-divider" style="margin: 0;" />
+
+        <div>
+            <span class="attribute-pill" style="background: #2d2d2dff; color: #ffffff; margin-bottom: 0.75rem; font-weight: 500;">Indoor Experience</span>
+            <p>Enhancing the campus required penetrating the "box" to cultivate indoor spaces that foster the "Amara Raja Way." The strategy focuses on <span style="font-weight: 500;">Entry Experience + Breakout Spaces + Air Quality</span>, transforming sterile production environments into zones of creativity and collaboration. This shift ensures that the physical environment actively supports the mental well-being and social connection of the workforce.</p>
+        </div>
+
+        <hr class="feature-divider" style="margin: 0;" />
+
+        <div>
+            <span class="attribute-pill" style="background: #2d2d2dff; color: #ffffff; margin-bottom: 0.75rem; font-weight: 500;">Signage & Branding</span>
+            <p>We deployed a unified visual system acting as Beacons of Inspiration. By weaving identity and purpose amidst the machinery through <span style="font-weight: 500;">Wayfinding + Brand Identity</span>, the signage system elevates the landscape from a functional grid to a narrative experience. This layer guides progress with pride, reinforcing the collective vision at every decision point.</p>
+        </div>
+
+        <hr class="feature-divider" style="margin: 0;" />
+
+        <div>
+            <span class="attribute-pill" style="background: #2d2d2dff; color: #ffffff; margin-bottom: 0.75rem; font-weight: 500;">Architectural Language</span>
+            <p> To unify the disparate structures, we established a consistent design language: <span style="font-weight: 500;">Shading + Facade Articulation</span>. Like threads of a finely woven fabric, aesthetic uniformity stitches together the industrial campus, creating a visual narrative that reflects the organization's strength and resilience. This consistency transforms a collection of buildings into a singular, cohesive institution.</p>
+        </div>
+    </div>
 </ProjectSection>
 
-<ProjectSection title="Outcome" id="outcome">
-    <p>Final results and impact.</p>
+<ProjectSection title="Interventions" id="outcome">
+    <p>
+        To validate the "Systemic Acupuncture" theory, we developed prototypes targeting specific campus zones. The strategy prioritized high cultural impact with optimized capital expenditure. By categorizing initiatives into cost-tiers (₹ to ₹₹₹), we created a menu that balances immediate "Quick Wins" with long-term infrastructure investment.
+    </p>
+
+    <p class="centered-tagline">Prioritizing low-cost, high-visibility changes to generate immediate buy-in.</p>
+
+    <p style="font-weight: 700; margin-bottom: 0.5rem;">Tactical Prototyping</p>
+    <p>We applied this framework to three critical zones to prove that behavioral shifts often require thoughtful programming rather than heavy construction.</p>
+
+    <div style="display: flex; flex-direction: column; gap: 1rem; margin-top: 1rem;">
+        <hr class="feature-divider" style="margin: 0;" />
+
+        <div>
+            <span class="attribute-pill" style="background: #2d2d2dff; color: #ffffff; margin-bottom: 0.75rem; font-weight: 500; width: 170px; text-align: left;">The Social Node </span>
+            <p>Transforming dormant perimeter walls into active social spines using cost-effective levers like paint and street furniture.</p>
+        </div>
+        
+        <hr class="feature-divider" style="margin: 0;" />
+        
+        <div>
+            <span class="attribute-pill" style="background: #2d2d2dff; color: #ffffff; margin-bottom: 0.75rem; font-weight: 500; width: 170px; text-align: left;">Navigation as Identity</span>
+            <p>Utilizing supergraphics on industrial facades to solve wayfinding challenges while reinforcing corporate values.</p>
+        </div>
+        
+        <hr class="feature-divider" style="margin: 0;" />
+        
+        <div>
+            <span class="attribute-pill" style="background: #2d2d2dff; color: #ffffff; margin-bottom: 0.75rem; font-weight: 500; width: 170px; text-align: left;">The Entry Portal</span>
+            <p>Reorienting the arrival experience from a security checkpoint to a "Lakeview" sanctuary, shifting the user's psychological state upon entry.</p>
+        </div>
+    </div>
+
     <PdfEmbed src="/assets/projects/tirupati/Outcome.pdf" fullWidth={false} />
-    <FullWidthImage src="/assets/projects/tirupati/cover.avif" caption="Overview" />
+
+    <h3>The Roadmap: Phasing the Transformation</h3>
+    <p>
+        To ensure execution feasibility, we structured the rollout as a phased product lifecycle: Assessment → Quick Wins → Long-Term Vision. This roadmap allows the organization to validate the strategy with immediate, low-cost interventions while securing budget for complex infrastructural changes, ensuring sustained momentum without operational disruption.
+    </p>
+
+    <FullWidthImage src="/assets/projects/tirupati/cover.avif" />
+
+    <p>
+        The strategic report, "Working, Living, Innovating" secured the mandate for Phase 1: The Pilot Implementation. By quantifying cultural gaps and linking spatial interventions to business metrics, we moved the project through theoretical research to a live validation environment.
+    </p>
+
+    <h3>The Pilot Phase</h3>
+    <p>
+        The organization is now executing the "Quick Wins" identified in the roadmap—specifically targeting the Campus Entry and Zone D1.
+    </p>
 </ProjectSection>

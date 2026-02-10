@@ -341,31 +341,15 @@ const uniqueId = "pdf-" + Math.random().toString(36).substr(2, 9);
 <style>
     .pdf-viewer-wrapper {
         width: 100%;
-        margin-top: 6rem;
-        margin-bottom: 0.5rem;
+        margin-top: 4rem;
+        margin-bottom: 2rem;
+        /* Constrain to 900px body width */
+        padding-inline: max(0rem, calc(50% - 450px));
+        box-sizing: border-box;
     }
 
-    .pdf-viewer-wrapper.pdf-full-width {
-        /* Break out of parent padding (4rem = 64px on desktop) */
-        width: calc(100% + 8rem);
-        margin-left: -4rem;
-        margin-right: -4rem;
-        transform: none;
-    }
-
-    @media (max-width: 1024px) {
-        .pdf-viewer-wrapper.pdf-full-width {
-            /* Break out of parent padding (20px on mobile) */
-            width: calc(100% + 40px);
-            margin-left: -20px;
-            margin-right: -20px;
-        }
-    }
-
-    .pdf-viewer-wrapper.pdf-full-width .pdf-container {
-        max-width: 1400px;
-        margin: 0 auto;
-    }
+    /* REMOVED: .pdf-viewer-wrapper.pdf-full-width breakout logic */
+    /* The padding-inline above now handles the constraint globally */
 
     .pdf-container {
         width: 100%;

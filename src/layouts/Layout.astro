@@ -5,9 +5,14 @@ import CustomCursor from "../components/CustomCursor.astro";
 interface Props {
 	title: string;
 	description?: string;
+	fullWidth?: boolean;
 }
 
-const { title, description = "Design Technologist Portfolio" } = Astro.props;
+const {
+	title,
+	description = "Design Technologist Portfolio",
+	fullWidth = false,
+} = Astro.props;
 ---
 
 <!doctype html>
@@ -41,7 +46,7 @@ const { title, description = "Design Technologist Portfolio" } = Astro.props;
 	</head>
 	<body>
 		<CustomCursor />
-		<div class="universal-layout">
+		<div class={`universal-layout ${fullWidth ? "full-width" : ""}`}>
 			<!-- Sidebar Slot (Universal Left) -->
 			<aside class="layout-sidebar">
 				<slot name="sidebar" />
@@ -79,13 +84,18 @@ const { title, description = "Design Technologist Portfolio" } = Astro.props;
 
 	.universal-layout {
 		display: grid;
-		grid-template-columns: 320px 1fr; /* Fixed Left, Fluid Right */
+		grid-template-columns: minmax(0, 1fr) 320px; /* Fluid Content (Left), 320px Fixed Sidebar (Right) */
 		min-height: 100vh;
+	}
+
+	.universal-layout.full-width {
+		display: block;
 	}
 
 	.layout-sidebar {
 		background: var(--bg-primary);
-		border-right: 1px solid var(--border-subtle);
+		border-left: 1px solid var(--border-subtle); /* Changed from Right to Left */
+		border-right: none;
 		padding: var(--space-md);
 		position: sticky;
 		top: 0;
@@ -93,10 +103,26 @@ const { title, description = "Design Technologist Portfolio" } = Astro.props;
 		overflow-y: auto;
 		display: flex;
 		flex-direction: column;
+		width: 320px; /* Explicit width constraint */
+		box-sizing: border-box; /* Include padding in width */
+		/* Ensure it sits in the second column */
+		grid-column: 2 / 3;
+		grid-row: 1;
 	}
 
 	.layout-content {
 		min-width: 0; /* Prevent grid blowout */
+		/* Ensure it sits in the first column */
+		grid-column: 1 / 2;
+		grid-row: 1;
+	}
+
+	.full-width .layout-sidebar {
+		display: none;
+	}
+
+	.full-width .layout-content {
+		grid-column: auto; /* Reset for full width */
 	}
 
 	@media (max-width: 1024px) {
@@ -108,15 +134,17 @@ const { title, description = "Design Technologist Portfolio" } = Astro.props;
 			position: relative;
 			height: auto;
 			min-height: 0; /* Safety */
-			border-right: none;
+			border-left: none; /* Reset border */
 			border-bottom: none; /* Removed line per request */
 			overflow: visible; /* Ensure sticky children work */
 			display: block;
 			padding-bottom: 20px; /* Force 20px update */
+			width: 100%; /* Reset width */
+			grid-column: auto;
 		}
 
 		/* Show default cursor on mobile/touch devices if needed, 
-           though 'cursor: none' is usually fine as they don't have a cursor. 
-           But if a mouse is connected to iPad: */
+		   though 'cursor: none' is usually fine as they don't have a cursor. 
+		   But if a mouse is connected to iPad: */
 	}
 </style>

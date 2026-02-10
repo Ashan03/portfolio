@@ -4,6 +4,7 @@ description: "Applying design systems to large-scale physical environments."
 category: "spatial"
 order: 4
 heroImage: "/assets/projects/santuary/cover.png"
+bentoSize: "medium"
 tags: ["Environmental Design", "Systems"]
 meta:
   Role: "Product Designer"
@@ -142,8 +143,13 @@ import PlaceholderImage from '../../components/PlaceholderImage.astro';
         <div class="image-carousel" data-images='["/assets/projects/santuary/bridge 1.png", "/assets/projects/santuary/bridge 2.png"]'>
             <img src="/assets/projects/santuary/bridge 1.png" alt="Bridge" />
         </div>
-        <div class="image-carousel" data-images='["/assets/projects/santuary/santuary 1.png", "/assets/projects/santuary/santuary 2.png", "/assets/projects/santuary/santuary 3.png"]'>
+        <div class="image-carousel" data-images='["/assets/projects/santuary/santuary 1.png", "/assets/projects/santuary/santuary 2.png", "/assets/projects/santuary/santuary 3.png"]' style="position: relative;">
             <img src="/assets/projects/santuary/santuary 1.png" alt="Sanctuary" />
+            <img 
+                src="/assets/logos/click.png" 
+                alt="Click to switch" 
+                style="position: absolute; bottom: -1.5rem; right: -0.5rem; width: 60px !important; height: auto !important; pointer-events: none; opacity: 1; border: none !important; box-shadow: none !important; filter: drop-shadow(0 2px 4px rgba(0,0,0,0.2));" 
+            />
         </div>
     </div>
 </ProjectSection>

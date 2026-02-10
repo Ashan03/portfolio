@@ -4,6 +4,7 @@ interface Props {
     title?: string;
     height?: string;
     aspectRatio?: string; // e.g. "16/9"
+    iconPosition?: "bottom-right" | "center";
 }
 
 const {
@@ -11,6 +12,7 @@ const {
     title = "Figma Prototype",
     height = "600px",
     aspectRatio,
+    iconPosition = "bottom-right",
 } = Astro.props;
 const uniqueId = "figma-" + Math.random().toString(36).substr(2, 9);
 
@@ -23,21 +25,23 @@ if (!finalSrc.includes("footer=")) finalSrc += "&footer=0";
 const embedUrl = `https://www.figma.com/embed?embed_host=share&url=${encodeURIComponent(finalSrc)}`;
 ---
 
-<div
-    class="figma-container"
-    style={aspectRatio
-        ? `aspect-ratio: ${aspectRatio}; height: auto;`
-        : `height: ${height};`}
->
-    <iframe src={embedUrl} allowfullscreen title={title}></iframe>
+<div class="figma-container">
+    <div
+        class="figma-wrapper"
+        style={aspectRatio
+            ? `aspect-ratio: ${aspectRatio}; height: auto;`
+            : `height: ${height};`}
+    >
+        <iframe src={embedUrl} allowfullscreen title={title}></iframe>
 
-    <!-- Click Hint Icon -->
-    <img
-        id={`figma-click-icon-${uniqueId}`}
-        src="/assets/logos/click.png"
-        class="click-icon"
-        alt="Click to interact"
-    />
+        <!-- Click Hint Icon -->
+        <img
+            id={`figma-click-icon-${uniqueId}`}
+            src="/assets/logos/click.png"
+            class:list={["click-icon", iconPosition]}
+            alt="Click to interact"
+        />
+    </div>
 </div>
 
 <script define:vars={{ uniqueId }}>
@@ -64,13 +68,20 @@ const embedUrl = `https://www.figma.com/embed?embed_host=share&url=${encodeURICo
 <style>
     .figma-container {
         width: 100%;
-        margin-top: 2rem;
-        margin-bottom: 0.5rem;
+        margin-top: 4rem;
+        margin-bottom: 2rem;
+        /* Constrain to 900px body width */
+        padding-inline: max(0rem, calc(50% - 450px));
+        box-sizing: border-box;
+    }
+
+    .figma-wrapper {
+        position: relative;
+        width: 100%;
         border-radius: 0;
         overflow: hidden;
         background: transparent;
         box-shadow: none;
-        position: relative;
     }
 
     iframe {
@@ -86,8 +97,6 @@ const embedUrl = `https://www.figma.com/embed?embed_host=share&url=${encodeURICo
 
     .click-icon {
         position: absolute;
-        bottom: 1rem;
-        right: 2rem;
         width: 60px !important;
         height: auto !important;
         margin: 0 !important;
@@ -100,11 +109,25 @@ const embedUrl = `https://www.figma.com/embed?embed_host=share&url=${encodeURICo
         filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.2));
     }
 
+    .click-icon.bottom-right {
+        bottom: 1rem;
+        right: 2rem;
+    }
+
+    .click-icon.center {
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+    }
+
     @media (max-width: 768px) {
         .click-icon {
             width: 24px !important;
+        }
+        .click-icon.bottom-right {
             right: 0.5rem;
             bottom: 0.5rem;
         }
+        /* Center position remains centered */
     }
 </style>

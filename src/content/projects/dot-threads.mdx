@@ -5,6 +5,7 @@ category: "thinking"
 order: 1
 heroImage: "/assets/projects/dot-threads/hero.png"
 tags: ["Knowledge Management", "Canvas", "Browser Extension"]
+bentoSize: "medium"
 meta:
   Role: "Product Designer"
   Duration: "4 weeks"
@@ -23,7 +24,7 @@ import ImageToggle from '../../components/ImageToggle.astro';
 import ReviewBubble from '../../components/ReviewBubble.astro';
 import ReviewContainer from '../../components/ReviewContainer.astro';
 
-<FullWidthImage src="/assets/projects/dot-threads/hero.png" height="500px" loading="eager" />
+<FullWidthImage src="/assets/projects/dot-threads/hero.png" height="500px" loading="eager" constrain={false} />
 <div slot="intro">
     <p>
         Research doesn't happen in folders. It happens in webs of connected ideas. Dot Threads is a browser extension that transforms web browsing into spatial knowledge building. Instead of burying research in folders, users create visual webs where every link connects by context.
@@ -88,7 +89,6 @@ import ReviewContainer from '../../components/ReviewContainer.astro';
         Bush outlined five fundamentals: recording, storing, displaying, selecting, and sharing trails of thought.
     </p>
 </ProjectSection>
-
 <FullWidthImage src="/assets/projects/dot-threads/approach.gif" height="300px" caption="Organizing the Thinking" />
 
 <ProjectSection title="Approach" id="approach-principles" hideTitle={true} group="approach">
@@ -111,43 +111,40 @@ import ReviewContainer from '../../components/ReviewContainer.astro';
 
 <FullWidthImage src="/assets/projects/dot-threads/figma-prototype.png" height="400px" caption="Figma prototype explorations" />
 
-<ProjectSection title="Interaction" id="interaction-model">
-    <h3>Prototyping the Parallels</h3>
-    <p>Each MEMEX fundamental translated into specific interface explorations:</p>
+<ProjectSection title="Prototyping the Parallels" id="interaction-model">
 </ProjectSection>
 
-<ProjectSection title="Interaction" id="interaction-entering" hideTitle={true} group="interaction-model">
+<ProjectSection title="Prototyping the Parallels" id="interaction-entering" hideTitle={true} group="interaction-model">
     <p><span class="list-tagline">Entering</span> How to capture links without breaking browsing flow? Right-click context menu integration—save any link instantly from the browser's native menu.</p>
 </ProjectSection>
 
 <FullWidthImage src="/assets/projects/dot-threads/right-click.gif" height="400px" caption="Right-click context menu integration" />
 
-<ProjectSection title="Interaction" id="interaction-web-info" hideTitle={true} group="interaction-model">
+<ProjectSection title="Prototyping the Parallels" id="interaction-web-info" hideTitle={true} group="interaction-model">
     <p><span class="list-tagline">Web of info</span> How to show relationships spatially? Canvas layout where proximity indicates relatedness. Clicking any node reorganizes the view around it—making that node the "hero" of its own neighborhood.</p>
 </ProjectSection>
 
 <FullWidthImage src="/assets/projects/dot-threads/viewing.gif" height="400px" caption="Canvas layout where proximity indicates relatedness" />
 
-<ProjectSection title="Interaction" id="interaction-cataloging" hideTitle={true} group="interaction-model">
+<ProjectSection title="Prototyping the Parallels" id="interaction-cataloging" hideTitle={true} group="interaction-model">
     <p><span class="list-tagline">Cataloguing</span> How to preserve context when saving? Tag input and connection suggestions appear immediately during save, capturing why something mattered before the moment passes.</p>
 </ProjectSection>
 
 <FullWidthImage src="/assets/projects/dot-threads/editing.gif" height="400px" caption="Tag input and connection suggestions during save" />
 
-<ProjectSection title="Interaction" id="interaction-browsing" hideTitle={true} group="interaction-model">
+<ProjectSection title="Prototyping the Parallels" id="interaction-browsing" hideTitle={true} group="interaction-model">
     <p><span class="list-tagline">Browsing</span> How to navigate without hierarchies? Direct exploration—click a node to see its connections, hover to preview, zoom to adjust detail level.</p>
 </ProjectSection>
 
 <FullWidthImage src="/assets/projects/dot-threads/hero-section.gif" height="400px" caption="Direct exploration—click, hover, zoom" />
 
-<ProjectSection title="Interaction" id="interaction-sharing" hideTitle={true} group="interaction-model">
+<ProjectSection title="Prototyping the Parallels" id="interaction-sharing" hideTitle={true} group="interaction-model">
     <p><span class="list-tagline">Sharing</span> How to export threads without cloud dependency? Local export as portable files—threads package as self-contained data that can be shared directly.</p>
 </ProjectSection>
 
 <FullWidthImage src="/assets/projects/dot-threads/sharing.gif" height="400px" caption="Local export as portable files" />
 
-<ProjectSection title="Implementation" id="implementation">
-    <h3>Core Components of the Product</h3>
+<ProjectSection title="Core Components of the Product" id="implementation">
     <p><span class="list-tagline">Most recent section in world view</span> Quick access list showing the last viewed dots. Provides linear navigation when the spatial canvas feels too open-ended.</p>
     <hr class="feature-divider" />
     <p><span class="list-tagline">Clickable hero image of website</span> Screenshot preview generated via Microlink API. Clicking opens the original URL. Provides visual memory cue beyond just text titles.</p>
@@ -155,7 +152,16 @@ import ReviewContainer from '../../components/ReviewContainer.astro';
     <p><span class="list-tagline">Markdown supported notes</span> Expandable notes field with markdown formatting. Captures context about why something was saved before that context fades.</p>
     <hr class="feature-divider" />
     <p><span class="list-tagline">Right-click pop up for quick saving and associating</span> Browser context menu integration. Shows existing dots as connection suggestions. Allows type assignment during capture to minimize friction.</p>
-    <hr class="feature-divider" />
+</ProjectSection>
+
+<ImageToggle 
+    baseSrc="/assets/projects/dot-threads/artifacts-0.png"
+    overlaySrc="/assets/projects/dot-threads/artifacts.png"
+    buttonLabel="Labels"
+    alt="Core components of the Dot Threads interface"
+/>
+
+<ProjectSection title="Core Components of the Product" id="implementation-features-cont" hideTitle={true} group="implementation">
     <p><span class="list-tagline">Edit menu for customizing and cataloguing</span> Modal interface for modifying saved dots. Includes title editing, type reassignment with color picker, and connection management through searchable dropdown.</p>
     <hr class="feature-divider" />
     <p><span class="list-tagline">Physics-based organic visuals with depth through connection opacity</span> D3.js force simulation positions nodes naturally. Connection lines fade by depth—primary bold, secondary medium, tertiary faint—creating visual hierarchy without hiding information.</p>
@@ -167,19 +173,12 @@ import ReviewContainer from '../../components/ReviewContainer.astro';
     <p><span class="list-tagline">Sharing dot threads with JSON export</span> Export button packages selected threads as portable JSON files. Import button merges shared threads into existing graph.</p>
 </ProjectSection>
 
-<ImageToggle 
-    baseSrc="/assets/projects/dot-threads/artifacts-0.png"
-    overlaySrc="/assets/projects/dot-threads/artifacts.png"
-    buttonLabel="Labels"
-    alt="Core components of the Dot Threads interface"
-/>
-
-<ProjectSection title="Implementation" id="implementation-architecture" hideTitle={true} group="implementation">
-    <h3>Technical Architecture</h3>
-    <FullWidthImage src="/assets/projects/dot-threads/architecture.png" height="400px" caption="Technical architecture diagram" />
+<ProjectSection title="Core Components of the Product" id="implementation-architecture" hideTitle={true} group="implementation">
+    <h3 class="prominent-title">Technical Architecture</h3>
+    <FullWidthImage src="/assets/projects/dot-threads/architecture.png" height="400px" caption="Technical architecture diagram" marginTop="0.5rem" />
 </ProjectSection>
 
-<ProjectSection title="Implementation" id="implementation-architecture" hideTitle={true} group="implementation">
+<ProjectSection title="Core Components of the Product" id="implementation-architecture" hideTitle={true} group="implementation">
     <p>Chrome extension stores data locally using browser storage API. Web application reads this data through message bridge and visualizes using D3.js force-directed graph. Development mode includes local filesystem persistence. When extension not installed, app loads static demo data. Microlink API handles screenshot generation.</p>
     <p><a href="https://github.com/narayan-works/dot.threads" target="_blank" rel="noopener noreferrer" class="bento-button">View source on GitHub <span style="margin-left: 6px;">↗</span></a></p>
 </ProjectSection>

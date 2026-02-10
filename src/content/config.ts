@@ -11,8 +11,10 @@ const projects = defineCollection({
 		tags: z.array(z.string()).optional(),
 		ctaUrl: z.string().optional(),
 		ctaText: z.string().optional(),
-		// Flexible metadata - add any key-value pairs here
+// Flexible metadata - add any key-value pairs here
 		meta: z.record(z.string()).optional(), // { "Course": "...", "Duration": "3 days", "Type": "Hackathon", ... }
+        // Bento Grid Sizing
+        bentoSize: z.enum(['large', 'medium', 'small', 'wide', 'tall']).optional().default('small'),
 		// Optional override for sidebar sections
 		sections: z.array(z.object({
 			id: z.string(),

@@ -8,17 +8,24 @@ interface Props {
     caption?: string;
     height?: string;
     loading?: "eager" | "lazy";
+    constrain?: boolean;
+    marginTop?: string;
 }
 const {
     src,
     alt = "",
     caption,
-    height = "400px",
+    height = "auto",
     loading = "lazy",
+    constrain = true,
+    marginTop,
 } = Astro.props;
 ---
 
-<figure class="full-width-image">
+<figure
+    class:list={["full-width-image", { constrained: constrain }]}
+    style={marginTop ? { marginTop } : {}}
+>
     {
         src ? (
             <Image
@@ -41,8 +48,14 @@ const {
 <style>
     .full-width-image {
         width: 100%;
-        margin-top: 1.5rem;
-        margin-bottom: 6rem;
+        margin-top: 4rem;
+        margin-bottom: 2rem;
+    }
+
+    .full-width-image.constrained {
+        /* Constrain to 900px body width */
+        padding-inline: max(0rem, calc(50% - 450px));
+        box-sizing: border-box;
     }
     .full-width-image .optimized-image {
         width: 100%;

@@ -40,8 +40,11 @@ if (type === "vimeo") {
 <style>
     .video-embed {
         width: 100%;
-        margin-top: 2rem;
+        margin-top: 4rem;
         margin-bottom: 2rem;
+        /* Constrain to 900px body width */
+        padding-inline: max(0rem, calc(50% - 450px));
+        box-sizing: border-box;
     }
 
     .video-container {

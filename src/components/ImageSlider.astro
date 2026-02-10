@@ -54,10 +54,14 @@ const sliderId = `slider-${Math.random().toString(36).substr(2, 9)}`;
 <style>
     .image-slider {
         width: 100%;
-        margin: 2rem 0;
+        margin-top: 4rem;
+        margin-bottom: 2rem;
         display: flex;
         flex-direction: column;
         gap: 1rem;
+        /* Constrain to 900px body width */
+        padding-inline: max(0rem, calc(50% - 450px));
+        box-sizing: border-box;
     }
 
     .slider-display {
