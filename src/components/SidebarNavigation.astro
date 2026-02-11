@@ -10,22 +10,18 @@ interface Props {
 
 const { title, isHome = false } = Astro.props;
 
-// Fetch and group projects
+// Fetch and sort projects
 const allProjects = await getCollection("projects");
-
-const categories = [
-    { id: "thinking", label: "Tools for Thinking" },
-    { id: "spatial", label: "Spatial Interactions" },
-    { id: "embodied", label: "Tangible Interactions" },
-    { id: "strategy", label: "Design Strategy" },
+const featuredSlugs = [
+    "detour",
+    "tirupati-campus",
+    "skywalk-sanctuary",
+    "dot-threads",
+    "piko",
 ];
-
-const projectsByCategory = categories.map((cat) => ({
-    ...cat,
-    projects: allProjects
-        .filter((p) => p.data.category === cat.id)
-        .sort((a, b) => (a.data.order || 0) - (b.data.order || 0)),
-}));
+const sortedProjects = allProjects
+    .filter((project) => featuredSlugs.includes(project.slug))
+    .sort((a, b) => (a.data.order || 0) - (b.data.order || 0));
 ---
 
 <div class="nav-spacer"></div>
@@ -140,47 +136,18 @@ const projectsByCategory = categories.map((cat) => ({
                 <div class="tree-children-wrapper">
                     <div class="tree-children">
                          <div class="tree-guide-line"></div> <!-- Left Guide Line for Tree -->
-                        {
-                            projectsByCategory.map((category) => (
-                                <div class="tree-item folder subfolder">
-                                    <div class="tree-link split-action">
-                                         <!-- Category Link -->
-                                        <a href={`/#${category.id}`} class="split-link">
-                                            <span class="tree-icon folder-icon nav-item-icon-container">
-                                                <!-- Smaller Folder -->
-                                                 <svg width="14" height="14" viewBox="0 0 15 15" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M1.5 3.5V11.5C1.5 12.0523 1.94772 12.5 2.5 12.5H12.5C13.0523 12.5 13.5 12.0523 13.5 11.5V5.5C13.5 4.94772 13.0523 4.5 12.5 4.5H7.5L5.5 2.5H2.5C1.94772 2.5 1.5 2.94772 1.5 3.5Z" stroke="currentColor" stroke-linejoin="round"/></svg>
-                                            </span>
-                                            <span class="tree-label nav-item-text">{category.label}</span>
-                                        </a>
-                                        <!-- Category Toggle (Right Rail) -->
-                                        <div class="toggle-container right-rail">
-                                            <button class="split-toggle folder-trigger" aria-label={`Toggle ${category.label}`}>
-                                                <svg width="10" height="6" viewBox="0 0 10 6" fill="none" class="toggle-chevron">
-                                                    <path d="M1 1L5 5L9 1" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-                                                </svg>
-                                            </button>
-                                        </div>
-                                    </div>
-                                    <div class="tree-children-wrapper">
-                                        <div class="tree-children sub-children">
-                                            <div class="tree-guide-line nested"></div>
-                                            {category.projects.map((project) => (
-                                                <div class="tree-item">
-                                                    <a
-                                                        href={`/works/${project.slug}`}
-                                                        class="tree-link single-action file-link"
-                                                    >
-                                                        <span class="tree-label nav-item-text">
-                                                            {project.data.title}
-                                                        </span>
-                                                    </a>
-                                                </div>
-                                            ))}
-                                        </div>
-                                    </div>
-                                </div>
-                            ))
-                        }
+                        {sortedProjects.map((project) => (
+                            <div class="tree-item">
+                                <a
+                                    href={`/works/${project.slug}`}
+                                    class="tree-link single-action file-link"
+                                >
+                                    <span class="tree-label nav-item-text">
+                                        {project.data.title}
+                                    </span>
+                                </a>
+                            </div>
+                        ))}
                     </div>
                 </div>
             </div>
@@ -374,40 +341,7 @@ const projectsByCategory = categories.map((cat) => ({
             const worksLink = document.querySelector('.split-link[href="/#works"]')?.closest('.split-action');
             worksLink?.classList.add('active-scroll');
             
-            updateCategoryHighlight();
-        }
-    }
-    
-    function updateCategoryHighlight() {
-        // Simple bounding check for categories
-        const categories = ["thinking", "embodied", "spatial", "strategy"];
-        let activeCatId = null;
-        
-        // Find the one closest to top but still visible?
-        // Or essentially first one that is "in view".
-        
-        for (const id of categories) {
-            const section = document.getElementById(id);
-            if (section) {
-                const rect = section.getBoundingClientRect();
-                // If top is somewhat in view (e.g. < 50% viewport height and bottom > 0)
-                if (rect.top < (window.innerHeight * 0.5) && rect.bottom > 0) {
-                    activeCatId = id;
-                 }
-            }
-        }
-        
-        if (activeCatId) {
-            // Highlight this category
-            const catLink = document.querySelector(`.split-link[href="/#${activeCatId}"]`);
-            catLink?.classList.add('active-scroll');
             
-            // Remove others
-             categories.forEach(id => {
-                 if (id !== activeCatId) {
-                     document.querySelector(`.split-link[href="/#${id}"]`)?.classList.remove('active-scroll');
-                 }
-             });
         }
     }
 
@@ -737,7 +671,7 @@ const projectsByCategory = categories.map((cat) => ({
     
     /* File Links (Projects) */
     .file-link.tree-link {
-        padding-left: 60px; /* Increased separation from guide line */
+        padding-left: 36px; /* Align direct project items under Works */
         padding-top: 6px;   /* Reduced Vertical Padding */
         padding-bottom: 6px;
     }

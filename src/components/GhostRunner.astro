@@ -35,7 +35,7 @@
 
         // Configuration
         const GHOST_SIZE = 60; // Increased from 40
-        const SPEED_BASE = 2;
+        const SPEED_BASE = 4;
         const BAR_WIDTH_BASE = 60; // Base width
         const BAR_HEIGHT = 12;
 
@@ -604,8 +604,8 @@
                     "light";
 
                 // 1.5 Sun/Moon (Top Right) - Theme Indicator (Canvas Drawn)
-                const iconX = canvas.width - 20;
-                const iconY = 20;
+                const iconX = canvas.width - 40;
+                const iconY = 40;
                 const iconR = 9; // Bigger size
                 ctx.globalAlpha = 0.7;
 
@@ -662,12 +662,12 @@
 
                 // 1. Hearts (Top Left)
                 ctx.textAlign = "left";
-                ctx.font = "12px serif";
+                ctx.font = "14px serif";
                 // Ensure specific color/alpha for emoji rendering
                 ctx.fillStyle = isDarkHUD ? "#ffffff" : "#333333";
 
-                let heartsDrawX = 10;
-                const heartSpacing = 20;
+                let heartsDrawX = 40;
+                const heartSpacing = 25;
 
                 for (let i = 0; i < MAX_LIVES; i++) {
                     let char = "❤️";
@@ -688,7 +688,7 @@
 
                     ctx.save();
                     ctx.globalAlpha = alpha;
-                    ctx.fillText(char, heartsDrawX + i * heartSpacing, 22);
+                    ctx.fillText(char, heartsDrawX + i * heartSpacing, 45);
                     ctx.restore();
                 }
 
@@ -699,9 +699,9 @@
                 // Smaller box for 12px font
                 const boxW = 100;
                 const boxH = 26; // Reduced height (was 32)
-                // Padding form corner
-                const boxX = canvas.width - boxW - 5;
-                const boxY = canvas.height - boxH - 5;
+                // Padding from corner
+                const boxX = canvas.width - boxW - 20;
+                const boxY = canvas.height - boxH - 20;
 
                 // Bento Box Background
                 ctx.fillStyle = isDarkHUD
@@ -887,7 +887,7 @@
 <style>
     .ghost-game-container {
         width: 100%;
-        height: 160px; /* Reduced slightly to be tighter */
+        height: 170px; /* Reduced slightly to be tighter */
         position: relative;
         cursor: none; /* Hide default cursor */
         background: var(--bg-surface); /* Bento Style Background */
