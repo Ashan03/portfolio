@@ -19,17 +19,7 @@ import ProjectSection from '../../components/ProjectSection.astro';
 import FullWidthImage from '../../components/FullWidthImage.astro';
 import PlaceholderImage from '../../components/PlaceholderImage.astro';
 
-<img 
-    src="/assets/projects/santuary/hero.png" 
-    alt="Hero Image" 
-    style={{
-        width: '100%', 
-        height: 'auto', 
-        borderRadius: 'var(--radius-md)', 
-        border: '10px solid #4CAF50',
-        marginBottom: '2rem'
-    }} 
-/>
+<FullWidthImage src="/assets/projects/santuary/hero.png" caption="What makes a third place?" loading="eager" constrain={false} />
 
 {/* ==================== WHY BUILD IT ==================== */}
 
@@ -139,16 +129,17 @@ import PlaceholderImage from '../../components/PlaceholderImage.astro';
     <p class="centered-tagline">Each intervention explores how spaces could respond to changing needs within the existing systems.</p>
     <div class="grid-3">
         <div class="image-carousel" data-images='["/assets/projects/santuary/parking 1.png", "/assets/projects/santuary/parking 2.png"]'>
-            <img src="/assets/projects/santuary/parking 1.png" alt="Parking" />
+            <img src="/assets/projects/santuary/parking 1.png" alt="Parking" loading="lazy" />
         </div>
         <div class="image-carousel" data-images='["/assets/projects/santuary/bridge 1.png", "/assets/projects/santuary/bridge 2.png"]'>
-            <img src="/assets/projects/santuary/bridge 1.png" alt="Bridge" />
+            <img src="/assets/projects/santuary/bridge 1.png" alt="Bridge" loading="lazy" />
         </div>
         <div class="image-carousel" data-images='["/assets/projects/santuary/santuary 1.png", "/assets/projects/santuary/santuary 2.png", "/assets/projects/santuary/santuary 3.png"]' style="position: relative;">
-            <img src="/assets/projects/santuary/santuary 1.png" alt="Sanctuary" />
+            <img src="/assets/projects/santuary/santuary 1.png" alt="Sanctuary" loading="lazy" />
             <img 
                 src="/assets/logos/click.png" 
                 alt="Click to switch" 
+                loading="lazy"
                 style="position: absolute; bottom: -1.5rem; right: -0.5rem; width: 60px !important; height: auto !important; pointer-events: none; opacity: 1; border: none !important; box-shadow: none !important; filter: drop-shadow(0 2px 4px rgba(0,0,0,0.2));" 
             />
         </div>

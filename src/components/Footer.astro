@@ -3,10 +3,24 @@
 ---
 
 <footer class="site-footer">
-    <p class="contact-message">
-        Let's build something together. 👋 Say hi! I'm always down to talk
-        design.
-    </p>
+    <div class="footer-top">
+        <p class="contact-message">
+            Let's build something together. 👋 Say hi! I'm always down to talk
+            design.
+        </p>
+
+        <p class="built-message">
+            Designed in Figma. Built with <a
+                href="https://astro.build"
+                target="_blank"
+                rel="noopener noreferrer">Astro</a
+            > in <a
+                href="https://antigravity.google"
+                target="_blank"
+                rel="noopener noreferrer">Antigravity</a
+            >.
+        </p>
+    </div>
 
     <div class="footer-divider"></div>
 
@@ -28,7 +42,7 @@
                     >
                         <rect x="9" y="9" width="13" height="13" rx="2"></rect>
                         <path
-                            d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"
+                            d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2-2v1"
                         ></path>
                     </svg>
                 </span>
@@ -46,7 +60,7 @@
                     >
                         <rect x="9" y="9" width="13" height="13" rx="2"></rect>
                         <path
-                            d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"
+                            d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2-2v1"
                         ></path>
                     </svg>
                 </span>
@@ -85,18 +99,46 @@
         margin-top: var(--space-4xl);
     }
 
+    .footer-top {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-end;
+        margin-bottom: 4px; /* Consistent spacing above divider */
+    }
+
     .contact-message {
         font-size: 14px;
         color: var(--text-secondary);
-        margin: 0 0 8px 0;
+        margin: 0;
         line-height: 1.4;
         text-align: left;
+        max-width: 60%; /* Prevent overlap on smaller desktops */
+    }
+
+    .built-message {
+        font-size: 14px;
+        color: var(--text-secondary);
+        margin: 0;
+        line-height: 1.4;
+        text-align: right;
+    }
+
+    .built-message a {
+        color: var(--text-primary);
+        text-decoration: underline;
+        text-underline-offset: 2px;
+        opacity: 0.7;
+        transition: opacity 0.2s ease;
+    }
+
+    .built-message a:hover {
+        opacity: 1;
     }
 
     .footer-divider {
         height: 1px;
         background: var(--border-subtle);
-        margin-bottom: 16px;
+        margin-bottom: 8px;
         width: 100%;
     }
 
@@ -176,12 +218,47 @@
     }
 
     @media (max-width: 600px) {
-        .footer-bottom {
+        .site-footer {
+            display: flex;
             flex-direction: column;
-            align-items: flex-start;
+            gap: 12px;
         }
 
+        .footer-top,
+        .footer-bottom,
         .footer-text {
+            display: contents;
+        }
+
+        .contact-message {
+            order: 1;
+            max-width: 100%;
+            margin-bottom: 0;
+            text-align: left;
+        }
+
+        .contact-buttons {
+            order: 2;
+            flex-wrap: wrap;
+        }
+
+        .footer-divider {
+            order: 3;
+            margin: 4px 0;
+        }
+
+        .built-message {
+            order: 4;
+            text-align: left;
+            margin-bottom: 0;
+        }
+
+        .tagline {
+            display: none;
+        }
+
+        .copyright {
+            order: 5;
             text-align: left;
         }
     }

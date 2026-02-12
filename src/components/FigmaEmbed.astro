@@ -32,7 +32,7 @@ const embedUrl = `https://www.figma.com/embed?embed_host=share&url=${encodeURICo
             ? `aspect-ratio: ${aspectRatio}; height: auto;`
             : `height: ${height};`}
     >
-        <iframe src={embedUrl} allowfullscreen title={title}></iframe>
+        <iframe src={embedUrl} allowfullscreen title={title} loading="lazy"></iframe>
 
         <!-- Click Hint Icon -->
         <img
@@ -40,6 +40,7 @@ const embedUrl = `https://www.figma.com/embed?embed_host=share&url=${encodeURICo
             src="/assets/logos/click.png"
             class:list={["click-icon", iconPosition]}
             alt="Click to interact"
+            loading="lazy"
         />
     </div>
 </div>
