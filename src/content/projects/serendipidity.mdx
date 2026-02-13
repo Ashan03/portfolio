@@ -1,55 +1,198 @@
 ---
-title: "Serendipidity"
-description: "AR tool for leaving virtual notes and stories embedded in real-world locations."
+title: "Serendipity"
+description: "An XR experiment exploring how physical objects can act as vessels for digital memories, turning everyday spaces into opportunities for unexpected connection at a Hackathon."
 category: "archive"
-heroImage: ""
-tags: ["Augmented Reality", "Locative Media"]
+heroImage: "/assets/projects/serendipity/hero-serendipidity.png"
+tags: ["Spatial Computing", "Social Interaction"]
 meta:
-  Role: "Product Designer"
-  Tools: "Figma, React"
-  Duration: "4 Weeks"
-  Team: "Solo Project"
-  Year: "2023"
+  Hackathon: "XHack'25"
+  Duration: "3 Days"
+  Team: "Qiyu Hu, Aditi Raghav, Jo Nam, Narayan"
+  Contribution: "Interaction Design, Ideation, Prototyping"
+  Year: "2025"
+order: 4
 ---
 
 import ProjectSection from '../../components/ProjectSection.astro';
 import FullWidthImage from '../../components/FullWidthImage.astro';
-import PlaceholderImage from '../../components/PlaceholderImage.astro';
+import FigmaEmbed from '../../components/FigmaEmbed.astro';
 
-<FullWidthImage height="500px" caption="Hero Image" />
+<FullWidthImage
+    src="/assets/projects/serendipity/hero-serendipidity.png"
+    height="500px"
+    loading="eager"
+    constrain={false}
+/>
 
 <div slot="intro">
     <p>
-        [Project Intro Placeholder] This project explores the intersection of design and technology. Replace this text with a specific summary of the work.
+        Serendipidity is an AR tool that lets people leave virtual notes, stories, and messages embedded in real-world locations. Imagine walking past a café and discovering a brief story someone left there months ago—or revisiting a meaningful place and finding a note you left yourself. It's about creating persistent, location-based memories that exist in the digital layer overlaid on the physical world.
     </p>
 </div>
 
-<ProjectSection title="Problem & Opportunity" id="problem-opportunity">
-    <p>Content regarding the core provocation or problem statement of this project.</p>
+<ProjectSection title="Premise" id="problem-opportunity">
+    <p>We often pass through meaningful places—a park where something important happened, a corner café that changed our life, a street where we met someone special. But these memories fade, and we rarely connect with the stories others have left in these spaces. Serendipidity bridges that gap by making the invisible visible: every location becomes a canvas for human connection.</p>
 </ProjectSection>
 
-<FullWidthImage height="400px" />
-
-<ProjectSection title="Approach" id="approach">
-    <p>Content detailing the initial conceptualization and ideation phase.</p>
+<ProjectSection title="The Loneliness Paradox" id="loneliness-paradox" hideTitle={true}>
+    <h3>The Loneliness Paradox: Hyper-Connected, Yet Isolated</h3>
+    <p>Social media fosters constant interaction, but shallow engagement.</p>
+    <ul style="list-style: none; padding-left: 1.5rem; margin-top: 0.5rem;">
+        <li>+ Digital interactions lack emotional depth.</li>
+        <li>+ True serendipity is lost in algorithmic feeds.</li>
+        <li>+ Connection fatigue leads to disengagement.</li>
+    </ul>
 </ProjectSection>
 
-<FullWidthImage height="300px" />
+<FullWidthImage src="/assets/projects/serendipity/Problem.png" height="400px" caption="The Problem Space" />
 
-<ProjectSection title="Implementation" id="implementation">
-    <p>Details on the composition, build, or structural elements of the solution.</p>
-    <div class="grid-2">
-        <PlaceholderImage height="300px" />
-        <PlaceholderImage height="300px" />
+<ProjectSection title="Problem Breakdown" id="problem-breakdown" hideTitle={true}>
+    <h3>Why are existing social networks failing to create meaningful, spontaneous connections?</h3>
+    <p>Social media fosters constant interaction, but shallow engagement.</p>
+
+    <div style="display: flex; flex-direction: column; gap: 1rem; margin-top: 1rem;">
+        <div>
+            <div style="display: flex; gap: 1rem; align-items: baseline;">
+                <span class="attribute-pill" style="background: #2d2d2dff; color: #ffffff; font-weight: 500; min-width: 170px; text-align: left; display: inline-flex; align-items: center; line-height: 1.2; position: relative; top: -2px;">Information Overload</span>
+                <p style="margin: 0; line-height: 1.4;">Users are bombarded with endless updates, leading to fatigue rather than depth.</p>
+            </div>
+        </div>
+
+        <div>
+            <div style="display: flex; gap: 1rem; align-items: baseline;">
+                <span class="attribute-pill" style="background: #2d2d2dff; color: #ffffff; font-weight: 500; min-width: 170px; text-align: left; display: inline-flex; align-items: center; line-height: 1.2; position: relative; top: -2px;">Lack of Serendipity</span>
+                <p style="margin: 0; line-height: 1.4;">Interactions are driven by algorithms, not organic discovery.</p>
+            </div>
+        </div>
+
+        <div>
+            <div style="display: flex; gap: 1rem; align-items: baseline;">
+                <span class="attribute-pill" style="background: #2d2d2dff; color: #ffffff; font-weight: 500; min-width: 170px; text-align: left; display: inline-flex; align-items: center; line-height: 1.2; position: relative; top: -2px;">Ephemeral Content</span>
+                <p style="margin: 0; line-height: 1.4;">Meaningful posts vanish in feeds, making lasting connections difficult.</p>
+            </div>
+        </div>
+
+        <div>
+            <div style="display: flex; gap: 1rem; align-items: baseline;">
+                <span class="attribute-pill" style="background: #2d2d2dff; color: #ffffff; font-weight: 500; min-width: 170px; text-align: left; display: inline-flex; align-items: center; line-height: 1.2; position: relative; top: -2px;">No Physical Anchor</span>
+                <p style="margin: 0; line-height: 1.4;">Digital interactions exist in isolation, detached from real-world spaces where memories are truly formed.</p>
+            </div>
+        </div>
     </div>
 </ProjectSection>
 
-<ProjectSection title="Interaction Model/UX" id="interaction-model">
-    <p>Explanation of the mechanics, interactions, or underlying logic.</p>
+<ProjectSection title="Rapid Prototyping" id="approach">
 </ProjectSection>
 
-<FullWidthImage height="500px" />
+<FullWidthImage src="/assets/projects/serendipity/approach.gif" height="350px" caption="Design Approach" />
+
+<ProjectSection title="Approach Details" id="approach-details" hideTitle={true}>
+    <p>To move quickly from hypothesis to validation, we bypassed high-fidelity tools in favor of physical prototyping. This allowed us to stress-test the "human" side of the interaction—specifically how people react to spontaneous connection—in a real-world context.</p>
+</ProjectSection>
+
+<FullWidthImage src="/assets/projects/serendipity/approach-2.gif" height="350px" caption="Approach Breakdown" />
+
+<ProjectSection title="Defining the Medium" id="interaction-model">
+</ProjectSection>
+
+<FullWidthImage src="/assets/projects/serendipity/xr.gif" height="350px" caption="XR Experience" />
+
+<ProjectSection title="Hackathon Validation" id="hackathon-validation" hideTitle={true}>
+    <p>We treated the hackathon as a series of behavioral validations. By moving from analog social experiments to spatial bodystorming, we ensured that the technology served a proven human desire for connection, rather than just being a solution looking for a problem.</p>
+</ProjectSection>
+
+<FullWidthImage src="/assets/projects/serendipity/core-idea.gif" height="380px" caption="Core Interaction Loop" />
+
+<ProjectSection title="Product Strategy" id="implementation">
+    <p>We designed for the curious wanderer—people who love discovering hidden gems, who appreciate the stories embedded in places, and who want to leave traces of themselves behind. The vision is a world where locations are enriched with human stories, turning every street corner into a potential conversation with a stranger across time.</p>
+</ProjectSection>
+
+<ProjectSection title="User Archetypes" id="user-archetypes" hideTitle={true}>
+    <p>We identified three distinct user archetypes:</p>
+    <div class="attribute-pills" style="margin-top: 0.75rem;">
+        <span class="attribute-pill" style="background: #2d2d2dff; color: #ffffff; font-weight: 500;">Low-Effort Socializers</span>
+        <span class="attribute-pill" style="background: #8A38F5; color: #ffffff; font-weight: 500;">Curious Explorers</span>
+        <span class="attribute-pill" style="background: #2d2d2dff; color: #ffffff; font-weight: 500;">Tech-Savvy Adopters</span>
+    </div>
+</ProjectSection>
+
+<FullWidthImage src="/assets/projects/serendipity/user persona.gif" height="400px" caption="User Persona" />
+
+<ProjectSection title="Sprint Focus" id="sprint-focus" hideTitle={true}>
+    <p>For this sprint, we prioritized the Curious Explorer. Focusing on this specific behavior allowed us to map the interaction journey into three clear stages—Aware, Explore, and Interact—ensuring the system supports organic discovery rather than a passive consumption.</p>
+</ProjectSection>
+
+<ProjectSection title="Evolution Strategy" id="evolution-strategy" hideTitle={true}>
+    <hr class="feature-divider" />
+    <p>The strategy begins with Making Objects "Talk" to validate peer-to-peer engagement. Once a critical mass of content exists, the platform evolves into A Digital Archive of local history, finally unlocking Institutional Partnerships such as hidden café menus to ground the digital layer in the local economy.</p>
+</ProjectSection>
+
+<FullWidthImage src="/assets/projects/serendipity/vision.png" height="350px" caption="Vision & System" />
+
+<ProjectSection title="How Is It Built" id="how-built" hideTitle={true}>
+</ProjectSection>
+
+<ProjectSection title="Interaction Framework" id="interaction-framework" hideTitle={true}>
+    <hr class="feature-divider" />
+    <h3>Interaction Framework</h3>
+    <div style="display: flex; flex-wrap: wrap; gap: 0.75rem; margin-top: 1rem; justify-content: center;">
+        <span class="attribute-pill" style="background: #2d2d2dff; color: #ffffff; font-weight: 500; text-align: left;">Invisible, Yet Present</span>
+        <span class="attribute-pill" style="background: #2d2d2dff; color: #ffffff; font-weight: 500; text-align: left;">Serendipity over Algorithms</span>
+        <span class="attribute-pill" style="background: #2d2d2dff; color: #ffffff; font-weight: 500; text-align: left;">Lightweight, Yet Meaningful</span>
+        <span class="attribute-pill" style="background: #2d2d2dff; color: #ffffff; font-weight: 500; text-align: left;">Context-Aware</span>
+    </div>
+</ProjectSection>
+
+<FullWidthImage src="/assets/projects/serendipity/interaction.gif" height="450px" caption="Interaction & UX Flow" />
+
+<ProjectSection title="Considerations" id="considerations" hideTitle={true}>
+    <h3>Considerations</h3>
+    <div style="display: flex; flex-direction: column; gap: 1rem; margin-top: 0.5rem;">
+        <div>
+            <p style="margin: 0 0 0.25rem 0; font-weight: 600;">Privacy & Safety</p>
+            <p style="margin: 0;">Users control visibility (public, private, or secret).</p>
+        </div>
+        <div>
+            <p style="margin: 0 0 0.25rem 0; font-weight: 600;">Spam Prevention</p>
+            <p style="margin: 0;">AI moderation, upvoting, and aging out of content.</p>
+        </div>
+    </div>
+</ProjectSection>
+
+<ProjectSection title="Key Drivers" id="key-drivers" hideTitle={true}>
+    <h3>Key Drivers</h3>
+    <div style="display: flex; flex-direction: column; gap: 1rem; margin-top: 0.5rem;">
+        <div style="display: flex; gap: 1rem; align-items: baseline;">
+            <span class="attribute-pill" style="background: rgb(13, 13, 13); color: #f6f6f6; font-weight: 700; width: fit-content; text-align: left; display: inline-flex; align-items: center; line-height: 1.2; position: relative; top: 0px; padding: 0.6rem 0.7rem;">⏳ Time</span>
+            <p style="margin: 0; line-height: 1.4;">Layered memories that grow over time.</p>
+        </div>
+        <div style="display: flex; gap: 1rem; align-items: baseline;">
+            <span class="attribute-pill" style="background: rgb(13, 13, 13); color: #ffffff; font-weight: 500; width: fit-content; text-align: left; display: inline-flex; align-items: center; line-height: 1.2; position: relative; top: -2px; padding: 0.6rem 0.7rem;">📍 Location</span>
+            <p style="margin: 0; line-height: 1.4;">Turning real-world places into meaningful connections.</p>
+        </div>
+        <div style="display: flex; gap: 1rem; align-items: baseline;">
+            <span class="attribute-pill" style="background: rgb(13, 13, 13); color: #ffffff; font-weight: 500; width: fit-content; text-align: left; display: inline-flex; align-items: center; line-height: 1.2; position: relative; top: -2px; padding: 0.6rem 0.7rem;">📦 Object</span>
+            <p style="margin: 0; line-height: 1.4;">Everyday items as vessels for shared stories.</p>
+        </div>
+        <div style="display: flex; gap: 1rem; align-items: baseline;">
+            <span class="attribute-pill" style="background: rgb(13, 13, 13); color: #ffffff; font-weight: 500; width: fit-content; text-align: left; display: inline-flex; align-items: center; line-height: 1.2; position: relative; top: -2px; padding: 0.6rem 0.7rem;">🧲 Connection</span>
+            <p style="margin: 0; line-height: 1.4;">Serendipitous encounters that bring people together.</p>
+        </div>
+    </div>
+</ProjectSection>
 
 <ProjectSection title="Outcome" id="outcome">
-    <p>Synthesis of the results, outputs, or final design artifacts.</p>
 </ProjectSection>
+
+<ProjectSection title="Outcome Detail" id="outcome-detail" hideTitle={true}>
+    <p>The final build demonstrates the complete Aware-Explore-Interact loop, proving that the "Leave One, Take One" mechanic could function digitally without losing the intimacy of the original paper test. The prototype validates that spatial computing could facilitate connection with the same ease as a physical note.</p>
+</ProjectSection>
+
+<FullWidthImage src="/assets/projects/serendipity/hackathon.gif" height="400px" caption="Hackathon Build" />
+
+<FigmaEmbed
+    src="https://www.figma.com/proto/U7Q19OfYZC42ioyAsme8i7/IxD?page-id=655%3A5588&node-id=1713-2924&p=f&viewport=-2277%2C-1372%2C0.41&t=S2Q8u63JgpSBnmD2-8&scaling=scale-down&content-scaling=fixed&starting-point-node-id=1713%3A2924&show-proto-sidebar=1&hide-ui=1"
+    title="Serendipidity Prototype"
+    height="600px"
+    iconPosition="center"
+/>
