@@ -23,6 +23,7 @@ import ImageSlider from '/src/components/ImageSlider.astro';
 import ImageToggle from '../../components/ImageToggle.astro';
 import ReviewBubble from '../../components/ReviewBubble.astro';
 import ReviewContainer from '../../components/ReviewContainer.astro';
+import VideoEmbed from '../../components/VideoEmbed.astro';
 
 <FullWidthImage src="/assets/projects/dot-threads/hero.png" height="500px" loading="eager" constrain={false} />
 <div slot="intro">
@@ -202,4 +203,8 @@ import ReviewContainer from '../../components/ReviewContainer.astro';
     <p>The reviews surfaced two key areas for improvement:</p>
     <p><strong>Connection clarity:</strong> Users found the lines between colored nodes unclear. Added visual hierarchy (bold/medium/faint opacity) to distinguish connection depths and updated the trails sidebar to explicitly label primary/secondary/tertiary relationships.</p>
     <p><strong>Multi-bookmark workflows:</strong> Request for connected bookmarks to open together. This validated the export/import feature—users can now share entire research threads as portable JSON files rather than individual links.</p>
+    <hr class="feature-divider" />
+    <h3>Project Demo</h3>
+    <p>A walkthrough of the live product experience, highlighting core flows and the spatial browsing interactions.</p>
+    <VideoEmbed type="vimeo" id="1164888480" title="Dot Threads Demo" />
 </ProjectSection>
