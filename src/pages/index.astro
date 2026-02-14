@@ -42,15 +42,17 @@ const heroImages: Record<string, ImageMetadata> = {
 };
 
 // Home bento sizing override so cards keep simple proportions / layout
-const homeBentoSizeBySlug: Record<string, "small" | "medium" | "large" | "wide" | "tall"> =
-	{
-		"dot-threads": "medium",
-		detour: "medium",
-		piko: "medium",
-		"skywalk-sanctuary": "medium",
-		"tirupati-campus": "medium",
-		serendipidity: "medium",
-	};
+const homeBentoSizeBySlug: Record<
+	string,
+	"small" | "medium" | "large" | "wide" | "tall"
+> = {
+	"dot-threads": "medium",
+	detour: "medium",
+	piko: "medium",
+	"skywalk-sanctuary": "medium",
+	"tirupati-campus": "medium",
+	serendipidity: "medium",
+};
 
 // Convenience references by slug for manual column layout
 const dotThreadsProject = allProjects.find(
@@ -59,9 +61,7 @@ const dotThreadsProject = allProjects.find(
 const sanctuaryProject = allProjects.find(
 	(project) => project.slug === "skywalk-sanctuary",
 );
-const detourProject = allProjects.find(
-	(project) => project.slug === "detour",
-);
+const detourProject = allProjects.find((project) => project.slug === "detour");
 const tirupatiProject = allProjects.find(
 	(project) => project.slug === "tirupati-campus",
 );
@@ -83,10 +83,9 @@ const serendipityProject = allProjects.find(
 		</div>
 	</div>
 
-		<div class="toggle-floater">
-			<div class="sidebar-controls">
-				<ThemeToggle />
-			</div>
+	<div class="toggle-floater">
+		<div class="sidebar-controls">
+			<ThemeToggle />
 		</div>
 	</div>
 
@@ -103,33 +102,71 @@ const serendipityProject = allProjects.find(
 					<div class="hero-headline bio-short">
 						👋 I’m Narayan, a Designer and graduate student at
 						Carnegie Mellon University focused on building playful
-						<span class="emoji-hover" data-emoji="🤝">human-human</span> and <span class="emoji-hover" data-emoji="😄🤖">human-machine</span> interactions. With a
-						foundation in architecture, I use <span
+						<span class="emoji-hover" data-emoji="🤝"
+							>human-human</span
+						> and
+						<span class="emoji-hover" data-emoji="😄🤖"
+							>human-machine</span
+						> interactions. With a foundation in architecture, I use <span
 							class="highlight"
-							><span class="u-item"><span class="emoji-hover" data-emoji="⚙️">systems thinking</span></span></span
+							><span class="u-item"
+								><span class="emoji-hover" data-emoji="⚙️"
+									>systems thinking</span
+								></span
+							></span
 						> and <span class="highlight"
-							><span class="u-item"><span class="emoji-hover" data-emoji="🛠️">rapid prototyping</span></span></span
+							><span class="u-item"
+								><span class="emoji-hover" data-emoji="🛠️"
+									>rapid prototyping</span
+								></span
+							></span
 						> to create digital products that feel responsive, intentional
 						and are grounded in existing ecosystems.
 					</div>
 					<div class="hero-headline bio-long">
 						<div class="bio-text">
-							I’m Narayan, a Designer and graduate student 
-							at Carnegie Mellon University focused on building 
-							playful <span class="emoji-hover" data-emoji="🤝">human-human</span> and <span class="emoji-hover" data-emoji="😄🤖">human-machine</span> interactions. 
-							With a foundation in architecture, I use <span class="emoji-hover" data-emoji="⚙️">systems thinking</span> 
-							and <span class="emoji-hover" data-emoji="🛠️">rapid prototyping</span> to create digital products that feel responsive, 
-							intentional and are grounded in existing ecosystems.
-							Across the different tools and mediums I’ve
-							explored, the core question stays the same: how do
-							people interact today, and how can we design these
-							interactions to be fun and useful. At CMU, I’ve
-							explored these questions using computational tools,
-							including machine learning, physical computing, and
-							AI prototyping. I primarily work through
-							prototyping, building early versions, and iterating
-							through testing, with the goal of fitting these
-							ideas into everyday human activity.
+							I'm Narayan, a Designer and graduate student at
+							Carnegie Mellon University focused on building
+							playful <span class="emoji-hover" data-emoji="🤝"
+								>human-human</span
+							> and <span class="emoji-hover" data-emoji="😄🤖"
+								>human-machine</span
+							> interactions. With a foundation in architecture, I use
+							<span class="emoji-hover" data-emoji="⚙️"
+								>systems thinking</span
+							> and <span class="emoji-hover" data-emoji="🛠️"
+								>rapid prototyping</span
+							> to create digital products that feel responsive, intentional
+							and are grounded in existing ecosystems.
+							<br /><br />
+							🎯 I care about creating joyful interactions — whether
+							that's between people or between people and interfaces.
+							The core question I keep coming back to: how do we make
+							technology feel playful and present in the physical world
+							rather than extracting people into screens? I'm interested
+							in interactions that feel natural, where the interface
+							fades into the background and people can focus on what
+							they're actually doing.
+							<br /><br />
+							🛠️ For me, craft is the intuition we develop working with
+							tools over time. It's about guiding people's attention
+							so effortlessly that they don't think about the design
+							at all. When I'm designing, I'm thinking about how people
+							move, where their eyes go, what opportunities exist in
+							those movements. The goal is always making things simple
+							— design should enable what people want to do, not become
+							the work itself.
+							<br /><br />
+							✨ What I've been up to and where I want to head: I'm
+							learning that boring infrastructure work is where real
+							impact happens. Building repositories, information architecture,
+							systems that let others create and scale. My design thinking
+							is evolving toward understanding that the best design
+							disappears. I want to contribute to making technology
+							that helps people stay present with each other and the
+							world around them, creating tools that feel like extensions
+							of how people naturally think and interact rather than
+							systems they have to manage.
 						</div>
 					</div>
 					<div class="emoji-display"></div>
@@ -202,8 +239,11 @@ const serendipityProject = allProjects.find(
 									fetchPriority="high"
 									href={`/works/${dotThreadsProject.slug}`}
 									size={
-										homeBentoSizeBySlug[dotThreadsProject.slug] ||
-										(dotThreadsProject.data.bentoSize as any) ||
+										homeBentoSizeBySlug[
+											dotThreadsProject.slug
+										] ||
+										(dotThreadsProject.data
+											.bentoSize as any) ||
 										"small"
 									}
 									tags={dotThreadsProject.data.tags}
@@ -223,8 +263,11 @@ const serendipityProject = allProjects.find(
 									fetchPriority="high"
 									href={`/works/${sanctuaryProject.slug}`}
 									size={
-										homeBentoSizeBySlug[sanctuaryProject.slug] ||
-										(sanctuaryProject.data.bentoSize as any) ||
+										homeBentoSizeBySlug[
+											sanctuaryProject.slug
+										] ||
+										(sanctuaryProject.data
+											.bentoSize as any) ||
 										"small"
 									}
 									tags={sanctuaryProject.data.tags}
@@ -246,7 +289,9 @@ const serendipityProject = allProjects.find(
 									fetchPriority="high"
 									href={`/works/${detourProject.slug}`}
 									size={
-										homeBentoSizeBySlug[detourProject.slug] ||
+										homeBentoSizeBySlug[
+											detourProject.slug
+										] ||
 										(detourProject.data.bentoSize as any) ||
 										"small"
 									}
@@ -267,8 +312,11 @@ const serendipityProject = allProjects.find(
 									fetchPriority="high"
 									href={`/works/${tirupatiProject.slug}`}
 									size={
-										homeBentoSizeBySlug[tirupatiProject.slug] ||
-										(tirupatiProject.data.bentoSize as any) ||
+										homeBentoSizeBySlug[
+											tirupatiProject.slug
+										] ||
+										(tirupatiProject.data
+											.bentoSize as any) ||
 										"small"
 									}
 									tags={tirupatiProject.data.tags}
@@ -290,8 +338,11 @@ const serendipityProject = allProjects.find(
 									fetchPriority="high"
 									href={`/works/${serendipityProject.slug}`}
 									size={
-										homeBentoSizeBySlug[serendipityProject.slug] ||
-										(serendipityProject.data.bentoSize as any) ||
+										homeBentoSizeBySlug[
+											serendipityProject.slug
+										] ||
+										(serendipityProject.data
+											.bentoSize as any) ||
 										"small"
 									}
 									tags={serendipityProject.data.tags}
@@ -380,7 +431,6 @@ const serendipityProject = allProjects.find(
 		align-items: center;
 	}
 
-
 	/* Content Area */
 	/* Content Area */
 	.home-content {
@@ -438,7 +488,6 @@ const serendipityProject = allProjects.find(
 		.hero-container > :global(*) {
 			grid-column: 1 / 3;
 		}
-
 	}
 
 	/* Tablet: 2 Columns */
@@ -453,9 +502,8 @@ const serendipityProject = allProjects.find(
 		/* Flip: Content Col 1, Nav Col 2. */
 
 		.hero-container > :global(*) {
-			grid-column: 1 / 2;
+			grid-column: 1 / 3;
 		}
-
 	}
 
 	/* Bio Content */
@@ -521,7 +569,6 @@ const serendipityProject = allProjects.find(
 			z-index: 2; /* Ensure above spacer if any */
 		}
 
-
 		/* Override Sidebar Fixed Position on Mobile Home */
 		.fixed-nav-top-right :global(.nav-bento-wrapper) {
 			position: static !important; /* Force into flow */
@@ -552,7 +599,6 @@ const serendipityProject = allProjects.find(
 			width: 100%;
 			margin-bottom: 2rem;
 		}
-		
 
 		.hero-container {
 			grid-template-columns: 1fr;
@@ -693,6 +739,15 @@ const serendipityProject = allProjects.find(
 		align-items: center;
 	}
 
+	@media (max-width: 1024px) {
+		.emoji-display {
+			position: static;
+			font-size: 1.5em;
+			margin-top: 0.25em;
+			margin-bottom: 0.25em;
+		}
+	}
+
 	.emoji-display.hidden {
 		display: none;
 	}
@@ -709,7 +764,7 @@ const serendipityProject = allProjects.find(
 
 	.bio-long {
 		width: 100%;
-		max-width: calc((100% - var(--space-md)) / 2); /* Align with First Column only */
+		/* max-width removed to span full width (2 columns) */
 		display: none; /* Default hidden */
 		opacity: 0;
 		transition: opacity 0.4s ease;
@@ -901,7 +956,13 @@ const serendipityProject = allProjects.find(
 			};
 
 			// Read More Button Click
-			readMoreBtn.addEventListener("click", toggleBio);
+			readMoreBtn.addEventListener("click", (e) => {
+				e.preventDefault();
+				const scrollY = window.scrollY;
+				toggleBio();
+				// Restore scroll position immediately
+				window.scrollTo(0, scrollY);
+			});
 
 			// Auto-Expand if URL has #about hash (on page load)
 			if (window.location.hash === "#about") {
@@ -937,9 +998,12 @@ const serendipityProject = allProjects.find(
 				});
 			}
 			// Auto-Collapse Logic (Silent with Scroll Compensation)
+			let isCollapsing = false;
 			window.addEventListener(
 				"scroll",
 				() => {
+					if (isCollapsing) return; // Guard against re-entrant scroll events
+
 					const worksSection = document.getElementById("works");
 
 					// Only run if Expanded AND Works section exists AND not navigating to About
@@ -952,46 +1016,46 @@ const serendipityProject = allProjects.find(
 						const scrollY = window.scrollY;
 
 						// Check if we have scrolled into Works (with a small buffer)
-						// If we are past the point where Works starts ...
 						if (scrollY > worksTop - 100) {
-							// 1. Measure Height Before
-							const heightBefore = bioContent.offsetHeight;
+							isCollapsing = true;
 
-							// 2. Collapse (Toggle State Logic - Manual Silent)
-							bioContent.style.transition = "none"; // Disable animation
+							// 1. Snapshot relative position of the anchor element (Works)
+							const worksViewportTop =
+								worksSection.getBoundingClientRect().top;
 
+							// 2. Disable smooth scroll & anchoring to prevent jump
+							document.documentElement.style.scrollBehavior =
+								"auto";
+							document.body.style.overflowAnchor = "none";
+
+							// 3. Hide container to prevent flash
+							bioContent.style.transition = "none";
+							bioContent.style.visibility = "hidden";
+
+							// 4. Swap Content
 							readMoreBtn.classList.remove("active");
-							readMoreBtn.innerText = "Read more"; // Reset text
-
-							// Switch Content
 							bioLong.style.display = "none";
 							bioLong.style.opacity = "0";
 							bioShort.style.display = "block";
-
-							// Reset Height
 							bioContent.style.height = "auto";
 
-							// 3. Measure Height After
-							// Force layout update to get new height
+							// 5. Force layout update
 							void bioContent.offsetHeight;
-							const heightAfter = bioContent.offsetHeight;
-							const diff = heightBefore - heightAfter;
 
-							// 4. Scroll Compensation (The "No Jump" Magic)
-							// We subtract the difference to keep the viewport relative to Works
+							// 6. Calculate new absolute position and scroll to restore viewport position
+							const newWorksTop = worksSection.offsetTop;
+							window.scrollTo(0, newWorksTop - worksViewportTop);
 
-							// DISABLE SMOOTH SCROLLING globally to prevent glitch
-							document.documentElement.style.scrollBehavior =
-								"auto";
+							// 7. Show content
+							bioContent.style.visibility = "";
 
-							// Instant Jump
-							window.scrollTo(0, window.scrollY - diff);
-
-							// 5. Cleanup
+							// 8. Restore settings in next frame
 							requestAnimationFrame(() => {
 								document.documentElement.style.scrollBehavior =
 									"";
+								document.body.style.overflowAnchor = "";
 								bioContent.style.transition = "";
+								isCollapsing = false;
 							});
 						}
 					}
@@ -1000,28 +1064,30 @@ const serendipityProject = allProjects.find(
 			);
 
 			// Emoji Hover Display
-			const emojiDisplay = document.querySelector('.emoji-display') as HTMLElement;
-			const emojiHovers = document.querySelectorAll('.emoji-hover');
+			const emojiDisplay = document.querySelector(
+				".emoji-display",
+			) as HTMLElement;
+			const emojiHovers = document.querySelectorAll(".emoji-hover");
 
-			emojiHovers.forEach(hover => {
-				hover.addEventListener('mouseenter', () => {
-					const emoji = hover.getAttribute('data-emoji');
+			emojiHovers.forEach((hover) => {
+				hover.addEventListener("mouseenter", () => {
+					const emoji = hover.getAttribute("data-emoji");
 					if (emojiDisplay && emoji) {
 						emojiDisplay.textContent = emoji;
-						emojiDisplay.classList.remove('hidden');
+						emojiDisplay.classList.remove("hidden");
 					}
 				});
 
-				hover.addEventListener('mouseleave', () => {
+				hover.addEventListener("mouseleave", () => {
 					if (emojiDisplay) {
-						emojiDisplay.classList.add('hidden');
+						emojiDisplay.classList.add("hidden");
 					}
 				});
 			});
 
 			// Hide emoji display initially
 			if (emojiDisplay) {
-				emojiDisplay.classList.add('hidden');
+				emojiDisplay.classList.add("hidden");
 			}
 		}
 	});
@@ -1034,9 +1100,7 @@ const serendipityProject = allProjects.find(
 			".toggle-floater",
 		) as HTMLElement;
 		// Target the actual .site-footer to ignore the wrapper margins/flex alignment
-		const footer = document.querySelector(
-			".site-footer",
-		) as HTMLElement;
+		const footer = document.querySelector(".site-footer") as HTMLElement;
 
 		if (!toggleContainer || !footer) return;
 
