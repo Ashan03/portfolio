@@ -156,10 +156,10 @@ import VideoEmbed from '../../components/VideoEmbed.astro';
 </ProjectSection>
 
 <ImageToggle 
-    baseSrc="/assets/projects/dot-threads/artifacts-0.png"
-    overlaySrc="/assets/projects/dot-threads/artifacts.png"
-    buttonLabel="Labels"
+    image1="/assets/projects/dot-threads/artifacts-0.png"
+    image2="/assets/projects/dot-threads/artifacts.png"
     alt="Core components of the Dot Threads interface"
+    constrain={false}
 />
 
 <ProjectSection title="Core Components of the Product" id="implementation-features-cont" hideTitle={true} group="implementation">
@@ -176,7 +176,7 @@ import VideoEmbed from '../../components/VideoEmbed.astro';
 
 <ProjectSection title="Core Components of the Product" id="implementation-architecture" hideTitle={true} group="implementation">
     <h3 class="prominent-title">Technical Architecture</h3>
-    <FullWidthImage src="/assets/projects/dot-threads/architecture.png" height="400px" caption="Technical architecture diagram" marginTop="0.5rem" />
+    <FullWidthImage src="/assets/projects/dot-threads/architecture.png" height="400px" caption="Technical architecture diagram" marginTop="0.5rem" constrain={true} />
 </ProjectSection>
 
 <ProjectSection title="Core Components of the Product" id="implementation-architecture" hideTitle={true} group="implementation">
@@ -187,7 +187,7 @@ import VideoEmbed from '../../components/VideoEmbed.astro';
 <ProjectSection title="Outcome" id="outcome">
     <h3>Shipped Product</h3>
     <p>Dot Threads launched on Chrome Web Store in September 2024 and has been actively maintained through January 2026. Currently at version 1.3.3 with 10 active users.</p>
-    <FullWidthImage src="/assets/projects/dot-threads/chrome-store.png" height="400px" caption="Chrome Web Store listing" />
+    <FullWidthImage src="/assets/projects/dot-threads/chrome-store.png" height="400px" caption="Chrome Web Store listing" constrain={true} />
 </ProjectSection>
 
 <ProjectSection title="Outcome" id="outcome-shipped" hideTitle={true} group="outcome">
@@ -206,5 +206,5 @@ import VideoEmbed from '../../components/VideoEmbed.astro';
     <hr class="feature-divider" />
     <h3>Project Demo</h3>
     <p>A walkthrough of the live product experience, highlighting core flows and the spatial browsing interactions.</p>
-    <VideoEmbed type="vimeo" id="1164888480" title="Dot Threads Demo" />
+    <VideoEmbed type="vimeo" id="1164888480" title="Dot Threads Demo" constrain={true} />
 </ProjectSection>

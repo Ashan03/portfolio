@@ -127,7 +127,7 @@ import PlaceholderImage from '../../components/PlaceholderImage.astro';
     <hr class="feature-divider" />
     <p><span class="list-tagline">Sanctuary</span> User-controlled reconfiguration through physical or digital toggles. Workers select their mode (socializing, focus, gaming, performance) and the space adapts. Community-driven customization meeting individual agency—like platform settings applied to physical environment.</p>
     <p class="centered-tagline">Each intervention explores how spaces could respond to changing needs within the existing systems.</p>
-    <div class="grid-3">
+    <div class="grid-3 sanctuary-implementation-grid">
         <div class="image-carousel" data-images='["/assets/projects/santuary/parking 1.png", "/assets/projects/santuary/parking 2.png"]'>
             <img src="/assets/projects/santuary/parking 1.png" alt="Parking" loading="lazy" />
         </div>
@@ -162,6 +162,24 @@ import PlaceholderImage from '../../components/PlaceholderImage.astro';
         });
     });
 `}</script>
+
+<style>{`
+    /* Skywalk Sanctuary only: keep the 3-up intervention images constrained to body width */
+    .sanctuary-implementation-grid {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+
+    .sanctuary-implementation-grid .image-carousel {
+        min-width: 0;
+    }
+
+    .sanctuary-implementation-grid .image-carousel img {
+        width: 100%;
+        max-width: 100%;
+        height: auto;
+        display: block;
+    }
+`}</style>
 
 {/* ==================== OUTCOME ==================== */}
 

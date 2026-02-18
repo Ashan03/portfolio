@@ -184,7 +184,7 @@ import PdfEmbed from '../../components/PdfEmbed.astro';
 
 <ProjectSection title="Implementation" id="implementation">
     <p style="margin-bottom: 2rem;">Translating the prior art principles into a product system meant limiting variables at every decision point.</p>
-    <ul style="list-style: none; padding: 0; margin-bottom: 2rem;">
+    <ul style="list-style: none; padding: 0; margin-bottom: 2rem; padding-inline: max(0rem, calc(50% - 450px)); box-sizing: border-box;">
         <li style="margin-bottom: 1rem; display: flex; align-items: center; gap: 1rem;">
             <span style="display: inline-flex; width: 28px; height: 28px; background: #000; color: #ffffffff; border-radius: 50%; justify-content: center; align-items: center; font-weight: 700; flex-shrink: 0; text-decoration: none; padding-top: 2px; padding-right: 1px;">4</span>
             <span>intent categories to choose a detour from.</span>
@@ -224,7 +224,7 @@ import PdfEmbed from '../../components/PdfEmbed.astro';
 
     <p class="centered-tagline">Structure enables spontaneity by narrowing the paradox of choice.</p>
 
-    <FullWidthImage src="/assets/projects/detur/artifact.png" height="400px" caption="Interaction Artifact" />
+    <FullWidthImage src="/assets/projects/detur/artifact.png" height="400px" caption="Interaction Artifact" constrain={true} />
 
     <h3>🧭  Heads-Up Navigation</h3>
     <p>Standard turn-by-turn directions optimize for certainty but demand constant screen attention. This "loose" navigation provides just enough information to keep the user oriented, shifting their primary focus from the screen back to the physical world.</p>

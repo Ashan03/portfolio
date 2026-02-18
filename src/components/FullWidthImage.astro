@@ -10,6 +10,12 @@ interface Props {
     loading?: "eager" | "lazy";
     constrain?: boolean;
     marginTop?: string;
+    scale?: number;
+    objectFit?: "contain" | "cover";
+    background?: string;
+    padding?: string;
+    overflow?: "hidden" | "visible";
+    lockHeight?: boolean;
 }
 const {
     src,
@@ -19,6 +25,12 @@ const {
     loading = "lazy",
     constrain = true,
     marginTop,
+    scale = 1,
+    objectFit = "contain",
+    background,
+    padding,
+    overflow = "hidden",
+    lockHeight = false,
 } = Astro.props;
 ---
 
@@ -28,28 +40,45 @@ const {
 >
     {
         src ? (
-            <Image
-                src={src}
-                alt={alt}
-                width={1920}
-                height={1080}
-                class="optimized-image"
-                loading={loading}
-            />
+            <div
+                class="image-wrapper"
+                style={{
+                    ...(lockHeight ? { height } : {}),
+                    ...(background ? { background } : {}),
+                    ...(padding ? { padding } : {}),
+                    overflow,
+                }}
+            >
+                <Image
+                    src={src}
+                    alt={alt}
+                    width={1920}
+                    height={1080}
+                    class="optimized-image"
+                    loading={loading}
+                    style={{
+                        transform: `scale(${scale})`,
+                        objectFit: objectFit,
+                        height:
+                            lockHeight && height !== "auto" ? "100%" : "auto",
+                    }}
+                />
+            </div>
         ) : (
             <div class="placeholder-wrapper">
                 <PlaceholderImage height="100%" caption={caption} />
             </div>
         )
     }
-    {src && caption && <figcaption>{caption}</figcaption>}
+    {caption && <figcaption>{caption}</figcaption>}
 </figure>
 
 <style>
     .full-width-image {
         width: 100%;
         margin-top: 4rem;
-        margin-bottom: 2rem;
+        margin-bottom: 4rem;
+        /* Default: transparent */
     }
 
     .full-width-image.constrained {
@@ -57,11 +86,22 @@ const {
         padding-inline: max(0rem, calc(50% - 450px));
         box-sizing: border-box;
     }
+
+    .image-wrapper {
+        width: 100%;
+        overflow: hidden;
+        border-radius: var(--radius-md);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
     .full-width-image .optimized-image {
         width: 100%;
         height: auto;
-        object-fit: contain;
+        /* object-fit handled inline */
         border-radius: var(--radius-md);
+        transition: transform 0.3s ease;
     }
     .placeholder-wrapper {
         width: 100%;

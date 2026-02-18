@@ -2,53 +2,70 @@
 title: "MusiBuddy"
 description: "A sensing speaker that reacts to its environment."
 category: "archive"
-heroImage: ""
-tags: ["Ambient", "Audio"]
+heroImage: "/assets/projects/musibuddy/hero-musibuddy.gif"
+tags: ["Ambient", "Audio", "Sensing"]
 meta:
   Course: "Tangible Interfaces"
   Year: "2023"
   Advisor: "Hiroshi Ishii"
   Team: "Solo Project"
+sections:
+  - id: "premise"
+    label: "Why build it?"
+  - id: "approach"
+    label: "What's the approach?"
+  - id: "interaction-model"
+    label: "How does it work?"
+  - id: "product-vision"
+    label: "How is it built?"
+  - id: "outcome"
+    label: "What's the outcome?"
 ---
 
 import ProjectSection from '../../components/ProjectSection.astro';
 import FullWidthImage from '../../components/FullWidthImage.astro';
-import PlaceholderImage from '../../components/PlaceholderImage.astro';
+import VideoSwitcher from '../../components/VideoSwitcher.astro';
+import ImageToggle from '../../components/ImageToggle.astro';
 
-<FullWidthImage height="500px" caption="Hero Image" />
+<FullWidthImage src="/assets/projects/musibuddy/hero.png" constrain={false} />
 
-<div slot="intro">
-    <p>
-        [Project Intro Placeholder] This project explores the intersection of design and technology. Replace this text with a specific summary of the work.
-    </p>
+<div class="musibuddy-project">
+  <ProjectSection title="Premise" id="premise" wide={true}>
+    <FullWidthImage src="/assets/projects/musibuddy/premise.png" constrain={false} />
+  </ProjectSection>
+
+  <ProjectSection title="Approach" id="approach" wide={true}>
+    <FullWidthImage src="/assets/projects/musibuddy/approach-1.png" constrain={false} />
+    <FullWidthImage src="/assets/projects/musibuddy/approach-2.png" constrain={false} />
+  </ProjectSection>
+
+  <ProjectSection title="Interaction Model" id="interaction-model" wide={true}>
+    <ImageToggle 
+      image1="/assets/projects/musibuddy/Interaction model-1.png"
+      image2="/assets/projects/musibuddy/Interaction model-2.png"
+      alt="MusiBuddy Interaction Model"
+      caption="Click to toggle view"
+    />
+  </ProjectSection>
+
+  <ProjectSection title="Product Vision" id="product-vision" wide={true}>
+    <FullWidthImage src="/assets/projects/musibuddy/How is it built-1.png" constrain={false} />
+    <FullWidthImage src="/assets/projects/musibuddy/How is it built-2.png" constrain={false} />
+  </ProjectSection>
+
+  <ProjectSection title="Outcome" id="outcome" wide={true}>
+    <FullWidthImage src="/assets/projects/musibuddy/interaction.gif" caption="Interaction Model" background="#000000" padding="40px" scale={0.9} constrain={false} />
+    <h3>Prototyping Iterations</h3>
+        
+    <VideoSwitcher 
+      videos={[
+        { label: "1.47 PM", src: "/assets/projects/musibuddy/1.47pm.mp4" },
+        { label: "1.50 PM", src: "/assets/projects/musibuddy/1.50pm.mp4" },
+        { label: "2.32 PM", src: "/assets/projects/musibuddy/2.32pm.mp4" },
+        { label: "4.47 PM", src: "/assets/projects/musibuddy/4.47pm.mp4" },
+        { label: "Party Time Off", src: "/assets/projects/musibuddy/partytime-off.mp4" },
+        { label: "Party Time On", src: "/assets/projects/musibuddy/partytime-on.mp4" }
+      ]}
+    />
+  </ProjectSection>
 </div>
-
-<ProjectSection title="Problem & Opportunity" id="problem-opportunity">
-    <p>Content regarding the core provocation or problem statement of this project.</p>
-</ProjectSection>
-
-<FullWidthImage height="400px" />
-
-<ProjectSection title="Approach" id="approach">
-    <p>Content detailing the initial conceptualization and ideation phase.</p>
-</ProjectSection>
-
-<FullWidthImage height="300px" />
-
-<ProjectSection title="Implementation" id="implementation">
-    <p>Details on the composition, build, or structural elements of the solution.</p>
-    <div class="grid-2">
-        <PlaceholderImage height="300px" />
-        <PlaceholderImage height="300px" />
-    </div>
-</ProjectSection>
-
-<ProjectSection title="Interaction Model/UX" id="interaction-model">
-    <p>Explanation of the mechanics, interactions, or underlying logic.</p>
-</ProjectSection>
-
-<FullWidthImage height="500px" />
-
-<ProjectSection title="Outcome" id="outcome">
-    <p>Synthesis of the results, outputs, or final design artifacts.</p>
-</ProjectSection>

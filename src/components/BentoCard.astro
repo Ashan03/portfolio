@@ -7,6 +7,8 @@ interface Props {
     tags?: string[];
     loading?: "lazy" | "eager";
     fetchPriority?: "auto" | "high" | "low";
+    fit?: "contain" | "cover";
+    scale?: number;
 }
 
 import { Image } from "astro:assets";
@@ -20,6 +22,8 @@ const {
     tags = [],
     loading = "lazy",
     fetchPriority = "auto",
+    fit = "contain",
+    scale = 1,
 } = Astro.props;
 
 // Map sizes to grid column/row spans
@@ -35,7 +39,7 @@ const spanClass = spanClasses[size] || spanClasses["small"];
 ---
 
 <a href={href} class={`bento-item ${spanClass}`}>
-    <div class="bento-card-visual">
+    <div class="bento-card-visual" style={`--base-scale: ${scale};`}>
         {
             image ? (
                 <Image
@@ -47,6 +51,7 @@ const spanClass = spanClasses[size] || spanClasses["small"];
                     decoding="async"
                     fetchpriority={fetchPriority}
                     class="card-image"
+                    style={`object-fit: ${fit}; --base-scale: ${scale};`}
                 />
             ) : (
                 <div
@@ -105,13 +110,14 @@ const spanClass = spanClasses[size] || spanClasses["small"];
     .card-image {
         width: 100%;
         height: auto; /* Preserve intrinsic aspect ratio */
-        object-fit: contain; /* Avoid cropping */
+        /* object-fit handled inline now */
         display: block;
         transition: transform 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        transform: scale(var(--base-scale, 1));
     }
 
     .bento-item:hover .card-image {
-        transform: scale(1.03);
+        transform: scale(calc(var(--base-scale, 1) * 1.03));
     }
 
     /* Nested Bento Overlay */
@@ -143,7 +149,10 @@ const spanClass = spanClasses[size] || spanClasses["small"];
         max-width: 70%;
         text-align: right;
         box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
-        transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+        transition:
+            background-color 0.3s ease,
+            color 0.3s ease,
+            border-color 0.3s ease;
     }
 
     .bento-item:hover .project-title-pill {
@@ -174,7 +183,9 @@ const spanClass = spanClasses[size] || spanClasses["small"];
         background: var(--bg-surface); /* Contextual bento background */
         border: 1px solid var(--border-subtle);
         padding: 4px 8px;
-        border-radius: calc(var(--radius-md) - 5px); /* 4px, keeps it boxy/bento-like */
+        border-radius: calc(
+            var(--radius-md) - 5px
+        ); /* 4px, keeps it boxy/bento-like */
         box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
         backdrop-filter: none; /* Solid bento */
     }

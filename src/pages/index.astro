@@ -28,6 +28,7 @@ const allProjects = (await getCollection("projects"))
 			"dot-threads",
 			"serendipidity",
 			"piko",
+			"musibuddy",
 		].includes(project.slug),
 	)
 	.sort((a, b) => (a.data.order || 0) - (b.data.order || 0));
@@ -52,6 +53,7 @@ const homeBentoSizeBySlug: Record<
 	"skywalk-sanctuary": "medium",
 	"tirupati-campus": "medium",
 	serendipidity: "medium",
+	musibuddy: "medium",
 };
 
 // Convenience references by slug for manual column layout
@@ -68,6 +70,9 @@ const tirupatiProject = allProjects.find(
 const pikoProject = allProjects.find((project) => project.slug === "piko");
 const serendipityProject = allProjects.find(
 	(project) => project.slug === "serendipidity",
+);
+const musibuddyProject = allProjects.find(
+	(project) => project.slug === "musibuddy",
 );
 ---
 
@@ -252,25 +257,25 @@ const serendipityProject = allProjects.find(
 						}
 
 						{
-							sanctuaryProject && (
+							tirupatiProject && (
 								<BentoCard
-									title={sanctuaryProject.data.title}
+									title={tirupatiProject.data.title}
 									image={
-										heroImages[sanctuaryProject.slug] ||
-										sanctuaryProject.data.heroImage
+										heroImages[tirupatiProject.slug] ||
+										tirupatiProject.data.heroImage
 									}
 									loading="eager"
 									fetchPriority="high"
-									href={`/works/${sanctuaryProject.slug}`}
+									href={`/works/${tirupatiProject.slug}`}
 									size={
 										homeBentoSizeBySlug[
-											sanctuaryProject.slug
+											tirupatiProject.slug
 										] ||
-										(sanctuaryProject.data
+										(tirupatiProject.data
 											.bentoSize as any) ||
 										"small"
 									}
-									tags={sanctuaryProject.data.tags}
+									tags={tirupatiProject.data.tags}
 								/>
 							)
 						}
@@ -301,32 +306,6 @@ const serendipityProject = allProjects.find(
 						}
 
 						{
-							tirupatiProject && (
-								<BentoCard
-									title={tirupatiProject.data.title}
-									image={
-										heroImages[tirupatiProject.slug] ||
-										tirupatiProject.data.heroImage
-									}
-									loading="eager"
-									fetchPriority="high"
-									href={`/works/${tirupatiProject.slug}`}
-									size={
-										homeBentoSizeBySlug[
-											tirupatiProject.slug
-										] ||
-										(tirupatiProject.data
-											.bentoSize as any) ||
-										"small"
-									}
-									tags={tirupatiProject.data.tags}
-								/>
-							)
-						}
-					</div>
-
-					<div>
-						{
 							serendipityProject && (
 								<BentoCard
 									title={serendipityProject.data.title}
@@ -351,6 +330,32 @@ const serendipityProject = allProjects.find(
 						}
 
 						{
+							sanctuaryProject && (
+								<BentoCard
+									title={sanctuaryProject.data.title}
+									image={
+										heroImages[sanctuaryProject.slug] ||
+										sanctuaryProject.data.heroImage
+									}
+									loading="eager"
+									fetchPriority="high"
+									href={`/works/${sanctuaryProject.slug}`}
+									size={
+										homeBentoSizeBySlug[
+											sanctuaryProject.slug
+										] ||
+										(sanctuaryProject.data
+											.bentoSize as any) ||
+										"small"
+									}
+									tags={sanctuaryProject.data.tags}
+								/>
+							)
+						}
+					</div>
+
+					<div>
+						{
 							pikoProject && (
 								<BentoCard
 									title={pikoProject.data.title}
@@ -367,6 +372,32 @@ const serendipityProject = allProjects.find(
 										"small"
 									}
 									tags={pikoProject.data.tags}
+								/>
+							)
+						}
+
+						{
+							musibuddyProject && (
+								<BentoCard
+									title={musibuddyProject.data.title}
+									image={
+										heroImages[musibuddyProject.slug] ||
+										musibuddyProject.data.heroImage
+									}
+									loading="eager"
+									fetchPriority="high"
+									href={`/works/${musibuddyProject.slug}`}
+									size={
+										homeBentoSizeBySlug[
+											musibuddyProject.slug
+										] ||
+										(musibuddyProject.data
+											.bentoSize as any) ||
+										"small"
+									}
+									tags={musibuddyProject.data.tags}
+									fit="cover"
+									scale={1.5}
 								/>
 							)
 						}

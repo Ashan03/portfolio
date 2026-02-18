@@ -108,13 +108,13 @@ const sliderId = `slider-${Math.random().toString(36).substr(2, 9)}`;
         box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
     }
 
-    /* Default State (Problem / Index 0) - Standard Bento (Dark/Primary) */
+    /* Default State (Problem / Index 0) - Blue */
     .active-pill {
         position: absolute;
         top: 4px; /* Matches container padding */
         left: 4px;
         height: calc(100% - 8px);
-        background: var(--text-primary); /* Default Bento Color (Black/Dark) */
+        background: #2196F3; /* Blue for both light and dark mode */
         border-radius: var(--radius-sm);
         box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
         transition:
@@ -125,9 +125,9 @@ const sliderId = `slider-${Math.random().toString(36).substr(2, 9)}`;
         opacity: 0;
     }
 
-    /* Conditional State: Opportunity (Index 1) - Secondary Accent (Green) */
+    /* Conditional State: Opportunity (Index 1) - Blue */
     .slider-controls[data-active-index="1"] .active-pill {
-        background: var(--accent-secondary);
+        background: #2196F3; /* Blue for both light and dark mode */
     }
 
     .control-btn {
@@ -173,6 +173,12 @@ const sliderId = `slider-${Math.random().toString(36).substr(2, 9)}`;
         const buttons = slider.querySelectorAll(".control-btn");
         const pill = slider.querySelector(".active-pill");
 
+        let isDragging = false;
+        let dragStarted = false;
+        let startX = 0;
+        let startY = 0;
+        let currentHoverButton = null;
+
         const movePillTo = (targetBtn) => {
             if (!targetBtn || !pill) return;
 
@@ -180,17 +186,29 @@ const sliderId = `slider-${Math.random().toString(36).substr(2, 9)}`;
             const width = targetBtn.offsetWidth;
 
             pill.style.width = `${width}px`;
-            // Container padding is 6px now.
-            // offsetLeft of first button will be 6px.
-            // TranslateX(6px - 6px) = 0?
-            // Wait, checking offsetLeft: it *includes* parent padding if parent is the offsetParent.
-            // If parent has padding 6px, the child starts at 6px.
-            // Pill is at top:6px, left:6px via CSS.
-            // If we want pill at 6px, translateX should be 0.
-            // So translateX(offsetLeft - 6px).
-
-            pill.style.transform = `translateX(${offsetLeft - 6}px)`;
+            pill.style.transform = `translateX(${offsetLeft - 4}px)`;
             pill.style.opacity = "1";
+        };
+
+        const switchToSlide = (targetBtn) => {
+            if (!targetBtn) return;
+            
+            const targetIndex = parseInt(targetBtn.getAttribute("data-target"));
+
+            // Update Buttons
+            buttons.forEach((b) => b.classList.remove("active"));
+            targetBtn.classList.add("active");
+
+            // Update Container State (Color)
+            if (controls)
+                controls.setAttribute("data-active-index", targetIndex);
+
+            // Move Pill
+            movePillTo(targetBtn);
+
+            // Sliding Animation
+            const percentage = targetIndex * 100;
+            track.style.transform = `translateX(-${percentage}%)`;
         };
 
         // Initialize Pill
@@ -198,32 +216,95 @@ const sliderId = `slider-${Math.random().toString(36).substr(2, 9)}`;
         setTimeout(() => {
             if (initialActive) {
                 movePillTo(initialActive);
-                // Initial active index
                 const idx = initialActive.getAttribute("data-target");
                 if (controls) controls.setAttribute("data-active-index", idx);
             }
         }, 50);
 
-        buttons.forEach((btn) => {
-            btn.addEventListener("click", () => {
-                const targetIndex = parseInt(btn.getAttribute("data-target"));
+        const handleStart = (e) => {
+            const clientX = e.type.startsWith('touch') ? e.touches[0].clientX : e.clientX;
+            const clientY = e.type.startsWith('touch') ? e.touches[0].clientY : e.clientY;
+            
+            startX = clientX;
+            startY = clientY;
+            isDragging = true;
+            dragStarted = false;
+        };
 
-                // Update Buttons
-                buttons.forEach((b) => b.classList.remove("active"));
-                btn.classList.add("active");
+        const handleMove = (e) => {
+            if (!isDragging) return;
 
-                // Update Container State (Color)
-                if (controls)
-                    controls.setAttribute("data-active-index", targetIndex);
+            const clientX = e.type.startsWith('touch') ? e.touches[0].clientX : e.clientX;
+            const clientY = e.type.startsWith('touch') ? e.touches[0].clientY : e.clientY;
+            
+            const deltaX = Math.abs(clientX - startX);
+            const deltaY = Math.abs(clientY - startY);
 
-                // Move Pill
-                movePillTo(btn);
+            // Only activate drag if moving more horizontally than vertically
+            if (deltaX > 5 && deltaX > deltaY) {
+                dragStarted = true;
 
-                // Sliding Animation
-                const percentage = targetIndex * 100;
-                track.style.transform = `translateX(-${percentage}%)`;
+                // Find which button we're hovering over
+                const hoveredBtn = Array.from(buttons).find((btn) => {
+                    const rect = btn.getBoundingClientRect();
+                    return clientX >= rect.left && clientX <= rect.right;
+                });
+
+                if (hoveredBtn !== currentHoverButton) {
+                    currentHoverButton = hoveredBtn;
+                    
+                    // Move pill to hovered button
+                    if (hoveredBtn) {
+                        movePillTo(hoveredBtn);
+                    }
+                }
+                
+                // Update text colors: white for both active and currently hovered buttons
+                buttons.forEach((btn) => {
+                    if (btn.classList.contains('active') || btn === currentHoverButton) {
+                        btn.style.color = 'var(--bg-surface)'; // White text
+                    } else {
+                        btn.style.color = ''; // Reset to default
+                    }
+                });
+
+                e.preventDefault();
+            }
+        };
+
+        const handleEnd = (e) => {
+            if (!isDragging) return;
+
+            if (dragStarted && currentHoverButton) {
+                // Switch to the button we released on
+                switchToSlide(currentHoverButton);
+            } else if (!dragStarted) {
+                // It was just a click - find which button was clicked
+                const target = e.target.closest('.control-btn');
+                if (target) {
+                    switchToSlide(target);
+                }
+            }
+
+            // Reset text colors
+            buttons.forEach((btn) => {
+                btn.style.color = '';
             });
-        });
+            
+            isDragging = false;
+            dragStarted = false;
+            currentHoverButton = null;
+        };
+
+        // Attach events to controls container
+        controls.addEventListener("mousedown", handleStart);
+        controls.addEventListener("touchstart", handleStart, { passive: true });
+        
+        document.addEventListener("mousemove", handleMove);
+        document.addEventListener("touchmove", handleMove, { passive: false });
+        
+        document.addEventListener("mouseup", handleEnd);
+        document.addEventListener("touchend", handleEnd);
 
         // Handle Resize
         window.addEventListener("resize", () => {

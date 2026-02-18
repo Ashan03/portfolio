@@ -7,6 +7,7 @@ interface Props {
     placeholder?: boolean; /* If true, adds a placeholder image at bottom */
     hideTitle?: boolean; /* If true, hides title and divider for continuation sections */
     group?: string; /* ID of the parent section for sidebar highlighting */
+    wide?: boolean; /* If true, section title aligns with full-width images */
 }
 
 const {
@@ -15,6 +16,7 @@ const {
     placeholder = false,
     hideTitle = false,
     group,
+    wide = false,
 } = Astro.props;
 ---
 
@@ -27,7 +29,7 @@ const {
 
     <div class="hero-text-container">
         <div class:list={["header-group", { continuation: hideTitle }]}>
-            <div class="section-title">
+            <div class:list={["section-title", { wide }]}>
                 {!hideTitle && <h3>{title}</h3>}
             </div>
             <div class="section-content">
@@ -79,10 +81,7 @@ const {
     .hero-text-container {
         width: 100%;
         margin: 0 auto;
-        padding-inline: max(
-            0rem,
-            calc(50% - 450px)
-        ); /* Centers text to 900px */
+        /* No padding here — padding is applied per-element below */
         box-sizing: border-box;
     }
 
@@ -101,6 +100,16 @@ const {
     }
 
     /* --- TITLE STYLING (Section Subheadings) --- */
+    .section-title {
+        padding-inline: max(0rem, calc(50% - 450px));
+        box-sizing: border-box;
+    }
+
+    /* Wide variant: title aligns with full-width images */
+    .section-title.wide {
+        padding-inline: 0;
+    }
+
     .section-title h3 {
         font-size: 2.25rem; /* 36px */
         font-weight: 800;
@@ -119,6 +128,16 @@ const {
         font-weight: 300; /* Light */
         color: var(--text-secondary);
         font-family: "Public Sans", sans-serif;
+        /* Padding moved to children to allow full-width images */
+        padding-inline: 0;
+        box-sizing: border-box;
+        overflow: visible;
+    }
+
+    /* Default: All content children get the centered constraints */
+    .section-content > :global(*) {
+        padding-inline: max(0rem, calc(50% - 450px));
+        box-sizing: border-box;
     }
 
     /* Style nested h3 headings within content */
@@ -157,9 +176,9 @@ const {
     }
 
     /* Images inside content are constrained to text box width */
-    .section-content :global(img),
-    .section-content :global(video),
-    .section-content :global(.placeholder-container) {
+    .section-content > :global(img),
+    .section-content > :global(video),
+    .section-content > :global(.placeholder-container) {
         width: 100%;
         max-width: 100%;
         display: block;
@@ -173,6 +192,26 @@ const {
         margin-top: 4rem !important;
         margin-bottom: 2rem !important;
     }
+
+    /* Media components handle their own body-width padding */
+    .section-content > :global(.full-width-image),
+    .section-content > :global(.figma-container),
+    .section-content > :global(.image-slider),
+    .section-content > :global(.image-toggle-component),
+    .section-content > :global(.video-switcher),
+    .section-content > :global(.video-embed) {
+        padding-inline: 0 !important;
+        max-width: 100%;
+    }
+
+    /* PDFs removed from above list - they handle their own fullWidth prop */
+
+    /* Exception: constrained media gets body-width padding */
+    .section-content > :global(.full-width-image.constrained),
+    .section-content > :global(.video-embed.constrained) {
+        padding-inline: max(0rem, calc(50% - 450px)) !important;
+    }
+
 
     .section-content :global(.grid-2) {
         display: grid;

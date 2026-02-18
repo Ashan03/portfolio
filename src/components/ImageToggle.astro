@@ -2,123 +2,182 @@
 import { Image } from "astro:assets";
 
 interface Props {
-    baseSrc: string;
-    overlaySrc: string;
-    buttonLabel?: string;
-    alt?: string;
+    image1: string;
+    image2: string;
+    alt: string;
+    caption?: string;
+    clickIcon?: string;
+    constrain?: boolean;
 }
 
-const { baseSrc, overlaySrc, buttonLabel = "Labels", alt = "" } = Astro.props;
-const toggleId = `toggle-${Math.random().toString(36).substr(2, 9)}`;
+const {
+    image1,
+    image2,
+    alt,
+    caption,
+    clickIcon = "/assets/logos/click.png",
+    constrain = true,
+} = Astro.props;
 ---
 
-<div class="image-toggle" id={toggleId}>
-    <div class="image-container">
-        <Image
-            src={baseSrc}
-            alt={alt}
-            width={1920}
-            height={1080}
+<figure class:list={["image-toggle-component", { unconstrained: !constrain }] }>
+    <div
+        class="toggle-wrapper"
+        role="button"
+        tabindex="0"
+        aria-label={`Toggle between ${alt} views`}
+    >
+        <div class="image-stack">
+            <Image
+                src={image1}
+                alt={alt}
+                width={1920}
+                height={1080}
+                class="toggle-image image-1"
+            />
+            <Image
+                src={image2}
+                alt={`${alt} (Alternate View)`}
+                width={1920}
+                height={1080}
+                class="toggle-image image-2"
+            />
+        </div>
+        <img
+            src={clickIcon}
+            alt="Click to interact"
+            class="click-icon"
             loading="lazy"
-            decoding="async"
-            class="base-image"
         />
-        <Image
-            src={overlaySrc}
-            alt={`${alt} with labels`}
-            width={1920}
-            height={1080}
-            loading="lazy"
-            decoding="async"
-            class="overlay-image"
-        />
-        <button class="toggle-btn">{buttonLabel}</button>
     </div>
-</div>
+    {caption && <figcaption>{caption}</figcaption>}
+</figure>
+
+<script>
+    function setupImageToggles() {
+        const wrappers = document.querySelectorAll(".toggle-wrapper");
+
+        wrappers.forEach((wrapper) => {
+            const handleToggle = (e) => {
+                e.preventDefault();
+                // If it was a keyboard event, ensure it was Enter or Space
+                if (e.type === "keydown" && e.key !== "Enter" && e.key !== " ")
+                    return;
+
+                wrapper.classList.toggle("toggled");
+            };
+
+            // Clean up old listeners if re-running
+            wrapper.removeEventListener("click", handleToggle);
+            wrapper.removeEventListener("keydown", handleToggle);
+
+            wrapper.addEventListener("click", handleToggle);
+            wrapper.addEventListener("keydown", handleToggle);
+        });
+    }
+
+    // Run on invalidation/initial load
+    setupImageToggles();
+    document.addEventListener("astro:page-load", setupImageToggles);
+</script>
 
 <style>
-    .image-toggle {
+    .image-toggle-component {
         width: 100%;
         margin-top: 4rem;
-        margin-bottom: 2rem;
-        position: relative;
-        /* Constrain to 900px body width */
+        margin-bottom: 4rem;
         padding-inline: max(0rem, calc(50% - 450px));
         box-sizing: border-box;
     }
 
-    .image-container {
+    .image-toggle-component.unconstrained {
+        padding-inline: 0 !important;
+    }
+
+    .toggle-wrapper {
         position: relative;
-        width: 100%;
+        cursor: pointer;
+        border-radius: var(--radius-md);
+        overflow: hidden;
+        /* Focus styles */
+        outline: none;
+        user-select: none;
+    }
+
+    .toggle-wrapper:focus-visible {
+        box-shadow: 0 0 0 3px var(--accent-primary);
+    }
+
+    .image-stack {
+        display: grid;
+        grid-template-columns: 1fr;
+        background-color: var(--surface-secondary);
         border-radius: var(--radius-md);
         overflow: hidden;
     }
 
-    .base-image,
-    .overlay-image {
+    .toggle-image {
+        grid-column: 1;
+        grid-row: 1;
         width: 100%;
         height: auto;
         display: block;
+        /* No transition for instant swap */
     }
 
-    .overlay-image {
-        position: absolute;
-        top: 0;
-        left: 0;
-        opacity: 0;
-        transition: opacity 0.15s ease;
-    }
-
-    .image-toggle.active .overlay-image {
+    .image-1 {
+        z-index: 2;
         opacity: 1;
     }
 
-    .toggle-btn {
+    .image-2 {
+        z-index: 1;
+        opacity: 0;
+    }
+
+    /* Toggled State - Instant Swap */
+    .toggle-wrapper.toggled .image-1 {
+        opacity: 0;
+    }
+    .toggle-wrapper.toggled .image-2 {
+        opacity: 1;
+    }
+
+    .click-icon {
         position: absolute;
-        bottom: 16px;
-        right: 16px;
-        background: var(--bg-surface);
-        border: 1px solid var(--border-subtle);
-        padding: 0.6rem 1.2rem;
-        border-radius: var(--radius-sm);
-        color: var(--text-secondary);
-        font-size: 14px;
-        font-weight: 600;
+        bottom: 0rem;
+        right: 0rem;
+        left: auto;
+        width: 60px !important; /* Override ProjectSection global img styles */
+        height: auto !important;
+        margin: 0 !important;
+        max-width: none !important;
+        display: block;
+        opacity: 1;
+        z-index: 10;
+        pointer-events: none;
+        filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.3));
         cursor: pointer;
-        transition: all 0.15s ease;
-        font-family: var(--font-sans);
-        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
     }
 
-    .toggle-btn:hover {
-        background: var(--text-primary);
-        color: var(--bg-surface);
-    }
-
-    .image-toggle.active .toggle-btn {
-        background: var(--text-primary);
-        color: var(--bg-surface);
+    .toggle-wrapper:hover .click-icon {
+        transform: scale(1.1);
+        opacity: 1;
     }
 
     @media (max-width: 768px) {
-        .toggle-btn {
-            bottom: 4px;
-            right: 4px;
-            padding: 0.2rem 0.4rem;
-            font-size: 11px;
+        .click-icon {
+            width: 12px;
+            margin: 4px; /* Tighter on mobile */
+            bottom: 0;
+            right: 0;
         }
     }
+
+    figcaption {
+        text-align: center;
+        font-size: 0.875rem;
+        color: var(--text-tertiary);
+        margin-top: 0.5rem;
+    }
 </style>
-
-<script define:vars={{ toggleId }}>
-    document.addEventListener("DOMContentLoaded", () => {
-        const container = document.getElementById(toggleId);
-        if (!container) return;
-
-        const btn = container.querySelector(".toggle-btn");
-
-        btn.addEventListener("click", () => {
-            container.classList.toggle("active");
-        });
-    });
-</script>
