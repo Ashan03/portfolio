@@ -1,7 +1,7 @@
 ---
 import "../styles/global.css";
 import CustomCursor from "../components/CustomCursor.astro";
-import { Analytics } from "@vercel/analytics";
+import Analytics from '@vercel/analytics/astro';
 
 interface Props {
 	title: string;
@@ -47,6 +47,7 @@ const {
 	</head>
 	<body>
 		<CustomCursor />
+		<Analytics />
 		<div class={`universal-layout ${fullWidth ? "full-width" : ""}`}>
 			<!-- Sidebar Slot (Universal Left) -->
 			<aside class="layout-sidebar">
