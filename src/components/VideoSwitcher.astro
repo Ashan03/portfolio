@@ -184,25 +184,14 @@ const switcherId = `video-switcher-${Math.random().toString(36).substr(2, 9)}`;
         border-radius: var(--radius-md);
         border: 1px solid var(--border-subtle);
         width: fit-content;
+        min-width: 0;
         margin: 0 auto;
         z-index: 0;
+        box-sizing: border-box;
         box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
     }
     .switcher-controls::-webkit-scrollbar {
         display: none;
-    }
-
-    @media (max-width: 480px) {
-        .switcher-controls {
-            width: 100%;
-            overflow-x: auto;
-            justify-content: flex-start;
-        }
-
-        .control-btn {
-            padding: 0.4rem 0.75rem;
-            font-size: 11px;
-        }
     }
 
     .active-pill {
@@ -248,6 +237,59 @@ const switcherId = `video-switcher-${Math.random().toString(36).substr(2, 9)}`;
 
     .control-btn.active {
         color: var(--bg-surface);
+    }
+
+    @media (max-width: 768px) {
+        .video-switcher {
+            padding-inline: 0;
+            gap: 0.75rem;
+        }
+
+        .switcher-controls {
+            width: 100%;
+            box-sizing: border-box;
+            max-width: 100%;
+            overflow-x: hidden;
+            justify-content: stretch;
+            flex-wrap: nowrap;
+            gap: 0;
+            padding: 4px;
+        }
+
+        .control-btn {
+            flex: 1 1 0;
+            min-width: 0;
+            padding: 0.35rem 0.2rem;
+            font-size: 9.5px;
+            white-space: pre-line;   /* renders \n as line break */
+            text-align: center;
+            line-height: 1.25;
+            overflow: visible;
+            letter-spacing: 0;
+        }
+
+        .mute-toggle {
+            bottom: 16px;
+            right: 16px;
+            width: 32px;
+            height: 32px;
+        }
+
+        .mute-toggle svg {
+            width: 16px;
+            height: 16px;
+        }
+
+        .active-pill {
+            display: none;
+        }
+
+        /* Active state via background since pill is hidden */
+        .control-btn.active {
+            color: #2196F3;
+            background: rgba(33, 150, 243, 0.12);
+            border-radius: var(--radius-sm);
+        }
     }
 </style>
 
