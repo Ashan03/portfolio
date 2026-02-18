@@ -23,7 +23,6 @@ const switcherId = `video-switcher-${Math.random().toString(36).substr(2, 9)}`;
                     src={video.src}
                     class={`video-item ${index === initialIndex ? "active" : ""}`}
                     autoplay={index === initialIndex}
-                    muted
                     loop
                     playsinline
                     preload="auto"
@@ -39,7 +38,7 @@ const switcherId = `video-switcher-${Math.random().toString(36).substr(2, 9)}`;
                 viewBox="0 0 24 24"
                 fill="none"
                 xmlns="http://www.w3.org/2000/svg"
-                style="display: block;"
+                style="display: none;"
             >
                 <path
                     d="M11 5L6 9H2V15H6L11 19V5Z"
@@ -67,7 +66,7 @@ const switcherId = `video-switcher-${Math.random().toString(36).substr(2, 9)}`;
                 viewBox="0 0 24 24"
                 fill="none"
                 xmlns="http://www.w3.org/2000/svg"
-                style="display: none;"
+                style="display: block;"
             >
                 <path
                     d="M11 5L6 9H2V15H6L11 19V5Z"
@@ -193,6 +192,19 @@ const switcherId = `video-switcher-${Math.random().toString(36).substr(2, 9)}`;
         display: none;
     }
 
+    @media (max-width: 480px) {
+        .switcher-controls {
+            width: 100%;
+            overflow-x: auto;
+            justify-content: flex-start;
+        }
+
+        .control-btn {
+            padding: 0.4rem 0.75rem;
+            font-size: 11px;
+        }
+    }
+
     .active-pill {
         position: absolute;
         top: 4px;
@@ -253,7 +265,7 @@ const switcherId = `video-switcher-${Math.random().toString(36).substr(2, 9)}`;
         const pill = container.querySelector(".active-pill");
         const controls = container.querySelector(".switcher-controls");
 
-        let isMuted = true;
+        let isMuted = false;
         let isDragging = false;
         let dragStarted = false;
         let startX = 0;
